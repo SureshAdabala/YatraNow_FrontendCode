@@ -1,0 +1,16 @@
+# Backend build logs (not needed in frontend repo)
+maven.log
+maven_v2.log
+maven_v3.log
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor folders
+.vscode/
+.idea/
+
+# Vercel local dev
+.vercel/
