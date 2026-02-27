@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="User Dashboard - YatraNow">
+    <link rel="icon" type="image/png" href="../images/favicon_rounded.png">
+    <title>User Dashboard - YatraNow</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        /* ── Dark + Orange Theme Override ── */
+        body {
+            background-color: #0d0d0d !important;
+            color: #e0e0e0 !important;
+            overflow-y: auto !important;
+        }
+
+        body::before,
+        body::after {
+            display: none !important;
+        }
+
+        /* Welcome banner */
+        .dashboard-welcome {
+            background: linear-gradient(135deg, #1a1a1a, #222);
+            color: #fff;
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 36px;
+            text-align: center;
+            border: 1px solid #2a2a2a;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .dashboard-welcome h1 {
+            font-size: 2rem;
+            margin-bottom: 6px;
+        }
+
+        .dashboard-welcome p {
+            color: #aaa;
+            font-size: 15px;
+        }
+
+        /* Booking type cards */
+        .booking-type-selection {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .type-card {
+            background: #181818;
+            padding: 32px 28px;
+            border-radius: 14px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            width: 240px;
+            cursor: pointer;
+            transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+            border: 2px solid #2a2a2a;
+        }
+
+        .type-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(255, 122, 26, 0.2);
+            border-color: #FF7A1A;
+        }
+
+        .type-card.selected {
+            border-color: #FF7A1A;
+            box-shadow: 0 8px 24px rgba(255, 122, 26, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .type-card i {
+            font-size: 48px;
+            color: #FF7A1A;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .type-card h3 {
+            margin-bottom: 8px;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .type-card p {
+            color: #888;
+            font-size: 13px;
+        }
+
+        /* Search container */
+        .search-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .search-header h2 {
+            color: #fff;
+            font-size: 1.3rem;
+        }
+
+        .back-link {
+            background: none;
+            border: none;
+            color: #FF7A1A;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: underline;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 0.75;
+        }
+
+        .search-container {
+            background: #161616;
+            padding: 28px;
+            border-radius: 14px;
+            border: 1px solid #2a2a2a;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            margin-top: 0;
+            position: relative;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            align-items: end;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 500;
+            font-size: 13px;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            background: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #e0e0e0;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #FF7A1A;
+        }
+
+        .form-group input::placeholder {
+            color: #555;
+        }
+
+        .form-group input[type="date"] {
+            color-scheme: dark;
+        }
+
+        .search-btn-large {
+            background: linear-gradient(135deg, #FF7A1A, #e56b0f);
+            color: #fff;
+            border: none;
+            padding: 13px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.25s, transform 0.2s;
+            letter-spacing: 0.03em;
+        }
+
+        .search-btn-large:hover {
+            opacity: 0.88;
+            transform: translateY(-1px);
+        }
+
+        .search-btn-large:disabled {
+            background: #444;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Section titles */
+        .section-title {
+            color: #fff !important;
+        }
+
+        /* Route / result cards */
+        .route-card {
+            background: #181818 !important;
+            border: 1px solid #2a2a2a !important;
+            border-radius: 12px !important;
+            padding: 22px !important;
+            color: #e0e0e0 !important;
+            min-width: 0 !important;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .route-card:hover {
+            border-color: #FF7A1A !important;
+            box-shadow: 0 6px 20px rgba(255, 122, 26, 0.15) !important;
+        }
+
+        .route-name {
+            color: #fff !important;
+        }
+
+        .route-time {
+            color: #aaa !important;
+        }
+
+        .route-price {
+            color: #FF7A1A !important;
+            font-weight: 700;
+        }
+
+        .route-seats {
+            color: #888 !important;
+        }
+
+        .route-type {
+            border-radius: 5px;
+            padding: 2px 8px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .route-type.bus {
+            background: rgba(255, 122, 26, 0.15);
+            color: #FF7A1A;
+        }
+
+        .route-type.train {
+            background: rgba(29, 205, 159, 0.15);
+            color: #1DCD9F;
+        }
+
+        .route-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .route-details {
+            display: flex;
+            justify-content: space-between;
+            margin: 6px 0;
+            font-size: 14px;
+        }
+
+        .route-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            border-top: 1px solid #2a2a2a;
+            padding-top: 10px;
+        }
+
+        /* Search result book button */
+        .book-seat-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #FF7A1A, #e56b0f);
+            color: #fff;
+            border: none;
+            padding: 11px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 14px;
+            transition: opacity 0.2s;
+        }
+
+        .book-seat-btn:hover {
+            opacity: 0.85;
+        }
+
+        .book-seat-btn:disabled {
+            background: #333;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        /* Search results header */
+        #searchResultsSection .section-title {
+            color: #fff;
+        }
+
+        .clear-results-btn {
+            background: none;
+            border: none;
+            color: #FF7A1A;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: underline;
+        }
+
+        /* Booked tickets section */
+        #dashboard-bookings .section-title {
+            color: #fff !important;
+        }
+
+        #dashboard-bookings .route-card {
+            cursor: default !important;
+        }
+
+        /* QR Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.75);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 30px;
+            border-radius: 14px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            animation: zoomIn 0.3s ease;
+            color: #e0e0e0;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.82);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #888;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #FF7A1A;
+        }
+
+        /* No results / loading states */
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #555;
+        }
+
+        .empty-state i {
+            font-size: 52px;
+            color: #333;
+            display: block;
+            margin-bottom: 14px;
+        }
+
+        .empty-state strong {
+            color: #888;
+            font-size: 16px;
+        }
+
+        .empty-state p {
+            color: #555;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        /* Spinner */
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            border: 3px solid #333;
+            border-top-color: #FF7A1A;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .dashboard-welcome {
+                padding: 24px 16px;
+            }
+
+            .dashboard-welcome h1 {
+                font-size: 1.5rem;
+            }
+
+            .type-card {
+                width: 100%;
+                max-width: 340px;
+            }
+
+
+            .search-container {
+                padding: 18px;
+            }
+        }
+
+        /* ── Pill Navbar ─────────────────────────────────────── */
+        .ud-pill-nav {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px;
+            background: rgba(18, 18, 18, 0.90);
+            border: 1px solid rgba(255, 122, 26, 0.22);
+            border-radius: 999px;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 122, 26, 0.06);
+        }
+
+        .ud-pill-item {
+            position: relative;
+            height: 38px;
+            padding: 0 16px 0 12px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #888;
+            text-decoration: none;
+            font-size: 15px;
+            white-space: nowrap;
+            transition: color 0.25s ease, background 0.25s ease;
+            cursor: pointer;
+        }
+
+        .ud-pill-item i {
+            font-size: 18px;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .ud-nav-label {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .ud-pill-item:hover {
+            color: #FF7A1A;
+            background: rgba(255, 122, 26, 0.10);
+        }
+
+        /* Active / selected item — filled orange pill */
+        .ud-pill-item.active {
+            color: #fff;
+            background: linear-gradient(135deg, #FF7A1A, #e56b0f);
+            box-shadow: 0 0 14px rgba(255, 122, 26, 0.40);
+        }
+
+        .ud-pill-item.active:hover {
+            background: linear-gradient(135deg, #ff9040, #FF7A1A);
+            color: #fff;
+        }
+
+        /* Logout gets a subtle red tint on hover */
+        .ud-pill-item.ud-logout:hover {
+            color: #ff6b6b;
+            background: rgba(255, 80, 80, 0.10);
+        }
+
+        /* Hide the old hamburger — pill nav is always visible */
+        .hamburger {
+            display: none !important;
+        }
+
+        /* Mobile (≤600px): icon-only, collapse to circle */
+        @media (max-width: 600px) {
+            .ud-pill-item {
+                width: 38px;
+                height: 38px;
+                padding: 0;
+                justify-content: center;
+            }
+
+            .ud-nav-label {
+                display: none;
+            }
+
+            .ud-pill-item i {
+                font-size: 19px;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="navbar-logo">
+                <img src="../images/Logo.png" alt="YatraNow Logo" class="navbar-logo-img">
+            </a>
+
+            <!-- Pill Nav -->
+            <nav class="ud-pill-nav" id="udPillNav">
+                <a href="#" id="nav-home" class="ud-pill-item active" onclick="udNavSwitch(this,'home')"
+                    title="Dashboard"><i class='bx bxs-home'></i><span class="ud-nav-label">Dashboard</span></a>
+                <a href="#" id="nav-bookings" class="ud-pill-item" onclick="udNavSwitch(this,'bookings')"
+                    title="Booked Tickets"><i class='bx bxs-receipt'></i><span class="ud-nav-label">Booked
+                        Tickets</span></a>
+                <a href="#" class="ud-pill-item ud-logout" onclick="logoutUser(); return false;" title="Logout"><i
+                        class='bx bx-log-out'></i><span class="ud-nav-label">Logout</span></a>
+            </nav>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 30px;">
+        <!-- Home Section -->
+        <div id="dashboard-home">
+            <div class="dashboard-welcome">
+                <h1 id="welcomeMessage">Welcome Back!</h1>
+                <p>Where would you like to go today?</p>
+            </div>
+
+            <div class="booking-type-selection">
+                <div class="type-card" onclick="selectBookingType('bus')">
+                    <i class='bx bxs-bus'></i>
+                    <h3>Bus Booking</h3>
+                    <p>Affordable AC & Non-AC Buses</p>
+                </div>
+                <div class="type-card" onclick="selectBookingType('train')">
+                    <i class='bx bxs-train'></i>
+                    <h3>Train Booking</h3>
+                    <p>Fast & Comfortable Trains</p>
+                </div>
+            </div>
+
+            <div class="search-container" id="searchContainer"
+                style="display: none; opacity: 0; transition: opacity 0.5s;">
+                <div class="search-header">
+                    <h2 id="searchTitle">Search Routes</h2>
+                    <button onclick="resetSelection()" class="back-link">Change Type</button>
+                </div>
+                <form class="search-form" onsubmit="handleSearch(event)">
+                    <input type="hidden" id="searchType" value="all">
+                    <div class="form-group">
+                        <label>From</label>
+                        <input type="text" id="searchFrom" placeholder="City or Station" required autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label>To</label>
+                        <input type="text" id="searchTo" placeholder="City or Station" required autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="searchDate" required>
+                    </div>
+                    <button type="submit" class="search-btn-large" id="searchSubmitBtn">Search Routes</button>
+                </form>
+            </div>
+
+            <!-- Search Results (inline) -->
+            <div id="searchResultsSection" style="display:none; margin-top: 30px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                    <h2 class="section-title" style="margin:0;" id="searchResultsTitle">Search Results</h2>
+                    <button onclick="clearSearchResults()" class="clear-results-btn">Clear Results</button>
+                </div>
+                <div id="searchResultsGrid"></div>
+            </div>
+        </div>
+
+        <!-- Bookings Section -->
+        <div id="dashboard-bookings" style="display: none;">
+            <h2 class="section-title">My Booked Tickets</h2>
+            <div class="routes-grid" id="bookingsGrid">
+                <!-- Bookings will load here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div id="qrModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeQrModal()">&times;</span>
+            <h2 style="color: #fff; margin-bottom: 20px; font-size: 1.3rem; letter-spacing: -0.01em;">🎫 Ticket QR Code
+            </h2>
+            <div id="qrcode"
+                style="display: flex; justify-content: center; margin: 20px 0; border-radius: 8px; overflow: hidden;">
+            </div>
+            <p style="font-weight: 500; font-size: 1em; color: #ccc; line-height: 1.6; margin-top: 8px;">
+                Show this QR code when boarding the bus.
+            </p>
+        </div>
+    </div>
+
+    <script src="../js/toast.js"></script>
+    <script src="../js/api-config.js"></script>
+    <script src="../js/data.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/spotlight.js"></script>
+    <script>
+        // Check auth
+        const user = requireAuth();
+        if (user) {
+            document.getElementById('welcomeMessage').textContent = `Welcome Back, ${user.name}!`;
+        }
+
+        function logoutUser() {
+            logout();
+        }
+
+        // Section Navigation
+        function showSection(sectionId) {
+            // Update active pill item
+            document.querySelectorAll('.ud-pill-item').forEach(a => a.classList.remove('active'));
+            const activeEl = document.getElementById(`nav-${sectionId}`);
+            if (activeEl) activeEl.classList.add('active');
+
+            // Toggle sections
+            if (sectionId === 'home') {
+                document.getElementById('dashboard-home').style.display = 'block';
+                document.getElementById('dashboard-bookings').style.display = 'none';
+            } else if (sectionId === 'bookings') {
+                document.getElementById('dashboard-home').style.display = 'none';
+                document.getElementById('dashboard-bookings').style.display = 'block';
+                loadBookings();
+            }
+        }
+
+        // Pill nav switch — sets active item then delegates to showSection
+        function udNavSwitch(el, sectionId) {
+            showSection(sectionId);
+            return false; // prevent href jump
+        }
+
+        async function loadBookings() {
+            const bookingsGrid = document.getElementById('bookingsGrid');
+            bookingsGrid.innerHTML = '<p style="text-align:center;">Loading bookings...</p>';
+
+            try {
+                const bookings = await getUserBookings();
+
+                if (!bookings || bookings.length === 0) {
+                    bookingsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No bookings found.</p>';
+                    return;
+                }
+
+                bookingsGrid.innerHTML = '';
+                bookings.forEach(booking => {
+                    const card = createBookingCard(booking);
+                    bookingsGrid.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error loading bookings:', error);
+                bookingsGrid.innerHTML = '<p style="color:red; text-align:center;">Failed to load bookings.</p>';
+            }
+        }
+
+        function createBookingCard(booking) {
+            const card = document.createElement('div');
+            card.className = 'route-card';
+
+            // ── Journey date & completion check ──
+            // Try every common field name Spring Boot might use for the journey/schedule date
+            const rawDate = booking.scheduleDate
+                || booking.bookingDate
+                || booking.journeyDate
+                || booking.travelDate
+                || booking.date
+                || booking.tripDate
+                || booking.departureDate
+                || (booking.schedule && (booking.schedule.date || booking.schedule.scheduleDate))
+                || (booking.trip && booking.trip.date)
+                || '';
+            let journeyDateDisplay = 'N/A';
+            let journeyCompleted = false;
+            if (rawDate) {
+                // Parse safely: "2025-08-15" or "15/08/2025" etc.
+                const parsed = new Date(rawDate);
+                if (!isNaN(parsed)) {
+                    // Compare date only (no time)
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    parsed.setHours(0, 0, 0, 0);
+                    journeyCompleted = parsed < today;
+                    journeyDateDisplay = parsed.toLocaleDateString('en-IN', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' });
+                } else {
+                    journeyDateDisplay = rawDate; // fallback: show raw string
+                }
+            }
+
+            // ── Status badge ──
+            let statusHtml;
+            if (journeyCompleted) {
+                statusHtml = `<span style="
+                    display:inline-flex; align-items:center; gap:5px;
+                    background:rgba(120,120,140,0.18);
+                    color:#9ca3af;
+                    border:1px solid rgba(120,120,140,0.3);
+                    border-radius:6px;
+                    padding:3px 10px;
+                    font-size:11px;
+                    font-weight:700;
+                    letter-spacing:0.05em;
+                    text-transform:uppercase;">
+                    ✓ Journey Completed
+                </span>`;
+            } else {
+                const statusColor = booking.status === 'CONFIRMED' ? '#1DCD9F'
+                    : booking.status === 'CANCELLED' ? '#e05260'
+                        : '#f59e0b';
+                const statusBg = booking.status === 'CONFIRMED' ? 'rgba(29,205,159,0.12)'
+                    : booking.status === 'CANCELLED' ? 'rgba(224,82,96,0.12)'
+                        : 'rgba(245,158,11,0.12)';
+                const statusBorder = booking.status === 'CONFIRMED' ? 'rgba(29,205,159,0.3)'
+                    : booking.status === 'CANCELLED' ? 'rgba(224,82,96,0.3)'
+                        : 'rgba(245,158,11,0.3)';
+                statusHtml = `<span style="
+                    display:inline-flex; align-items:center; gap:5px;
+                    background:${statusBg};
+                    color:${statusColor};
+                    border:1px solid ${statusBorder};
+                    border-radius:6px;
+                    padding:3px 10px;
+                    font-size:11px;
+                    font-weight:700;
+                    letter-spacing:0.05em;
+                    text-transform:uppercase;">
+                    ${booking.status || 'CONFIRMED'}
+                </span>`;
+            }
+
+            // ── Seat numbers ──
+            let seatsDisplay = 'N/A';
+            if (booking.seatNumbers) {
+                seatsDisplay = Array.isArray(booking.seatNumbers) ? booking.seatNumbers.join(', ') : booking.seatNumbers;
+            } else if (booking.seats) {
+                seatsDisplay = Array.isArray(booking.seats) ? booking.seats.join(', ') : booking.seats;
+            } else if (booking.seatNumber) {
+                seatsDisplay = booking.seatNumber;
+            }
+
+            card.innerHTML = `
+                <div class="route-header">
+                    <span class="route-type ${booking.routeType || 'bus'}">${(booking.routeType || 'BOOKING').toUpperCase()}</span>
+                    ${statusHtml}
+                </div>
+                <h3 class="route-name">${booking.routeName || 'Trip'}</h3>
+                <div class="route-details">
+                    <span style="color:#ccc;">${booking.fromLocation || booking.from || ''} → ${booking.toLocation || booking.to || ''}</span>
+                </div>
+                <div class="route-details">
+                    <span class="route-time">${booking.departureTime || ''} - ${booking.arrivalTime || ''}</span>
+                </div>
+                <div style="
+                    display:flex; align-items:center; gap:7px;
+                    margin-top:10px; margin-bottom:2px;
+                    background:rgba(255,122,26,0.07);
+                    border:1px solid rgba(255,122,26,0.18);
+                    border-radius:8px;
+                    padding:8px 12px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF7A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                    <span style="font-size:12px;color:#aaa;font-weight:500;letter-spacing:0.03em;text-transform:uppercase;">Journey Date</span>
+                    <span style="margin-left:auto;font-size:13px;font-weight:700;color:#fff;">${journeyDateDisplay}</span>
+                </div>
+                <div class="route-footer">
+                    <span class="route-price">₹${booking.totalPrice || booking.price}</span>
+                    <span class="route-seats">Seats: <span style="font-weight:bold;color:#ccc;">${seatsDisplay}</span></span>
+                </div>
+                ${!journeyCompleted ? `
+                <div style="margin-top:18px; border-top:1px solid #2a2a2a; padding-top:14px; display:flex; justify-content:center;">
+                    <button onclick="generateQRCode('${booking.bookingId || booking.id}')"
+                        class="book-seat-btn" style="display:flex;align-items:center;gap:8px;justify-content:center;">
+                        <i class='bx bx-qr-scan'></i> View QR Code
+                    </button>
+                </div>` : ''}
+            `;
+            return card;
+        }
+
+        // QR Code Logic
+        function generateQRCode(bookingId) {
+            // Clear previous if any
+            document.getElementById("qrcode").innerHTML = "";
+
+            // Generate new QR
+            new QRCode(document.getElementById("qrcode"), {
+                text: bookingId ? String(bookingId) : "INVALID_BOOKING",
+                width: 200,
+                height: 200,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            // Open Modal
+            openQrModal();
+        }
+
+        function openQrModal() {
+            document.getElementById("qrModal").style.display = "flex";
+        }
+
+        function closeQrModal() {
+            document.getElementById("qrModal").style.display = "none";
+        }
+
+        // Close modal when clicking outside (use addEventListener, not window.onclick which overrides other handlers)
+        window.addEventListener('click', function (event) {
+            const modal = document.getElementById("qrModal");
+            if (modal && event.target == modal) {
+                closeQrModal();
+            }
+        });
+
+        // Booking Type Selection
+        function selectBookingType(type) {
+            const searchContainer = document.getElementById('searchContainer');
+            const searchTitle = document.getElementById('searchTitle');
+            const searchType = document.getElementById('searchType');
+
+            // Highlight selected card
+            document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+            const clickedCard = event && event.currentTarget ? event.currentTarget : null;
+            if (clickedCard) clickedCard.classList.add('selected');
+            else {
+                document.querySelectorAll('.type-card').forEach(c => {
+                    if ((type === 'bus' && c.querySelector('.bx-bus, .bxs-bus')) ||
+                        (type === 'train' && c.querySelector('.bx-train, .bxs-train'))) {
+                        c.classList.add('selected');
+                    }
+                });
+            }
+
+            // Set type
+            searchType.value = type;
+
+            // Update UI
+            searchTitle.textContent = type === 'bus' ? 'Search Bus Routes' : 'Search Train Routes';
+
+            // Show search container with fade-in (no aggressive scrolling or negative margins)
+            searchContainer.style.display = 'block';
+            searchContainer.style.marginTop = '20px';
+            setTimeout(() => {
+                searchContainer.style.opacity = '1';
+            }, 10);
+
+            // Clear any old search results when switching type
+            clearSearchResults();
+        }
+
+        function resetSelection() {
+            const searchContainer = document.getElementById('searchContainer');
+
+            // Hide search container
+            searchContainer.style.opacity = '0';
+            searchContainer.style.marginTop = '0';
+
+            // Remove selected state from cards
+            document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+
+            setTimeout(() => {
+                searchContainer.style.display = 'none';
+                document.getElementById('searchType').value = 'all';
+                clearSearchResults();
+                document.querySelector('.booking-type-selection').scrollIntoView({ behavior: 'smooth' });
+            }, 300);
+        }
+
+
+
+        // Handle Search - show results inline in dashboard
+        async function handleSearch(e) {
+            e.preventDefault();
+            const from = document.getElementById('searchFrom').value.trim();
+            const to = document.getElementById('searchTo').value.trim();
+            const date = document.getElementById('searchDate').value;
+
+            if (!from || !to || !date) return;
+
+            const btn = document.getElementById('searchSubmitBtn');
+            const resultsSection = document.getElementById('searchResultsSection');
+            const resultsGrid = document.getElementById('searchResultsGrid');
+            const resultsTitle = document.getElementById('searchResultsTitle');
+
+            // Show loading state
+            btn.disabled = true;
+            btn.textContent = 'Searching...';
+            resultsSection.style.display = 'block';
+            resultsGrid.innerHTML = `<p style="text-align:center; color:#888; padding:30px;">
+                <span class="spinner"></span> Searching for routes...
+            </p>`;
+
+            // Scroll to results
+            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            try {
+                const results = await searchRoutes(from, to, date);
+
+                const dateObj = new Date(date + 'T00:00:00');
+                const formattedDate = dateObj.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
+                resultsTitle.textContent = `${from} → ${to} · ${formattedDate}`;
+
+                if (!results || results.length === 0) {
+                    resultsGrid.innerHTML = `
+                        <div class="empty-state">
+                            <i class='bx bx-search-alt'></i>
+                            <strong>No routes found</strong>
+                            <p>No services available for <strong>${from} → ${to}</strong> on ${formattedDate}.<br>Try a different date or check the city names.</p>
+                        </div>`;
+                    return;
+                }
+
+                resultsGrid.innerHTML = '';
+                resultsGrid.style.display = 'grid';
+                resultsGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(300px, 1fr))';
+                resultsGrid.style.gap = '16px';
+
+                results.forEach(route => {
+                    const card = createSearchResultCard(route);
+                    resultsGrid.appendChild(card);
+                });
+
+            } catch (error) {
+                const msg = error.message === 'Failed to fetch'
+                    ? 'Cannot connect to server. Is the backend running?'
+                    : error.message || 'Search failed.';
+                resultsGrid.innerHTML = `<div class="empty-state"><i class='bx bx-error-circle' style='color:#e74c3c'></i><strong style='color:#e74c3c'>Error</strong><p>${msg}</p></div>`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Search Routes';
+            }
+        }
+
+        function clearSearchResults() {
+            document.getElementById('searchResultsSection').style.display = 'none';
+            document.getElementById('searchResultsGrid').innerHTML = '';
+            document.getElementById('searchResultsTitle').textContent = 'Search Results';
+        }
+
+        // Navigate to seats.html, storing the route object first
+        function goToSeats(route) {
+            sessionStorage.setItem('selectedRoute', JSON.stringify(route));
+            window.location.href = `seats.html?routeId=${route.scheduleId || route.id}`;
+        }
+
+        function createSearchResultCard(route) {
+            const card = document.createElement('div');
+            card.className = 'route-card';
+            card.style.cursor = 'pointer';
+
+            const seatsLeft = route.availableSeats || 0;
+            const seatsColor = seatsLeft === 0 ? '#e74c3c' : seatsLeft <= 5 ? '#e67e22' : '#1DCD9F';
+
+            // Format time to 12h
+            function fmt(t) {
+                if (!t) return '--';
+                const [h, m] = t.split(':');
+                const hr = parseInt(h);
+                return `${hr % 12 || 12}:${m} ${hr >= 12 ? 'PM' : 'AM'}`;
+            }
+
+            card.innerHTML = `
+                <div class="route-header">
+                    <span class="route-type ${route.type || 'bus'}">${(route.type || 'BUS').toUpperCase()}</span>
+                    <span style="font-size:12px;color:#666;">${route.vehicleNumber || ''}</span>
+                </div>
+                <h3 class="route-name">${route.name || 'Express Service'}</h3>
+                <div class="route-details">
+                    <span style="font-weight:600;color:#ccc;">${route.from} → ${route.to}</span>
+                    <span class="route-time">${route.scheduleDate || ''}</span>
+                </div>
+                <div class="route-details">
+                    <span class="route-time">${fmt(route.departureTime)} – ${fmt(route.arrivalTime)}</span>
+                    ${route.duration ? `<span class="route-time">${route.duration}</span>` : ''}
+                </div>
+                <div class="route-footer">
+                    <span class="route-price">₹${route.price}</span>
+                    <span style="color:${seatsColor}; font-weight:600; font-size:13px;">${seatsLeft === 0 ? 'Sold Out' : seatsLeft + ' seats left'}</span>
+                </div>
+                <div style="margin-top:14px;">
+                    <button id="book-btn-${route.scheduleId || route.id}" class="book-seat-btn"
+                        ${seatsLeft === 0 ? 'disabled' : ''}>
+                        ${seatsLeft === 0 ? 'Sold Out' : 'View & Book Seats'}
+                    </button>
+                </div>`;
+
+            // Attach click handler after setting innerHTML
+            if (seatsLeft > 0) {
+                const btn = card.querySelector(`#book-btn-${route.scheduleId || route.id}`);
+                if (btn) btn.addEventListener('click', () => goToSeats(route));
+            }
+
+            return card;
+        }
+
+        // Set min date to today on load
+        document.addEventListener('DOMContentLoaded', function () {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('searchDate').min = today;
+            document.getElementById('searchDate').value = today;
+        });
+
+        // Hamburger removed — pill nav replaces mobile menu
+    </script>
+</body>
+
+</html>

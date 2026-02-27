@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin Dashboard - YatraNow Control Center">
+    <link rel="icon" type="image/png" href="../images/favicon_rounded.png">
+    <title>Admin Dashboard - YatraNow</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ══════════════════════════════════════
+           ADMIN CONTROL CENTER — Full Redesign
+           Matches the provided image design
+           ══════════════════════════════════════ */
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-base: #0a0b0f;
+            --bg-card: #111520;
+            --bg-card2: #13172a;
+            --bg-hover: #181d30;
+            --border: #1e2340;
+            --border-glow: #2a3060;
+            --accent: #FF7A1A;
+            --teal: #1DCD9F;
+            --purple: #8b5cf6;
+            --blue: #3b82f6;
+            --text-1: #f0f2ff;
+            --text-2: #8b90aa;
+            --text-3: #555b7a;
+            --danger: #e05260;
+            --success: #1DCD9F;
+            --warning: #f59e0b;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: var(--bg-base);
+            color: var(--text-1);
+            min-height: 100vh;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* ── NAVBAR ── */
+        .navbar {
+            background: #000 !important;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
+        }
+
+        /* ── ADMIN WRAPPER (replaces old dashboard-container) ── */
+        .acc-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 32px 24px 60px;
+        }
+
+        /* ══ TOP HEADER ROW ══ */
+        .acc-header {
+            margin-bottom: 32px;
+        }
+
+        .acc-title-block h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #FF7A1A 0%, #1DCD9F 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+        }
+
+        .acc-title-block p {
+            font-size: 0.85rem;
+            color: var(--text-2);
+            margin-top: 4px;
+            font-weight: 400;
+        }
+
+        /* ══ STAT CARDS ══ */
+        .acc-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 36px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: border-color 0.25s, transform 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 122, 26, 0.04) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .stat-card:hover {
+            border-color: var(--border-glow);
+            transform: translateY(-2px);
+        }
+
+        .stat-icon-wrap {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .stat-icon-wrap.blue {
+            background: rgba(59, 130, 246, 0.15);
+            color: #6EA8E8;
+        }
+
+        .stat-icon-wrap.teal {
+            background: rgba(29, 205, 159, 0.12);
+            color: #1DCD9F;
+        }
+
+        .stat-icon-wrap.purple {
+            background: rgba(139, 92, 246, 0.13);
+            color: #a78bfa;
+        }
+
+        .stat-icon-wrap.green {
+            background: rgba(29, 205, 159, 0.12);
+            color: #1DCD9F;
+        }
+
+        .stat-text {
+            flex: 1;
+        }
+
+        .stat-text .label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-2);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 4px;
+        }
+
+        .stat-text .value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-1);
+            line-height: 1;
+        }
+
+        /* ══ TABS + FILTERS ROW ══ */
+        .acc-tabs-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 0;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .acc-tabs {
+            display: flex;
+            gap: 0;
+        }
+
+        .acc-tab {
+            padding: 12px 22px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--text-2);
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s;
+            font-family: inherit;
+            white-space: nowrap;
+            margin-bottom: -1px;
+        }
+
+        .acc-tab:hover {
+            color: var(--text-1);
+        }
+
+        .acc-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+            font-weight: 600;
+        }
+
+
+
+        /* ══ USER TABLE ══ */
+        .acc-table-wrap {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 14px 14px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table.acc-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 640px;
+        }
+
+        .acc-table thead tr {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .acc-table th {
+            padding: 14px 18px;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-2);
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            white-space: nowrap;
+            background: var(--bg-card);
+        }
+
+        .acc-table th:last-child {
+            text-align: right;
+        }
+
+        .acc-table tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.15s;
+        }
+
+        .acc-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .acc-table tbody tr:hover {
+            background: var(--bg-hover);
+        }
+
+        .acc-table td {
+            padding: 14px 18px;
+            vertical-align: middle;
+        }
+
+        .acc-table td:last-child {
+            text-align: right;
+        }
+
+        /* User detail cell */
+        .user-detail-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.92rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .user-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-1);
+            line-height: 1.2;
+        }
+
+        .user-email {
+            font-size: 0.77rem;
+            color: var(--text-2);
+            margin-top: 1px;
+        }
+
+        /* Role badge */
+        .role-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .role-badge.seeker {
+            background: rgba(59, 130, 246, 0.18);
+            color: #6EA8E8;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .role-badge.recruiter {
+            background: rgba(139, 92, 246, 0.18);
+            color: #a78bfa;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .role-badge.admin {
+            background: rgba(255, 122, 26, 0.18);
+            color: #FF7A1A;
+            border: 1px solid rgba(255, 122, 26, 0.3);
+        }
+
+        .role-badge.owner {
+            background: rgba(29, 205, 159, 0.15);
+            color: #1DCD9F;
+            border: 1px solid rgba(29, 205, 159, 0.3);
+        }
+
+        .role-badge.user {
+            background: rgba(59, 130, 246, 0.18);
+            color: #6EA8E8;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        /* Status */
+        .status-cell {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .status-dot.active {
+            background: var(--teal);
+            box-shadow: 0 0 6px rgba(29, 205, 159, 0.6);
+        }
+
+        .status-dot.blocked {
+            background: var(--danger);
+            box-shadow: 0 0 6px rgba(224, 82, 96, 0.6);
+        }
+
+        .status-active {
+            color: var(--teal);
+        }
+
+        .status-blocked {
+            color: var(--danger);
+        }
+
+        /* Icon action buttons */
+        .action-icons {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .icon-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            background: transparent;
+            cursor: pointer;
+            color: var(--text-2);
+            transition: all 0.18s;
+        }
+
+        .icon-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(255, 122, 26, 0.1);
+        }
+
+        .icon-btn.danger:hover {
+            border-color: var(--danger);
+            color: var(--danger);
+            background: rgba(224, 82, 96, 0.1);
+        }
+
+        .icon-btn.success:hover {
+            border-color: var(--teal);
+            color: var(--teal);
+            background: rgba(29, 205, 159, 0.1);
+        }
+
+        .icon-btn svg {
+            pointer-events: none;
+        }
+
+        /* Empty/loading row */
+        .acc-empty-row td {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-3);
+            font-size: 0.88rem;
+        }
+
+        /* ══ OWNERS / BOOKINGS SUB-SECTION ══ */
+        .section-panel {
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .section-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        /* ══ BOOKINGS MODAL (dark theme) ══ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 1000;
+            overflow-y: auto;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-box {
+            background: #131825;
+            border: 1px solid var(--border-glow);
+            margin: 48px auto;
+            max-width: 980px;
+            width: 92%;
+            border-radius: 16px;
+            padding: 32px;
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-header h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-1);
+        }
+
+        .modal-close-btn {
+            background: var(--border);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            color: var(--text-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* ══ RESPONSIVE ══ */
+        @media (max-width: 1024px) {
+            .acc-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .acc-wrapper {
+                padding: 20px 14px 40px;
+            }
+
+            .acc-title-block h1 {
+                font-size: 1.5rem;
+            }
+
+            .acc-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .stat-text .value {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .acc-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 16px 14px;
+                gap: 12px;
+            }
+
+            .stat-icon-wrap {
+                width: 40px;
+                height: 40px;
+            }
+
+            .acc-wrapper {
+                padding: 16px 10px 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="navbar-logo">
+                <img src="../images/Logo.png" alt="YatraNow Logo" class="navbar-logo-img">
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            <ul class="navbar-menu" id="navbarMenu">
+                <li><a href="admin.html">Dashboard</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Admin Control Center -->
+    <div class="acc-wrapper">
+
+        <!-- ── HEADER ── -->
+        <div class="acc-header">
+            <div class="acc-title-block">
+                <h1>Admin Control Center</h1>
+                <p>Manage users, owners, bookings, and platform access</p>
+            </div>
+        </div>
+
+        <!-- ── STAT CARDS ── -->
+        <div class="acc-stats">
+            <div class="stat-card">
+                <div class="stat-icon-wrap blue">
+                    <!-- Users icon -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                </div>
+                <div class="stat-text">
+                    <div class="label">Total Users</div>
+                    <div class="value" id="statTotalUsers">—</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon-wrap teal">
+                    <!-- Briefcase icon for Owners/Recruiters -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                    </svg>
+                </div>
+                <div class="stat-text">
+                    <div class="label">Owners</div>
+                    <div class="value" id="statOwners">—</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon-wrap purple">
+                    <!-- Shield / Bookings icon -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                </div>
+                <div class="stat-text">
+                    <div class="label">Live Bookings</div>
+                    <div class="value" id="statBookings">—</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── TABS ── -->
+        <div class="acc-tabs-row">
+            <div class="acc-tabs">
+                <button class="acc-tab active" onclick="switchTab('users', this)">Users</button>
+                <button class="acc-tab" onclick="switchTab('owners', this)">Owners</button>
+                <button class="acc-tab" onclick="switchTab('bookings', this)">Bookings</button>
+            </div>
+        </div>
+
+        <!-- ══ USERS PANEL ══ -->
+        <div id="panel-users" class="section-panel active">
+            <div class="acc-table-wrap">
+                <table class="acc-table">
+                    <thead>
+                        <tr>
+                            <th>User Details</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <tr class="acc-empty-row">
+                            <td colspan="4">Loading users…</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ══ OWNERS PANEL ══ -->
+        <div id="panel-owners" class="section-panel">
+            <div class="acc-table-wrap">
+                <table class="acc-table">
+                    <thead>
+                        <tr>
+                            <th>Owner Details</th>
+                            <th>Agency</th>
+                            <th>Vehicles</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ownersTableBody">
+                        <tr class="acc-empty-row">
+                            <td colspan="5">Loading owners…</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ══ BOOKINGS PANEL ══ -->
+        <div id="panel-bookings" class="section-panel">
+            <div class="acc-table-wrap">
+                <div id="bookingsPanelContent" style="padding:40px;text-align:center;color:var(--text-3);">
+                    Click on <strong style="color:var(--text-2);">Bookings</strong> tab to load data.
+                </div>
+            </div>
+        </div>
+
+    </div><!-- end acc-wrapper -->
+
+    <!-- ══ BOOKINGS MODAL (kept for backward compat) ══ -->
+    <div id="bookingsModal" class="modal-overlay" onclick="closeBookingsModalOnOverlay(event)">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>All Bookings</h2>
+                <button class="modal-close-btn" onclick="closeBookingsModal()">✕</button>
+            </div>
+            <div id="bookingsModalContent" style="overflow-x:auto;">
+                <p style="text-align:center;color:var(--text-3);">Loading bookings…</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/toast.js"></script>
+    <script src="../js/api-config.js"></script>
+    <script src="../js/data.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/spotlight.js"></script>
+    <script>
+        /* ═══════════════════════════════════════
+           ADMIN CONTROL CENTER — JS
+           All original logic preserved & enhanced
+           ═══════════════════════════════════════ */
+
+        // Hamburger menu
+        document.getElementById('hamburger').addEventListener('click', function () {
+            document.getElementById('navbarMenu').classList.toggle('active');
+        });
+
+        // ── State ──
+        let _allUsers = [];
+        let _allOwners = [];
+        let _activeRoleFilter = 'all';
+        let _activeTab = 'users';
+
+        // ── Init ──
+        document.addEventListener('DOMContentLoaded', function () {
+            requireRole('admin');
+            loadAdminData();
+        });
+
+        // ── Load All Data ──
+        function loadAdminData() {
+            loadUsers();
+            loadOwners();
+            loadStatistics();
+        }
+
+        // ─────────────────────────────────────
+        //  TAB SWITCHING
+        // ─────────────────────────────────────
+        function switchTab(tabName, el) {
+            _activeTab = tabName;
+
+            // Deactivate all panels & tabs
+            document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.acc-tab').forEach(t => t.classList.remove('active'));
+
+            // Activate selected
+            document.getElementById('panel-' + tabName).classList.add('active');
+            el.classList.add('active');
+
+            // Load bookings inline when tab selected
+            if (tabName === 'bookings') {
+                loadBookingsPanel();
+            }
+        }
+
+        // ─────────────────────────────────────
+        //  USERS
+        // ─────────────────────────────────────
+        async function loadUsers() {
+            const tbody = document.getElementById('usersTableBody');
+            tbody.innerHTML = '<tr class="acc-empty-row"><td colspan="4">Loading users…</td></tr>';
+
+            try {
+                const response = await apiGet(API_ENDPOINTS.ADMIN_USERS);
+                _allUsers = Array.isArray(response) ? response : (response.content || response.data || []);
+
+                if (_allUsers.length === 0) {
+                    tbody.innerHTML = '<tr class="acc-empty-row"><td colspan="4">No users found.</td></tr>';
+                    return;
+                }
+
+                // Update stat card
+                document.getElementById('statTotalUsers').textContent = _allUsers.length;
+
+                renderUsers(_allUsers);
+            } catch (error) {
+                console.error('Failed to load users:', error);
+                tbody.innerHTML = `<tr class="acc-empty-row"><td colspan="4" style="color:var(--danger);">Error loading users: ${error.message}</td></tr>`;
+            }
+        }
+
+        function renderUsers(users) {
+            const tbody = document.getElementById('usersTableBody');
+            if (users.length === 0) {
+                tbody.innerHTML = '<tr class="acc-empty-row"><td colspan="4">No users match the filter.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = '';
+            users.forEach(user => tbody.appendChild(createUserRow(user)));
+        }
+
+        function createUserRow(user) {
+            const isBlocked = user.isBlocked || false;
+            const role = (user.role || 'USER').toLowerCase();
+            const initials = (user.name || 'U').slice(0, 1).toUpperCase();
+            const avatarColor = getAvatarColor(user.name || 'User');
+
+            const tr = document.createElement('tr');
+            tr.dataset.name = (user.name || '').toLowerCase();
+            tr.dataset.email = (user.email || '').toLowerCase();
+            tr.dataset.role = role;
+
+            tr.innerHTML = `
+                <td>
+                    <div class="user-detail-cell">
+                        <div class="user-avatar" style="background:${avatarColor};">${initials}</div>
+                        <div>
+                            <div class="user-name">${escHtml(user.name || '—')}</div>
+                            <div class="user-email">${escHtml(user.email || '—')}</div>
+                        </div>
+                    </div>
+                </td>
+                <td><span class="role-badge ${roleBadgeClass(role)}">${role}</span></td>
+                <td>
+                    <div class="status-cell">
+                        <div class="status-dot ${isBlocked ? 'blocked' : 'active'}"></div>
+                        <span class="${isBlocked ? 'status-blocked' : 'status-active'}">${isBlocked ? 'Blocked' : 'Active'}</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="action-icons">
+                        <button class="icon-btn ${isBlocked ? 'success' : ''}" title="${isBlocked ? 'Unblock' : 'Block'} user" onclick="toggleUserStatus(${user.id})">
+                            ${isBlocked ? svgUnlock() : svgLock()}
+                        </button>
+                        <button class="icon-btn danger" title="Delete user" onclick="deleteUser(${user.id})">
+                            ${svgTrash()}
+                        </button>
+                    </div>
+                </td>
+            `;
+            return tr;
+        }
+
+        // ─────────────────────────────────────
+        //  OWNERS
+        // ─────────────────────────────────────
+        async function loadOwners() {
+            const tbody = document.getElementById('ownersTableBody');
+            tbody.innerHTML = '<tr class="acc-empty-row"><td colspan="5">Loading owners…</td></tr>';
+
+            try {
+                const response = await apiGet(API_ENDPOINTS.ADMIN_OWNERS);
+                _allOwners = Array.isArray(response) ? response : (response.content || response.data || []);
+
+                if (_allOwners.length === 0) {
+                    tbody.innerHTML = '<tr class="acc-empty-row"><td colspan="5">No owners found.</td></tr>';
+                    return;
+                }
+
+                document.getElementById('statOwners').textContent = _allOwners.length;
+                renderOwners(_allOwners);
+            } catch (error) {
+                console.error('Failed to load owners:', error);
+                tbody.innerHTML = `<tr class="acc-empty-row"><td colspan="5" style="color:var(--danger);">Error loading owners: ${error.message}</td></tr>`;
+            }
+        }
+
+        function renderOwners(owners) {
+            const tbody = document.getElementById('ownersTableBody');
+            tbody.innerHTML = '';
+            owners.forEach(owner => tbody.appendChild(createOwnerRow(owner)));
+        }
+
+        function createOwnerRow(owner) {
+            const isBlocked = owner.isBlocked || false;
+            const initials = (owner.ownerName || owner.name || 'O').slice(0, 1).toUpperCase();
+            const avatarColor = getAvatarColor(owner.ownerName || 'Owner');
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>
+                    <div class="user-detail-cell">
+                        <div class="user-avatar" style="background:${avatarColor};">${initials}</div>
+                        <div>
+                            <div class="user-name">${escHtml(owner.ownerName || owner.name || '—')}</div>
+                            <div class="user-email">${escHtml(owner.email || '—')}</div>
+                        </div>
+                    </div>
+                </td>
+                <td><span style="font-size:0.83rem;color:var(--text-2);">${escHtml(owner.agencyName || '—')}</span></td>
+                <td><span style="font-size:0.85rem;font-weight:600;">${owner.totalVehicles || 0}</span></td>
+                <td>
+                    <div class="status-cell">
+                        <div class="status-dot ${isBlocked ? 'blocked' : 'active'}"></div>
+                        <span class="${isBlocked ? 'status-blocked' : 'status-active'}">${isBlocked ? 'Blocked' : 'Active'}</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="action-icons">
+                        <button class="icon-btn ${isBlocked ? 'success' : ''}" title="${isBlocked ? 'Unblock' : 'Block'} owner" onclick="toggleOwnerStatus(${owner.id})">
+                            ${isBlocked ? svgUnlock() : svgLock()}
+                        </button>
+                        <button class="icon-btn danger" title="Delete owner" onclick="deleteOwner(${owner.id})">
+                            ${svgTrash()}
+                        </button>
+                    </div>
+                </td>
+            `;
+            return tr;
+        }
+
+        // ─────────────────────────────────────
+        //  STATISTICS
+        // ─────────────────────────────────────
+        function loadStatistics() {
+            loadTotalBookingsCount();
+        }
+
+        async function loadTotalBookingsCount() {
+            try {
+                const data = await apiGet(API_ENDPOINTS.ADMIN_BOOKINGS);
+                const count = data.totalElements !== undefined ? data.totalElements : (Array.isArray(data) ? data.length : 0);
+                document.getElementById('statBookings').textContent = count;
+            } catch (error) {
+                document.getElementById('statBookings').textContent = '0';
+            }
+        }
+
+        // ─────────────────────────────────────
+        //  BOOKINGS INLINE PANEL
+        // ─────────────────────────────────────
+        async function loadBookingsPanel() {
+            const container = document.getElementById('bookingsPanelContent');
+            container.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-3);">Loading bookings…</div>';
+            try {
+                const data = await apiGet(API_ENDPOINTS.ADMIN_BOOKINGS);
+                const bookings = data.content !== undefined ? data.content : (Array.isArray(data) ? data : []);
+
+                if (bookings.length === 0) {
+                    container.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-3);">No bookings found.</div>';
+                    return;
+                }
+
+                const rows = bookings.map(b => {
+                    const statusColor = b.status === 'CONFIRMED' ? 'var(--teal)' : 'var(--danger)';
+                    return `
+                    <tr>
+                        <td style="padding:12px 18px;color:var(--text-2);font-size:.82rem;">${b.id}</td>
+                        <td style="padding:12px 18px;font-size:.85rem;">${escHtml(b.passengerName || '—')}</td>
+                        <td style="padding:12px 18px;font-size:.82rem;color:var(--text-2);">${b.seatNumber || '—'}</td>
+                        <td style="padding:12px 18px;">
+                            <span style="padding:3px 10px;border-radius:6px;font-size:.7rem;font-weight:700;background:${b.status === 'CONFIRMED' ? 'rgba(29,205,159,0.15)' : 'rgba(224,82,96,0.15)'};color:${statusColor};border:1px solid ${statusColor};">${b.status || '—'}</span>
+                        </td>
+                        <td style="padding:12px 18px;font-size:.82rem;color:var(--text-2);white-space:nowrap;">${b.bookingDate ? new Date(b.bookingDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}</td>
+                    </tr>`;
+                }).join('');
+
+                container.innerHTML = `
+                    <div style="padding:14px 18px;font-size:.82rem;color:var(--text-2);border-bottom:1px solid var(--border);">
+                        Total: <strong style="color:var(--accent);">${bookings.length}</strong> booking(s)
+                    </div>
+                    <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;min-width:560px;">
+                        <thead><tr style="border-bottom:1px solid var(--border);">
+                            <th style="padding:12px 18px;text-align:left;font-size:.72rem;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.07em;">ID</th>
+                            <th style="padding:12px 18px;text-align:left;font-size:.72rem;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.07em;">Passenger</th>
+                            <th style="padding:12px 18px;text-align:left;font-size:.72rem;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.07em;">Seat</th>
+                            <th style="padding:12px 18px;text-align:left;font-size:.72rem;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.07em;">Status</th>
+                            <th style="padding:12px 18px;text-align:left;font-size:.72rem;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.07em;">Date</th>
+                        </tr></thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                    </div>`;
+
+                // zebra
+                container.querySelectorAll('tbody tr').forEach((tr, i) => {
+                    tr.style.background = i % 2 === 0 ? 'var(--bg-card)' : 'var(--bg-hover)';
+                    tr.style.borderBottom = '1px solid var(--border)';
+                });
+            } catch (error) {
+                container.innerHTML = `<div style="padding:40px;text-align:center;color:var(--danger);">Failed to load bookings: ${error.message}</div>`;
+            }
+        }
+
+
+
+        // ─────────────────────────────────────
+        //  USER ACTIONS
+        // ─────────────────────────────────────
+        async function toggleUserStatus(userId) {
+            showConfirm(
+                'Are you sure you want to change this user\'s status?',
+                async () => {
+                    try {
+                        await apiPatch(API_ENDPOINTS.ADMIN_TOGGLE_USER(userId));
+                        await loadUsers();
+                        showToast('User status updated.', 'success');
+                    } catch (error) {
+                        showToast('Failed to update status: ' + error.message, 'error');
+                    }
+                },
+                null,
+                { yesLabel: 'Yes, change it', icon: '🔄' }
+            );
+        }
+
+        async function deleteUser(userId) {
+            showConfirm(
+                'Are you sure you want to delete this user?\nThis action cannot be undone.',
+                async () => {
+                    try {
+                        await apiDelete(API_ENDPOINTS.ADMIN_USER_BY_ID(userId));
+                        await loadUsers();
+                        showToast('User deleted successfully.', 'success');
+                    } catch (error) {
+                        showToast('Failed to delete user: ' + error.message, 'error');
+                    }
+                },
+                null,
+                { yesLabel: 'Yes, delete', icon: '🗑️' }
+            );
+        }
+
+        // ─────────────────────────────────────
+        //  OWNER ACTIONS
+        // ─────────────────────────────────────
+        async function toggleOwnerStatus(ownerId) {
+            showConfirm(
+                'Are you sure you want to change this owner\'s status?',
+                async () => {
+                    try {
+                        await apiPatch(API_ENDPOINTS.ADMIN_TOGGLE_OWNER(ownerId));
+                        await loadOwners();
+                        showToast('Owner status updated.', 'success');
+                    } catch (error) {
+                        showToast('Failed to update status: ' + error.message, 'error');
+                    }
+                },
+                null,
+                { yesLabel: 'Yes, change it', icon: '🔄' }
+            );
+        }
+
+        async function deleteOwner(ownerId) {
+            showConfirm(
+                'Are you sure you want to delete this owner?\nThis action cannot be undone.',
+                async () => {
+                    try {
+                        await apiDelete(API_ENDPOINTS.ADMIN_OWNER_BY_ID(ownerId));
+                        await loadOwners();
+                        showToast('Owner deleted successfully.', 'success');
+                    } catch (error) {
+                        showToast('Failed to delete owner: ' + error.message, 'error');
+                    }
+                },
+                null,
+                { yesLabel: 'Yes, delete', icon: '🗑️' }
+            );
+        }
+
+        // ─────────────────────────────────────
+        //  BOOKINGS MODAL (backward compat)
+        // ─────────────────────────────────────
+        async function openBookingsModal() {
+            document.getElementById('bookingsModal').style.display = 'block';
+            document.getElementById('bookingsModalContent').innerHTML = '<p style="text-align:center;color:var(--text-3);">Loading bookings…</p>';
+            try {
+                const data = await apiGet(API_ENDPOINTS.ADMIN_BOOKINGS);
+                const bookings = data.content !== undefined ? data.content : (Array.isArray(data) ? data : []);
+                if (bookings.length === 0) {
+                    document.getElementById('bookingsModalContent').innerHTML = '<p style="text-align:center;color:var(--text-3);">No bookings found.</p>';
+                    return;
+                }
+                const rows = bookings.map(b => `
+                    <tr>
+                        <td>${b.id}</td><td>${b.userId}</td><td>${b.scheduleId}</td>
+                        <td>${escHtml(b.passengerName)}</td><td>${b.passengerAge}</td>
+                        <td>${escHtml(b.passengerGender)}</td><td>${b.seatNumber}</td>
+                        <td><span style="padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;background:${b.status === 'CONFIRMED' ? 'rgba(29,205,159,0.15)' : 'rgba(224,82,96,0.15)'};color:${b.status === 'CONFIRMED' ? 'var(--teal)' : 'var(--danger)'};border:1px solid ${b.status === 'CONFIRMED' ? 'var(--teal)' : 'var(--danger)'};white-space:nowrap;">${b.status}</span></td>
+                        <td style="white-space:nowrap;">${b.bookingDate ? new Date(b.bookingDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}</td>
+                    </tr>`).join('');
+                document.getElementById('bookingsModalContent').innerHTML = `
+                    <p style="color:var(--text-2);margin-bottom:16px;">Total: <strong style="color:var(--accent);">${bookings.length}</strong> booking(s)</p>
+                    <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;font-size:13px;min-width:640px;">
+                        <thead><tr style="background:var(--bg-base);">
+                            <th style="padding:12px 10px;text-align:left;color:var(--text-2);font-size:11px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--border);">ID</th>
+                            <th style="padding:12px 10px;text-align:left;color:var(--text-2);font-size:11px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--border);">User</th>
+                            <th style="padding:12px 10px;text-align:left;color:var(--text-2);font-size:11px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--border);">Schedule</th>
+                            <th style="padding:12px 10px;text-align:left;color:var(--text-2);font-size:11px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--border);">Passenger</th>
+                            <th style="padding:12px 10px;text-align:left;color:var(--text-2);font-size:11px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--border);">Age</th>
+                            <th style="padding:12px 10px;text-align:left;color:var(--text-2);font-size:11px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--border);">Gender</th>
+                            <th style="padding:12px 10px;text-align:left;color:var(--text-2);font-size:11px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--border);">Seat</th>
+                            <th style="padding:12px 10px;text-align:left;color:var(--text-2);font-size:11px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--border);">Status</th>
+                            <th style="padding:12px 10px;text-align:left;color:var(--text-2);font-size:11px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--border);">Date</th>
+                        </tr></thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                    </div>`;
+                document.querySelectorAll('#bookingsModalContent tbody tr').forEach((tr, i) => {
+                    tr.style.background = i % 2 === 0 ? '#161620' : '#1a1a2a';
+                    tr.querySelectorAll('td').forEach(td => {
+                        td.style.padding = '10px 10px';
+                        td.style.borderBottom = '1px solid var(--border)';
+                        td.style.color = 'var(--text-1)';
+                    });
+                });
+            } catch (error) {
+                document.getElementById('bookingsModalContent').innerHTML = `<p style="color:var(--danger);text-align:center;">Failed to load bookings: ${error.message}</p>`;
+            }
+        }
+
+        function closeBookingsModal() { document.getElementById('bookingsModal').style.display = 'none'; }
+        function closeBookingsModalOnOverlay(event) {
+            if (event.target === document.getElementById('bookingsModal')) closeBookingsModal();
+        }
+
+        // ─────────────────────────────────────
+        //  HELPERS
+        // ─────────────────────────────────────
+        function escHtml(str) {
+            return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function roleBadgeClass(role) {
+            const map = { admin: 'admin', owner: 'owner', user: 'user', recruiter: 'recruiter', seeker: 'seeker' };
+            return map[role] || 'user';
+        }
+
+        const AVATAR_COLORS = ['#3b5bdb', '#1971c2', '#0c8599', '#2f9e44', '#e67700', '#d6336c', '#7048e8', '#0b7285', '#5f3dc4'];
+        function getAvatarColor(name) {
+            let h = 0;
+            for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) & 0xffff;
+            return AVATAR_COLORS[h % AVATAR_COLORS.length];
+        }
+
+        // SVG icon helpers
+        function svgLock() {
+            return `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`;
+        }
+        function svgUnlock() {
+            return `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>`;
+        }
+        function svgTrash() {
+            return `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`;
+        }
+    </script>
+</body>
+
+</html>

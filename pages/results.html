@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Search Results - YatraNow">
+    <link rel="icon" type="image/png" href="../images/favicon_rounded.png">
+    <title>Search Results - YatraNow</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        /* ── Search Bar ── */
+        .search-panel {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 28px 24px;
+            border-radius: 14px;
+            margin-bottom: 28px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+        }
+
+        .search-panel h2 {
+            color: #fff;
+            margin: 0 0 18px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-panel h2 i {
+            color: #1DCD9F;
+        }
+
+        .search-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 12px;
+            align-items: end;
+        }
+
+        @media (max-width: 768px) {
+            .search-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .search-row button {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .search-field label {
+            display: block;
+            color: #aaa;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .search-field input {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 15px;
+            transition: border-color 0.2s, background 0.2s;
+            box-sizing: border-box;
+        }
+
+        .search-field input::placeholder {
+            color: #666;
+        }
+
+        .search-field input:focus {
+            outline: none;
+            border-color: #1DCD9F;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .search-field input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(0.7);
+        }
+
+        .search-submit-btn {
+            background: #1DCD9F;
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .search-submit-btn:hover {
+            background: #17b589;
+            transform: translateY(-1px);
+        }
+
+        .search-submit-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ── Filter Bar ── */
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-bar label {
+            font-size: 13px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .filter-bar select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #fff;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .results-count {
+            margin-left: auto;
+            font-size: 14px;
+            color: #888;
+            font-weight: 500;
+        }
+
+        /* ── Result Cards ── */
+        .results-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .result-card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: box-shadow 0.2s, transform 0.2s;
+            border: 1px solid #f0f0f0;
+        }
+
+        .result-card:hover {
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.14);
+            transform: translateY(-2px);
+        }
+
+        .result-card-inner {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 24px;
+        }
+
+        @media (max-width: 600px) {
+            .result-card-inner {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .rc-left {
+            min-width: 0;
+        }
+
+        .rc-operator {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .rc-operator .badge {
+            background: #e8f5f0;
+            color: #1DCD9F;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .rc-route {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+
+        .rc-route .arrow {
+            color: #1DCD9F;
+            font-size: 20px;
+        }
+
+        .rc-timings {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .rc-timings .sep {
+            flex: 1;
+            height: 1px;
+            background: #ddd;
+            min-width: 30px;
+            position: relative;
+        }
+
+        .rc-timings .duration {
+            position: absolute;
+            top: -9px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f5f5f5;
+            padding: 0 6px;
+            font-size: 11px;
+            color: #999;
+            white-space: nowrap;
+        }
+
+        .rc-date {
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 6px;
+        }
+
+        .rc-middle {
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .rc-seats {
+            font-size: 13px;
+            color: #1DCD9F;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .rc-seats.low {
+            color: #e67e22;
+        }
+
+        .rc-seats.none {
+            color: #e74c3c;
+        }
+
+        .rc-right {
+            text-align: right;
+            min-width: 130px;
+        }
+
+        .rc-price {
+            font-size: 26px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+
+        .rc-price span {
+            font-size: 16px;
+        }
+
+        .book-btn {
+            background: #1DCD9F;
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+        }
+
+        .book-btn:hover {
+            background: #17b589;
+        }
+
+        /* ── States ── */
+        .state-box {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+
+        .state-box i {
+            font-size: 56px;
+            color: #ddd;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .state-box h3 {
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .state-box p {
+            font-size: 14px;
+        }
+
+        .state-box.error i {
+            color: #fcc;
+        }
+
+        .state-box.error h3 {
+            color: #e74c3c;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            border: 4px solid #e0e0e0;
+            border-top-color: #1DCD9F;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ── Search summary ── */
+        .search-summary {
+            background: #f0fdf8;
+            border: 1px solid #c3f0e0;
+            border-radius: 10px;
+            padding: 12px 18px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #2d7a5e;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-summary i {
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="navbar-logo">
+                <img src="../images/Logo.png" alt="YatraNow Logo" class="navbar-logo-img">
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            <ul class="navbar-menu" id="navbarMenu">
+                <li><a href="user.html"><i class='bx bxs-dashboard'></i> Dashboard</a></li>
+                <li><a href="#" onclick="logout()"><i class='bx bx-log-out'></i> Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 30px; padding-bottom: 50px;">
+
+        <!-- Back Button -->
+        <div style="margin-bottom: 16px;">
+            <a href="user.html"
+                style="display: inline-flex; align-items: center; gap: 8px; background: none; border: 2px solid #ddd; color: #555; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.2s;">
+                <i class='bx bx-arrow-back'></i> Back to Dashboard
+            </a>
+        </div>
+
+        <!-- Search Panel -->
+        <div class="search-panel">
+            <h2><i class='bx bx-search-alt'></i> Search Routes</h2>
+            <div class="search-row">
+                <div class="search-field">
+                    <label>From</label>
+                    <input type="text" id="searchFrom" placeholder="e.g. Mumbai" autocomplete="off">
+                </div>
+                <div class="search-field">
+                    <label>To</label>
+                    <input type="text" id="searchTo" placeholder="e.g. Pune" autocomplete="off">
+                </div>
+                <div class="search-field">
+                    <label>Date</label>
+                    <input type="date" id="searchDate">
+                </div>
+                <button class="search-submit-btn" id="searchBtn" onclick="handleSearch()">
+                    <i class='bx bx-search'></i> Search
+                </button>
+            </div>
+        </div>
+
+        <!-- Search Summary (shown after search) -->
+        <div id="searchSummary" class="search-summary" style="display:none;">
+            <i class='bx bx-map-alt'></i>
+            <span id="searchSummaryText"></span>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar" id="filterBar" style="display:none;">
+            <label>Sort by:</label>
+            <select id="sortBy" onchange="applyFilters()">
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="time-early">Departure: Earliest</option>
+                <option value="time-late">Departure: Latest</option>
+                <option value="seats">Most Seats</option>
+            </select>
+            <span class="results-count" id="resultsCount"></span>
+        </div>
+
+        <!-- Results -->
+        <div id="resultsContainer">
+            <!-- Initial state -->
+            <div class="state-box" id="initialState">
+                <i class='bx bx-bus'></i>
+                <h3>Find your next journey</h3>
+                <p>Enter your boarding point, dropping point and travel date above to search for available buses.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/toast.js"></script>
+    <script src="../js/api-config.js"></script>
+    <script src="../js/data.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/spotlight.js"></script>
+    <script>
+        let currentSearchResults = [];
+
+        // Hamburger
+        document.getElementById('hamburger').addEventListener('click', function () {
+            document.getElementById('navbarMenu').classList.toggle('active');
+        });
+
+        // Auth check
+        document.addEventListener('DOMContentLoaded', async function () {
+            requireAuth();
+
+            // Set min date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('searchDate').min = today;
+
+            // Pre-populate from URL params
+            const urlParams = new URLSearchParams(window.location.search);
+            const from = urlParams.get('from') || '';
+            const to = urlParams.get('to') || '';
+            const date = urlParams.get('date') || today;
+
+            if (from) document.getElementById('searchFrom').value = from;
+            if (to) document.getElementById('searchTo').value = to;
+            if (date) document.getElementById('searchDate').value = date;
+
+            // Auto-search if params provided
+            if (from && to && date) {
+                await executeSearch(from, to, date);
+            } else {
+                document.getElementById('searchDate').value = today;
+            }
+        });
+
+        async function handleSearch() {
+            const from = document.getElementById('searchFrom').value.trim();
+            const to = document.getElementById('searchTo').value.trim();
+            const date = document.getElementById('searchDate').value;
+
+            if (!from || !to || !date) {
+                showError('Please fill in all fields: From, To, and Date.');
+                return;
+            }
+
+            // Update URL without reload
+            const newUrl = `${window.location.pathname}?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&date=${date}`;
+            window.history.pushState({}, '', newUrl);
+
+            await executeSearch(from, to, date);
+        }
+
+        async function executeSearch(from, to, date) {
+            const btn = document.getElementById('searchBtn');
+            btn.disabled = true;
+            btn.innerHTML = `<span class="spinner" style="width:18px;height:18px;border-width:3px;margin:0;"></span> Searching...`;
+
+            showLoading();
+
+            try {
+                const results = await searchRoutes(from, to, date);
+                currentSearchResults = results;
+
+                // Show search summary
+                const summary = document.getElementById('searchSummary');
+                const summaryText = document.getElementById('searchSummaryText');
+                const dateObj = new Date(date + 'T00:00:00');
+                const formattedDate = dateObj.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+                summaryText.textContent = `Showing results for ${from} → ${to} on ${formattedDate}`;
+                summary.style.display = 'flex';
+
+                applyFilters();
+            } catch (error) {
+                console.error('Search error:', error);
+                const msg = error.message === 'Failed to fetch'
+                    ? 'Cannot connect to server. Please ensure the backend is running.'
+                    : error.message || 'Search failed. Please try again.';
+                showError(msg);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class='bx bx-search'></i> Search`;
+            }
+        }
+
+        function applyFilters() {
+            const sortBy = document.getElementById('sortBy').value;
+            let results = [...currentSearchResults];
+
+            switch (sortBy) {
+                case 'price-low':
+                    results.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    results.sort((a, b) => b.price - a.price);
+                    break;
+                case 'time-early':
+                    results.sort((a, b) => timeToMinutes(a.departureTime) - timeToMinutes(b.departureTime));
+                    break;
+                case 'time-late':
+                    results.sort((a, b) => timeToMinutes(b.departureTime) - timeToMinutes(a.departureTime));
+                    break;
+                case 'seats':
+                    results.sort((a, b) => b.availableSeats - a.availableSeats);
+                    break;
+            }
+
+            renderResults(results);
+        }
+
+        function timeToMinutes(timeStr) {
+            if (!timeStr) return 0;
+            const parts = timeStr.split(':');
+            return parseInt(parts[0]) * 60 + parseInt(parts[1] || 0);
+        }
+
+        function renderResults(routes) {
+            const container = document.getElementById('resultsContainer');
+            const filterBar = document.getElementById('filterBar');
+            const countEl = document.getElementById('resultsCount');
+
+            if (!routes || routes.length === 0) {
+                filterBar.style.display = 'none';
+                container.innerHTML = `
+                    <div class="state-box">
+                        <i class='bx bx-search-alt'></i>
+                        <h3>No routes found</h3>
+                        <p>No buses available for this route and date. Try a different date or check the city names.</p>
+                    </div>`;
+                return;
+            }
+
+            filterBar.style.display = 'flex';
+            countEl.textContent = `${routes.length} route${routes.length !== 1 ? 's' : ''} found`;
+
+            container.innerHTML = `<div class="results-list" id="resultsList"></div>`;
+            const list = document.getElementById('resultsList');
+
+            routes.forEach(route => {
+                list.appendChild(createResultCard(route));
+            });
+        }
+
+        function createResultCard(route) {
+            const card = document.createElement('div');
+            card.className = 'result-card';
+
+            const seatsLeft = route.availableSeats || 0;
+            const seatsClass = seatsLeft === 0 ? 'none' : seatsLeft <= 5 ? 'low' : '';
+            const seatsText = seatsLeft === 0 ? 'Sold Out' : `${seatsLeft} seats left`;
+
+            const depTime = formatTime(route.departureTime);
+            const arrTime = formatTime(route.arrivalTime);
+
+            card.innerHTML = `
+                <div class="result-card-inner">
+                    <div class="rc-left">
+                        <div class="rc-operator">
+                            <span class="badge">${(route.type || 'BUS').toUpperCase()}</span>
+                            <span>${route.name || 'Express Service'}</span>
+                            ${route.vehicleNumber ? `<span style="color:#bbb;">· ${route.vehicleNumber}</span>` : ''}
+                        </div>
+                        <div class="rc-route">
+                            <span>${route.from}</span>
+                            <i class='bx bx-right-arrow-alt arrow'></i>
+                            <span>${route.to}</span>
+                        </div>
+                        <div class="rc-timings">
+                            <strong>${depTime}</strong>
+                            <div class="sep"><span class="duration">${route.duration || ''}</span></div>
+                            <strong>${arrTime}</strong>
+                        </div>
+                        ${route.scheduleDate ? `<div class="rc-date"><i class='bx bx-calendar'></i> ${route.scheduleDate}</div>` : ''}
+                    </div>
+                    <div class="rc-middle">
+                        <div class="rc-seats ${seatsClass}">${seatsText}</div>
+                        ${route.agencyName ? `<div style="font-size:12px;color:#aaa;margin-top:4px;">${route.agencyName}</div>` : ''}
+                    </div>
+                    <div class="rc-right">
+                        <div class="rc-price"><span>₹</span>${route.price}</div>
+                        <button class="book-btn" ${seatsLeft === 0 ? 'disabled style="background:#ccc;cursor:not-allowed;"' : ''}>
+                            ${seatsLeft === 0 ? 'Sold Out' : 'View Seats'}
+                        </button>
+                    </div>
+                </div>`;
+
+            // Attach click AFTER innerHTML to avoid baking null/undefined IDs into onclick strings
+            if (seatsLeft > 0) {
+                card.querySelector('.book-btn').addEventListener('click', () => viewSeats(route));
+            }
+
+            return card;
+        }
+
+        function formatTime(timeStr) {
+            if (!timeStr) return '--:--';
+            // Handle HH:mm:ss format
+            const parts = timeStr.split(':');
+            if (parts.length >= 2) {
+                const h = parseInt(parts[0]);
+                const m = parts[1];
+                const period = h >= 12 ? 'PM' : 'AM';
+                const h12 = h % 12 || 12;
+                return `${h12}:${m} ${period}`;
+            }
+            return timeStr;
+        }
+
+        function showLoading() {
+            document.getElementById('filterBar').style.display = 'none';
+            document.getElementById('resultsContainer').innerHTML = `
+                <div class="state-box">
+                    <div class="spinner"></div>
+                    <h3>Searching for routes...</h3>
+                    <p>Please wait while we find the best options for you.</p>
+                </div>`;
+        }
+
+        function showError(msg) {
+            document.getElementById('filterBar').style.display = 'none';
+            document.getElementById('resultsContainer').innerHTML = `
+                <div class="state-box error">
+                    <i class='bx bx-error-circle'></i>
+                    <h3>Something went wrong</h3>
+                    <p>${msg}</p>
+                </div>`;
+        }
+
+        // viewSeats now accepts the full route object (not just an ID)
+        function viewSeats(route) {
+            if (!route) { showToast('Route data not available. Please search again.', 'error'); return; }
+            const routeId = route.scheduleId || route.id;
+            if (!routeId) { showToast('This route has no valid ID. Please contact support.', 'error'); return; }
+            // Save full route object so seats.html doesn't need to re-fetch
+            sessionStorage.setItem('selectedRoute', JSON.stringify(route));
+            window.location.href = `seats.html?routeId=${routeId}`;
+        }
+    </script>
+</body>
+
+</html>

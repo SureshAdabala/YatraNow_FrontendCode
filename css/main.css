@@ -1,0 +1,2779 @@
+/* ===========================
+   YatraNow - Main Styles
+   Global CSS, Navbar, Carousel
+   =========================== */
+
+/* CSS Variables for consistent theming */
+:root {
+  /* Colors — YatraNow dark theme, matched to logo palette */
+  --primary-navy: #111111;
+  /* pure near-black, logo background */
+  --accent-blue: #FF7A1A;
+  /* logo orange ('Now' text) — primary accent */
+  --accent-orange: #FF7A1A;
+  /* alias for clarity */
+  --accent-teal: #1DCD9F;
+  /* logo teal (pin icon) — secondary accent */
+  --success-green: #1DCD9F;
+  /* teal used for success states */
+  --danger-red: #e05260;
+  --light-bg: #0d0d0d;
+  /* darkest page bg */
+  --white: #1a1a1a;
+  /* dark card / surface bg */
+  --text-dark: #eeeeee;
+  /* primary text — light on dark bg */
+  --text-light: #909090;
+  /* secondary text */
+  --border-light: #272727;
+  /* dark dividers */
+
+  /* Spacing */
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+  /* Transitions */
+  --transition: 0.3s ease-in-out;
+}
+
+/* Smooth scrolling for all anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Global Resets */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ── Cursor control ───────────────────────────────────────────────
+   Prevent the browser text-cursor (I-beam) from appearing on
+   non-interactive areas. Only real clickable elements get pointer.
+   ─────────────────────────────────────────────────────────────── */
+section,
+div,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+li,
+ul,
+ol,
+figure,
+figcaption,
+header,
+footer,
+main,
+article,
+aside,
+nav {
+  cursor: default;
+}
+
+/* Restore pointer for genuinely interactive elements */
+a,
+button,
+[role="button"],
+input,
+select,
+textarea,
+label[for],
+.btn,
+[onclick] {
+  cursor: pointer;
+}
+
+/* Hide scrollbar completely but keep functionality */
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--text-dark);
+  background-color: #0a0a0a;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+/* Navbar - PURE BLACK */
+.navbar {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 5px 0;
+  /* Reduced padding to keep navbar compact with larger logo */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--shadow-md);
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  /* Text styles removed as we are showing only logo */
+}
+
+.navbar-logo-img {
+  height: 60px;
+  /* Adjusted to fit neatly within fixed navbar height */
+  width: auto;
+  object-fit: contain;
+  margin-left: -10px;
+}
+
+.navbar-menu {
+  display: flex;
+  gap: var(--spacing-lg);
+  list-style: none;
+}
+
+.navbar-menu a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition);
+}
+
+.navbar-menu a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-btn {
+  border: 2px solid var(--accent-blue);
+  border-radius: 25px;
+  padding: 8px 24px !important;
+  /* Override default padding */
+  margin-left: 10px;
+  transition: all 0.3s ease;
+}
+
+/* Increased specificity to ensure background color applies correctly */
+.navbar-menu .nav-btn:hover {
+  background-color: var(--accent-blue);
+  color: #fff !important;
+  box-shadow: 0 0 15px rgba(255, 122, 26, 0.55);
+  transform: translateY(-2px);
+}
+
+/* Hamburger Menu - CONSTANT NAVY BLUE */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 8px;
+}
+
+.hamburger-line {
+  width: 25px;
+  height: 3px;
+  background-color: #ffffff;
+  margin: 3px 0;
+  transition: var(--transition);
+}
+
+/* Mobile Menu */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .navbar-menu {
+    position: fixed;
+    top: 60px;
+    right: -100%;
+    flex-direction: column;
+    background-color: #000000;
+    width: 70%;
+    max-width: 300px;
+    height: calc(100vh - 60px);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-lg);
+    transition: right var(--transition);
+  }
+
+  .navbar-menu.active {
+    right: 0;
+  }
+
+  .navbar-menu a {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Hero Carousel Styles */
+.hero-carousel {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  margin-bottom: var(--spacing-xl);
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-slides {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Carousel Text Overlay */
+.carousel-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.6), transparent);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 var(--spacing-xl) 0 100px;
+  color: var(--white);
+}
+
+.carousel-headline {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: var(--spacing-md);
+  max-width: 600px;
+}
+
+.carousel-subheading {
+  font-size: 20px;
+  margin-bottom: var(--spacing-lg);
+  max-width: 500px;
+  line-height: 1.5;
+}
+
+.carousel-cta {
+  display: inline-block;
+  background-color: var(--accent-blue);
+  color: var(--white);
+  padding: 14px 32px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 18px;
+  transition: all var(--transition);
+  width: fit-content;
+}
+
+.carousel-cta:hover {
+  background-color: #3a7bc8;
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+}
+
+/* Carousel Navigation Arrows */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(26, 42, 78, 0.8);
+  color: var(--white);
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all var(--transition);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-arrow:hover {
+  background-color: var(--primary-navy);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-arrow-left {
+  left: 20px;
+}
+
+.carousel-arrow-right {
+  right: 20px;
+}
+
+/* Carousel Indicator Dots */
+.carousel-indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.carousel-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.carousel-dot.active {
+  background-color: var(--white);
+  width: 14px;
+  height: 14px;
+}
+
+.carousel-dot:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Route Cards Section */
+.routes-section {
+  padding: var(--spacing-xl) 0;
+}
+
+.section-title {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-dark);
+}
+
+.routes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Route Card */
+.route-card {
+  background-color: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
+  cursor: pointer;
+}
+
+.route-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.route-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.route-type {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.route-type.bus {
+  background-color: rgba(255, 122, 26, 0.15);
+  color: #FF7A1A;
+}
+
+.route-type.train {
+  background-color: rgba(29, 205, 159, 0.15);
+  color: #1DCD9F;
+}
+
+.route-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--text-dark);
+  margin-bottom: var(--spacing-sm);
+}
+
+.route-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  color: var(--text-light);
+}
+
+.route-time {
+  font-size: 14px;
+}
+
+.route-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.route-price {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--success-green);
+}
+
+.route-seats {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.route-seats span {
+  color: var(--success-green);
+  font-weight: 600;
+}
+
+/* Utility Classes */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-decoration: none;
+  text-align: center;
+}
+
+/* ── Back / Secondary Button ─────────────────────────────────────
+   Reusable across all dashboard pages (seats, success, etc.)
+   Works on <button> and <a> elements alike.
+   ─────────────────────────────────────────────────────────────── */
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 20px;
+  background: transparent;
+  border: 1.5px solid #333;
+  border-radius: 10px;
+  color: #aaa;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease,
+    background 0.2s ease, transform 0.15s ease;
+  user-select: none;
+}
+
+.btn-back i,
+.btn-back svg {
+  font-size: 17px;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-back:hover {
+  border-color: #FF7A1A;
+  color: #FF7A1A;
+  background: rgba(255, 122, 26, 0.07);
+  transform: translateX(-2px);
+  cursor: pointer;
+}
+
+.btn-back:hover i {
+  transform: translateX(-3px);
+}
+
+.btn-back:active {
+  transform: translateX(-1px);
+}
+
+/* Wrapper div for back button spacing */
+.btn-back-wrap {
+  margin-bottom: 22px;
+}
+
+.btn-primary {
+  background-color: var(--accent-blue);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #3a7bc8;
+  transform: scale(1.02);
+}
+
+.btn-success {
+  background-color: var(--success-green);
+  color: #ffffff;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  transform: scale(1.02);
+}
+
+.btn-danger {
+  background-color: var(--danger-red);
+  color: #ffffff;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  transform: scale(1.02);
+}
+
+/* Card */
+.card {
+  background-color: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-carousel {
+    height: 400px;
+  }
+
+  .carousel-headline {
+    font-size: 32px;
+  }
+
+  .carousel-subheading {
+    font-size: 16px;
+  }
+
+  .carousel-cta {
+    padding: 12px 24px;
+    font-size: 16px;
+  }
+
+  .carousel-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .routes-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-carousel {
+    height: 300px;
+  }
+
+  .carousel-headline {
+    font-size: 24px;
+  }
+
+  .carousel-subheading {
+    font-size: 14px;
+  }
+
+  .carousel-overlay {
+    padding: 0 var(--spacing-md);
+  }
+}
+
+/* Features Section */
+.features-section {
+  padding: var(--spacing-xl) 0;
+  background-color: #111111;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+  text-align: center;
+}
+
+.feature-card {
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  transition: var(--transition);
+  border: 1px solid var(--border-light);
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent-blue);
+}
+
+.feature-icon {
+  font-size: 40px;
+  margin-bottom: var(--spacing-md);
+}
+
+.feature-card h3 {
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-dark);
+}
+
+.feature-card p {
+  color: var(--text-light);
+}
+
+/* ===========================
+   FAQ Accordion Section
+   =========================== */
+
+.faq-section {
+  padding: 80px 0;
+  background-color: var(--light-bg);
+}
+
+.faq-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.faq-subtitle {
+  font-size: 18px;
+  color: var(--text-light);
+  margin-top: -8px;
+}
+
+.faq-accordion {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* ── Each FAQ item ── */
+.faq-item {
+  position: relative;
+}
+
+/* ── Trigger (button row) ── */
+.faq-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 22px 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  position: relative;
+}
+
+/* ── Number circle container ── */
+.faq-number-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+/* Animated orange circle behind the number */
+.faq-number-circle {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-color: var(--accent-orange);
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.25s ease;
+}
+
+.faq-number {
+  position: relative;
+  z-index: 1;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--text-light);
+  transition: color 0.2s ease;
+}
+
+/* Open state: number turns dark (readable on orange circle) */
+.faq-open .faq-number {
+  color: #111111;
+}
+
+/* ── Question title ── */
+.faq-question {
+  flex: 1;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--text-light);
+  transition: color 0.2s ease, transform 0.3s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+.faq-open .faq-question {
+  color: var(--text-dark);
+}
+
+/* ── Plus / × icon ── */
+.faq-icon {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--text-dark);
+  opacity: 0.4;
+  transform: rotate(0deg);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.2s ease;
+  flex-shrink: 0;
+}
+
+.faq-trigger:hover .faq-icon,
+.faq-open .faq-icon {
+  opacity: 1;
+}
+
+.faq-open .faq-icon {
+  transform: rotate(45deg);
+}
+
+/* ── Answer content ── */
+.faq-content {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s ease;
+}
+
+.faq-content p {
+  padding: 0 48px 24px 64px;
+  color: var(--text-light);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+/* ── Bottom border (always visible) ── */
+.faq-divider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--border-light);
+}
+
+/* ── Animated orange active underline ── */
+.faq-active-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background-color: var(--accent-orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+/* Hover line preview for closed items */
+.faq-trigger:hover~.faq-active-line {
+  transform: scaleX(0.3);
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .faq-question {
+    font-size: 17px;
+  }
+
+  .faq-content p {
+    padding: 0 8px 20px 56px;
+  }
+}
+
+/* Footer */
+.footer {
+  background-color: #000000;
+  color: #ffffff;
+  padding: var(--spacing-xl) 0 0;
+  margin-top: var(--spacing-xl);
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+}
+
+.footer-column h3 {
+  margin-bottom: var(--spacing-lg);
+  color: var(--accent-blue);
+}
+
+.footer-column ul {
+  list-style: none;
+}
+
+.footer-column ul li {
+  margin-bottom: var(--spacing-sm);
+}
+
+.footer-column ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: var(--transition);
+}
+
+.footer-column ul li a:hover {
+  opacity: 1;
+  color: var(--accent-blue);
+}
+
+.social-links {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.social-links a {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.social-links a:hover {
+  background-color: var(--accent-blue);
+  transform: translateY(-3px);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: var(--spacing-lg) 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+.nav-user {
+  color: var(--secondary-gold) !important;
+  /* Using variable if exists, or fallback */
+  color: #f1c40f !important;
+  font-weight: 600;
+}
+
+/* ===========================
+   Animated Journey Section
+   =========================== */
+
+/* Hero Banner / Journey Intro */
+.journey-hero {
+  background: linear-gradient(135deg, #000000 0%, #0d0d0d 60%, #111111 100%);
+  color: #ffffff;
+  padding: 60px 0 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  min-height: 65vh;
+  display: flex;
+  align-items: center;
+}
+
+.journey-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at center, rgba(255, 122, 26, 0.1) 0%, transparent 60%);
+  animation: journeyPulse 4s ease-in-out infinite;
+}
+
+@keyframes journeyPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+.journey-hero-badge {
+  display: inline-block;
+  background: rgba(255, 122, 26, 0.15);
+  border: 1px solid rgba(255, 122, 26, 0.4);
+  color: var(--accent-blue);
+  padding: 6px 20px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.journey-hero h2 {
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.15;
+  max-width: 720px;
+  margin: 0 auto 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.journey-hero h2 .highlight {
+  color: var(--accent-blue);
+  position: relative;
+}
+
+.journey-hero p {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 540px;
+  margin: 0 auto 36px;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+.journey-hero-btns {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.btn-journey-primary {
+  background: var(--accent-blue);
+  color: #000;
+  padding: 14px 34px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  box-shadow: 0 4px 20px rgba(255, 122, 26, 0.35);
+}
+
+.btn-journey-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(255, 122, 26, 0.5);
+  background: #FF9133;
+}
+
+.btn-journey-outline {
+  background: transparent;
+  color: #ffffff;
+  padding: 14px 34px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.btn-journey-outline:hover {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+  transform: translateY(-3px);
+}
+
+/* Stats Bar */
+.journey-stats-bar {
+  background: #111111;
+  border-bottom: 1px solid var(--border-light);
+  padding: 0;
+}
+
+.journey-stats-inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.journey-stat-item {
+  padding: 24px 16px;
+  text-align: center;
+  border-right: 1px solid var(--border-light);
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.journey-stat-item:last-child {
+  border-right: none;
+}
+
+.journey-stat-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.journey-stat-number {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--accent-blue);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.journey-stat-label {
+  font-size: 13px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+/* Roadmap Section */
+.roadmap-section {
+  background: var(--light-bg);
+  padding: 80px 0;
+  overflow: hidden;
+}
+
+.roadmap-section .section-title {
+  margin-bottom: 8px;
+}
+
+.roadmap-section .section-subtitle {
+  text-align: center;
+  color: var(--text-light);
+  font-size: 17px;
+  margin-bottom: 64px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* SVG Roadmap Canvas */
+.roadmap-canvas {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+  aspect-ratio: 900 / 480;
+  /* auto-scales height with width */
+  overflow: visible;
+}
+
+.roadmap-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  z-index: 1;
+  /* SVG sits below milestone labels */
+}
+
+/* SVG Path animation */
+.road-path {
+  fill: none;
+  stroke: #333333;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.road-path-progress {
+  fill: none;
+  stroke: var(--accent-blue);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dashoffset: 0;
+  transition: stroke-dasharray 0.05s linear;
+  filter: drop-shadow(0 0 8px rgba(255, 122, 26, 0.7));
+}
+
+/* Milestone Markers on Canvas */
+.milestone-marker {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: default;
+  z-index: 30;
+  /* always above SVG canvas (z-index:1) and bus */
+}
+
+.milestone-marker.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.milestone-dot-wrap {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.milestone-ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(255, 122, 26, 0.15);
+  animation: rippleOut 2s ease-out infinite;
+}
+
+.milestone-ripple.complete {
+  background: rgba(29, 205, 159, 0.18);
+}
+
+.milestone-ripple.pending {
+  background: rgba(150, 150, 150, 0.12);
+  animation: none;
+}
+
+@keyframes rippleOut {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.milestone-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.milestone-dot.complete {
+  background: var(--success-green);
+  border-color: #0d7a5f;
+}
+
+.milestone-dot.in-progress {
+  background: var(--accent-blue);
+  border-color: #d4620e;
+  animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+.milestone-dot.pending {
+  background: #c8d0da;
+  border-color: #a0aab4;
+}
+
+@keyframes dotPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(29, 205, 159, 0.5);
+  }
+
+  50% {
+    box-shadow: 0 0 0 8px rgba(29, 205, 159, 0);
+  }
+}
+
+.milestone-dot-wrap:hover .milestone-dot {
+  transform: scale(1.25);
+}
+
+.milestone-label {
+  background: #1e1e1e;
+  border: 1.5px solid var(--border-light);
+  border-radius: 50px;
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+  white-space: nowrap;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.milestone-marker.complete .milestone-label {
+  border-color: var(--success-green);
+  color: var(--success-green);
+}
+
+.milestone-marker.in-progress .milestone-label {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+  background: rgba(255, 122, 26, 0.08);
+}
+
+.milestone-dot-wrap:hover~.milestone-label {
+  background: var(--accent-blue);
+  color: #ffffff;
+  border-color: var(--accent-blue);
+  transform: scale(1.05);
+}
+
+/* Step Cards Section */
+.steps-section {
+  background: #0d0d0d;
+  padding: 80px 0;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.step-card {
+  background: #151515;
+  border: 1.5px solid var(--border-light);
+  border-radius: 16px;
+  padding: 32px 28px;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.step-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--success-green));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.step-card:hover {
+  border-color: var(--accent-blue);
+  box-shadow: 0 8px 32px rgba(29, 205, 159, 0.12);
+  transform: translateY(-5px);
+}
+
+.step-card:hover::before {
+  transform: scaleX(1);
+}
+
+.step-number {
+  width: 48px;
+  height: 48px;
+  background: rgba(29, 205, 159, 0.1);
+  border: 2px solid rgba(29, 205, 159, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--accent-blue);
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.step-card:hover .step-number {
+  background: var(--accent-blue);
+  color: #000;
+  border-color: var(--accent-blue);
+  transform: rotate(10deg) scale(1.1);
+}
+
+.step-icon {
+  font-size: 28px;
+  margin-bottom: 14px;
+  display: block;
+}
+
+.step-card h3 {
+  font-size: 19px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.step-card p {
+  font-size: 15px;
+  color: var(--text-light);
+  line-height: 1.65;
+}
+
+.step-connector {
+  display: none;
+}
+
+/* Responsive - Journey */
+@media (max-width: 900px) {
+  .roadmap-canvas {
+    padding: 0 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .journey-hero h2 {
+    font-size: 34px;
+  }
+
+  .journey-hero p {
+    font-size: 16px;
+  }
+
+  .journey-stats-inner {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .journey-stat-item:nth-child(2) {
+    border-right: none;
+  }
+
+  .journey-stat-item:nth-child(3) {
+    border-right: 1px solid var(--border-light);
+    border-top: 1px solid var(--border-light);
+  }
+
+  .journey-stat-item:nth-child(4) {
+    border-right: none;
+    border-top: 1px solid var(--border-light);
+  }
+
+  .roadmap-section {
+    padding: 40px 0;
+  }
+
+  /* roadmap-canvas stays visible — no display:none */
+  .roadmap-canvas {
+    max-width: 100%;
+    padding: 0 8px;
+  }
+
+  /* Scale milestone labels so they fit on narrow screens */
+  .milestone-label {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+
+  .milestone-dot-wrap {
+    width: 32px;
+    height: 32px;
+  }
+
+  .milestone-dot {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Mobile fallback stays hidden — SVG canvas is shown instead */
+  .roadmap-mobile-steps {
+    display: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .journey-hero {
+    padding: 60px 0 40px;
+  }
+
+  .journey-hero h2 {
+    font-size: 28px;
+  }
+
+  /* On very small phones: hide text labels, show only dots on route */
+  .milestone-label {
+    display: none;
+  }
+
+  .roadmap-section {
+    padding: 30px 0;
+  }
+
+  .journey-stats-inner {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .steps-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile vertical roadmap fallback */
+.roadmap-mobile-steps {
+  display: none;
+  flex-direction: column;
+  gap: 0;
+  padding: 0 20px;
+  position: relative;
+}
+
+.roadmap-mobile-steps::before {
+  content: '';
+  position: absolute;
+  left: 36px;
+  top: 24px;
+  bottom: 24px;
+  width: 3px;
+  background: linear-gradient(180deg, var(--accent-blue), #e2e8f0);
+  border-radius: 3px;
+}
+
+.roadmap-mobile-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 16px 0;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.roadmap-mobile-item.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.roadmap-mobile-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 3px solid;
+  flex-shrink: 0;
+  margin-top: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.roadmap-mobile-dot.complete {
+  background: var(--success-green);
+  border-color: #0d7a5f;
+}
+
+.roadmap-mobile-dot.in-progress {
+  background: var(--accent-blue);
+  border-color: #0f9e7a;
+  animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+.roadmap-mobile-dot.pending {
+  background: #dee2e6;
+  border-color: #adb5bd;
+}
+
+.roadmap-mobile-content {
+  background: var(--white);
+  border: 1.5px solid var(--border-light);
+  border-radius: 12px;
+  padding: 14px 18px;
+  flex: 1;
+  box-shadow: var(--shadow-sm);
+}
+
+.roadmap-mobile-content h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+.roadmap-mobile-content span {
+  font-size: 12px;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.roadmap-mobile-content span.complete {
+  color: var(--success-green);
+}
+
+.roadmap-mobile-content span.in-progress {
+  color: var(--accent-blue);
+}
+
+/* Animate section-title on scroll */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========================================
+   SPOTLIGHT GLOW EFFECT — ALL CARDS
+   Orange theme matching logo palette
+   ======================================== */
+
+/* Overlay injected by spotlight.js */
+.card-spotlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  will-change: opacity;
+}
+
+/* Ensure ALL text/icon content inside cards sits above the spotlight overlay */
+.feature-card>*:not(.card-spotlight),
+.testimonial-card>*:not(.card-spotlight),
+.route-card>*:not(.card-spotlight),
+.step-card>*:not(.card-spotlight),
+.result-card>*:not(.card-spotlight),
+.vehicle-info-card>*:not(.card-spotlight),
+.seat-layout-card>*:not(.card-spotlight),
+.booking-summary>*:not(.card-spotlight),
+.success-card>*:not(.card-spotlight),
+.booking-details-card>*:not(.card-spotlight),
+.admin-content>*:not(.card-spotlight),
+.admin-sidebar>*:not(.card-spotlight),
+.roadmap-mobile-content>*:not(.card-spotlight) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Border glow when cursor is inside card */
+.feature-card.spotlight-hovered,
+.testimonial-card.spotlight-hovered,
+.route-card.spotlight-hovered,
+.step-card.spotlight-hovered,
+.result-card.spotlight-hovered,
+.vehicle-info-card.spotlight-hovered,
+.seat-layout-card.spotlight-hovered,
+.booking-summary.spotlight-hovered,
+.success-card.spotlight-hovered,
+.booking-details-card.spotlight-hovered,
+.admin-content.spotlight-hovered,
+.admin-sidebar.spotlight-hovered,
+.roadmap-mobile-content.spotlight-hovered {
+  border-color: rgba(255, 122, 26, 0.45) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 122, 26, 0.18),
+    0 8px 32px rgba(255, 122, 26, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Smooth transition for all card types */
+.feature-card,
+.testimonial-card,
+.route-card,
+.step-card,
+.result-card,
+.vehicle-info-card,
+.seat-layout-card,
+.booking-summary,
+.success-card,
+.booking-details-card,
+.admin-content,
+.admin-sidebar,
+.roadmap-mobile-content {
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease !important;
+}
+
+/* ========================================
+   ANIME PILL NAVBAR
+   ======================================== */
+
+/* Give navbar room above for the floating mascot */
+.navbar {
+  overflow: visible !important;
+  padding-top: 44px !important;
+  /* 38px bus + 6px breathing room */
+  padding-bottom: 6px !important;
+}
+
+/* Pill container */
+.anime-nav-pill {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(8, 8, 8, 0.82);
+  border: 1px solid rgba(255, 122, 26, 0.25);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 5px 8px;
+  border-radius: 100px;
+  position: relative;
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 122, 26, 0.08);
+}
+
+/* Subtle shimmer on pill */
+.anime-nav-pill::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  background: linear-gradient(90deg, transparent, rgba(255, 122, 26, 0.06), transparent);
+  pointer-events: none;
+}
+
+/* Nav items */
+.anime-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 100px;
+  transition: color 0.25s ease, background 0.25s ease;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+  user-select: none;
+}
+
+.anime-nav-item:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.anime-nav-item.active {
+  color: #ffffff;
+  background: rgba(255, 122, 26, 0.18);
+}
+
+.anime-nav-item.active::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  box-shadow: 0 0 14px rgba(255, 122, 26, 0.22), inset 0 0 10px rgba(255, 122, 26, 0.06);
+  pointer-events: none;
+}
+
+/* Register CTA */
+.anime-nav-item.anime-nav-cta {
+  background: var(--accent-blue);
+  color: #ffffff;
+  padding: 8px 20px;
+  margin-left: 4px;
+}
+
+.anime-nav-item.anime-nav-cta:hover,
+.anime-nav-item.anime-nav-cta.active {
+  background: #e86a0a;
+  color: #ffffff;
+}
+
+.anime-nav-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* ===  3D Bus Mascot  === */
+.anime-mascot {
+  position: absolute;
+  top: -38px;
+  /* bus wheels rest on pill top = 'road' */
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  transition: left 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 50;
+  filter: drop-shadow(0 4px 12px rgba(255, 122, 26, 0.4));
+}
+
+.mascot-bus {
+  animation: busBob 2.2s ease-in-out infinite;
+  transform-origin: center bottom;
+  display: block;
+}
+
+@keyframes busBob {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.anime-mascot.is-hovered .mascot-bus {
+  animation: busWiggle 0.45s ease-in-out;
+}
+
+@keyframes busWiggle {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  20% {
+    transform: rotate(-9deg) scale(1.08);
+  }
+
+  40% {
+    transform: rotate(9deg) scale(1.08);
+  }
+
+  60% {
+    transform: rotate(-5deg) scale(1.05);
+  }
+
+  80% {
+    transform: rotate(5deg) scale(1.05);
+  }
+
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+/* Headlights ON when bus is stopped at active tab */
+.anime-mascot.is-stopped {
+  filter:
+    drop-shadow(10px 0px 10px rgba(255, 252, 180, 0.95)) drop-shadow(16px 1px 18px rgba(255, 248, 120, 0.65)) drop-shadow(0 5px 14px rgba(255, 122, 26, 0.5));
+}
+
+.mascot-pointer {
+  display: none;
+}
+
+/* ===  Mobile  === */
+@media (max-width: 768px) {
+  .hamburger {
+    display: none !important;
+  }
+
+  .anime-nav-text {
+    display: none;
+  }
+
+  .anime-nav-item {
+    padding: 8px 11px;
+  }
+
+  .anime-nav-item.anime-nav-cta {
+    padding: 8px 13px;
+    margin-left: 2px;
+  }
+
+  .anime-mascot {
+    top: -32px;
+  }
+
+  .anime-mascot #mascotSvg {
+    width: 48px;
+    height: 30px;
+  }
+
+}
+
+/* ============================================================
+   TRAIN ANIMATION SECTION — YatraNow "Thank you for visiting"
+   ============================================================ */
+
+/* ── Scene container ── */
+.yn-train-scene {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  background: #000;
+  overflow: hidden;
+  border-top: 2px solid #1a1a1a;
+  /* make sure it sits flush below the footer */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* ── Overhead electric wire ── */
+.yn-wire {
+  position: absolute;
+  top: 18px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: repeating-linear-gradient(90deg,
+      #444 0 40px,
+      #222 40px 44px);
+  z-index: 1;
+}
+
+/* ── "Thank you for visiting" text ── */
+.yn-thankyou {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* clip from left — the train "wipes" to reveal */
+  clip-path: inset(0 100% 0 0);
+  animation: yn-reveal 10s linear infinite;
+  animation-delay: 3.5s;
+  /* starts revealing once train's engine has passed */
+  z-index: 2;
+  pointer-events: none;
+  gap: 4px;
+}
+
+.yn-thankyou span {
+  display: block;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: clamp(18px, 4vw, 40px);
+  font-weight: 700;
+  color: #eeeeee;
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.yn-thankyou .yn-accent {
+  color: #FF7A1A;
+  font-size: clamp(14px, 3vw, 30px);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+@keyframes yn-reveal {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  55% {
+    clip-path: inset(0 0% 0 0);
+  }
+
+  85% {
+    clip-path: inset(0 0% 0 0);
+    opacity: 1;
+  }
+
+  95% {
+    opacity: 0;
+  }
+
+  100% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+}
+
+/* ── Train wrapper ── */
+.yn-train {
+  position: absolute;
+  bottom: 28px;
+  /* sits on top of the track */
+  left: 0;
+  display: flex;
+  flex-direction: row-reverse;
+  /* engine on the right / leading */
+  align-items: flex-end;
+  transform: translateX(-105%);
+  animation: yn-drivetrain 10s linear infinite;
+  z-index: 5;
+}
+
+@keyframes yn-drivetrain {
+  0% {
+    transform: translateX(-105%);
+  }
+
+  100% {
+    transform: translateX(110vw);
+  }
+}
+
+/* ── Car base ── */
+.yn-car {
+  position: relative;
+  width: 180px;
+  height: 68px;
+  background: #1a1a1a;
+  border-radius: 4px 4px 0 0;
+  border: 1px solid #333;
+  margin-right: 2px;
+  /* gap between cars */
+  flex-shrink: 0;
+}
+
+/* ── Roof strip ── */
+.yn-car-roof {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: #666;
+  border-radius: 4px 4px 0 0;
+}
+
+/* Engine nose (rounded front) */
+.yn-car--engine {
+  width: 200px;
+  border-radius: 4px 30px 0 4px;
+  margin-right: 0;
+}
+
+.yn-engine-roof {
+  border-radius: 4px 20px 0 0;
+}
+
+/* ── Pantograph (current collector) above engine ── */
+.yn-panto {
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 32px;
+}
+
+.yn-panto-arm {
+  position: absolute;
+  bottom: 0;
+  width: 2px;
+  height: 24px;
+  background: #888;
+}
+
+.yn-panto-arm--l {
+  left: 8px;
+  transform-origin: bottom center;
+  transform: rotate(-25deg);
+}
+
+.yn-panto-arm--r {
+  right: 8px;
+  transform-origin: bottom center;
+  transform: rotate(25deg);
+}
+
+.yn-panto-tip {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  right: 2px;
+  height: 3px;
+  background: #FF7A1A;
+  border-radius: 2px;
+  box-shadow: 0 0 6px #FF7A1A, 0 0 12px rgba(255, 122, 26, 0.6);
+  animation: yn-spark 0.25s linear infinite alternate;
+}
+
+@keyframes yn-spark {
+  from {
+    box-shadow: 0 0 4px #FF7A1A, 0 0 10px rgba(255, 122, 26, 0.5);
+  }
+
+  to {
+    box-shadow: 0 0 10px #ffffff, 0 0 16px rgba(255, 122, 26, 0.9);
+  }
+}
+
+/* ── Windows ── */
+.yn-windows {
+  position: absolute;
+  top: 14px;
+  left: 10px;
+  right: 10px;
+  height: 22px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.yn-win {
+  flex: 1;
+  height: 100%;
+  background: linear-gradient(to bottom, #a8d8f8 0%, #5ab2e0 100%);
+  border-radius: 2px;
+  border: 1px solid #004FC8;
+  box-shadow: inset 0 0 6px rgba(0, 79, 200, 0.6);
+}
+
+/* Cab window — taller, rounded */
+.yn-win---cab {
+  flex: 1.4;
+  height: 100%;
+  background: linear-gradient(to bottom, #a8d8f8 0%, #5ab2e0 100%);
+  border-radius: 2px 10px 10px 2px;
+  border: 1px solid #004FC8;
+  box-shadow: inset 0 0 6px rgba(0, 79, 200, 0.6);
+}
+
+/* ── Orange accent stripe ── */
+.yn-stripe {
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: #FF7A1A;
+  box-shadow: 0 0 6px rgba(255, 122, 26, 0.5);
+}
+
+/* ── Doors ── */
+.yn-door {
+  position: absolute;
+  bottom: 24px;
+  width: 18px;
+  height: 32px;
+  background: #0a0a0a;
+  border: 1px solid #444;
+  border-radius: 2px 2px 0 0;
+}
+
+.yn-door--left {
+  left: 22px;
+}
+
+.yn-door--right {
+  right: 22px;
+}
+
+/* ── Headlight on engine ── */
+.yn-headlight {
+  position: absolute;
+  right: 6px;
+  top: 20px;
+  width: 10px;
+  height: 10px;
+  background: #FFF9C4;
+  border-radius: 50%;
+  box-shadow: 0 0 8px 4px rgba(255, 249, 196, 0.9), 0 0 20px 8px rgba(255, 200, 50, 0.4);
+  animation: yn-headblink 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes yn-headblink {
+  from {
+    box-shadow: 0 0 8px 4px rgba(255, 249, 196, 0.9), 0 0 20px 8px rgba(255, 200, 50, 0.3);
+  }
+
+  to {
+    box-shadow: 0 0 14px 6px rgba(255, 249, 196, 1), 0 0 32px 12px rgba(255, 200, 50, 0.7);
+  }
+}
+
+/* ── YATRANOW brand label ── */
+.yn-label {
+  position: absolute;
+  bottom: 26px;
+  left: 8px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  color: #fff;
+  opacity: 0.9;
+}
+
+/* ── Wheels ── */
+.yn-wheels {
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 16px;
+}
+
+.yn-wheel {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #555, #111);
+  border: 2px solid #888;
+  animation: yn-spin 0.4s linear infinite;
+}
+
+@keyframes yn-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Track ── */
+.yn-track {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  z-index: 3;
+}
+
+.yn-rail {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: #444;
+  border-radius: 2px;
+}
+
+.yn-rail--top {
+  top: 2px;
+}
+
+.yn-rail--bot {
+  bottom: 2px;
+}
+
+.yn-sleeper {
+  position: absolute;
+  bottom: -1px;
+  width: 18px;
+  height: 20px;
+  background: #2a1a0a;
+  border: 1px solid #3a2a1a;
+  border-radius: 2px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .yn-train-scene {
+    height: 120px;
+  }
+
+  .yn-car {
+    width: 110px;
+    height: 48px;
+  }
+
+  .yn-car--engine {
+    width: 130px;
+  }
+
+  .yn-win,
+  .yn-win---cab {
+    height: 15px;
+  }
+
+  .yn-windows {
+    top: 10px;
+    height: 15px;
+    gap: 3px;
+  }
+
+  .yn-wheel {
+    width: 16px;
+    height: 16px;
+  }
+
+  .yn-wheels {
+    bottom: -9px;
+  }
+
+  .yn-stripe {
+    bottom: 12px;
+    height: 4px;
+  }
+
+  .yn-door {
+    width: 12px;
+    height: 22px;
+    bottom: 16px;
+  }
+
+  .yn-label {
+    font-size: 5px;
+    bottom: 18px;
+  }
+
+  .yn-car-roof {
+    height: 7px;
+  }
+
+  .yn-panto {
+    top: -22px;
+  }
+
+  .yn-thankyou span {
+    font-size: clamp(14px, 5vw, 24px);
+  }
+}
+
+@media (max-width: 480px) {
+  .yn-train-scene {
+    height: 100px;
+  }
+
+  .yn-car {
+    width: 80px;
+    height: 38px;
+  }
+
+  .yn-car--engine {
+    width: 95px;
+  }
+
+  .yn-windows {
+    top: 8px;
+    height: 12px;
+    gap: 2px;
+  }
+
+  .yn-door {
+    width: 9px;
+    height: 16px;
+    bottom: 12px;
+  }
+
+  .yn-door--left {
+    left: 10px;
+  }
+
+  .yn-door--right {
+    right: 10px;
+  }
+
+  .yn-wheel {
+    width: 12px;
+    height: 12px;
+  }
+
+  .yn-wheels {
+    bottom: -7px;
+    padding: 0 8px;
+  }
+
+  .yn-panto {
+    top: -18px;
+    width: 22px;
+    height: 22px;
+  }
+
+  .yn-panto-arm {
+    height: 16px;
+  }
+
+  .yn-label {
+    display: none;
+  }
+}
+
+/* ========================================
+   PARTNER LOGOS MARQUEE / TICKER
+   ======================================== */
+
+.partners-section {
+  padding: 28px 0 32px;
+  background: #0a0a0a;
+  border-top: 1px solid rgba(255, 122, 26, 0.08);
+  border-bottom: 1px solid rgba(255, 122, 26, 0.08);
+  overflow: hidden;
+}
+
+.partners-label {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 20px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  user-select: none;
+}
+
+/* Outer viewport: clips overflow + holds the fade masks */
+.partners-track-wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Left fade */
+.partners-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.partners-fade-left {
+  left: 0;
+  background: linear-gradient(to right, #0a0a0a 0%, transparent 100%);
+}
+
+.partners-fade-right {
+  right: 0;
+  background: linear-gradient(to left, #0a0a0a 0%, transparent 100%);
+}
+
+/* Scrolling row */
+.partners-track {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: max-content;
+  animation: partners-scroll 28s linear infinite;
+  will-change: transform;
+}
+
+/* Pause on hover over any logo */
+.partners-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes partners-scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Individual logo card */
+.partner-logo-item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 56px;
+  height: 120px;
+  position: relative;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.25s ease;
+}
+
+.partner-logo-item:hover {
+  transform: translateY(-3px) scale(1.06);
+  z-index: 1;
+}
+
+.partner-logo-item img {
+  height: 90px;
+  max-width: 240px;
+  width: auto;
+  object-fit: contain;
+  filter: none;
+  transition: filter 0.3s ease, transform 0.3s ease;
+  user-select: none;
+  pointer-events: none;
+  display: block;
+}
+
+
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .partners-fade {
+    width: 60px;
+  }
+
+  .partner-logo-item {
+    padding: 0 36px;
+    height: 96px;
+  }
+
+  .partner-logo-item img {
+    height: 68px;
+    max-width: 190px;
+  }
+
+  .partners-track {
+    animation-duration: 20s;
+  }
+}
+
+@media (max-width: 480px) {
+  .partners-label {
+    font-size: 10px;
+    margin-bottom: 14px;
+  }
+
+  .partners-fade {
+    width: 40px;
+  }
+
+  .partner-logo-item {
+    padding: 0 24px;
+    height: 80px;
+  }
+
+  .partner-logo-item img {
+    height: 52px;
+    max-width: 150px;
+  }
+
+  .partners-track {
+    animation-duration: 16s;
+  }
+}
+
+/* ============================================================
+   YATRANOW — FULL RESPONSIVENESS ADDITIONS
+   Only appended here — no existing rules modified.
+   Breakpoints: 1024px (laptop), 768px (tablet), 600px (mobile), 480px (small), 360px (tiny)
+   ============================================================ */
+
+/* ── Global overflow guard — prevents any horizontal scrollbar ── */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+* {
+  min-width: 0;
+  /* prevents flex/grid children from overflowing */
+}
+
+/* ── Hero section — fixed height overflows on small screens ── */
+.main-section,
+.hero-section,
+[class*="hero"] {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Anime pill navbar — shrink and wrap on mobile ── */
+@media (max-width: 768px) {
+  .anime-pill-nav {
+    padding: 6px 10px;
+    gap: 4px;
+    flex-wrap: wrap;
+    width: 95vw;
+    max-width: 95vw;
+    justify-content: center;
+  }
+
+  .anime-nav-item {
+    padding: 7px 10px;
+    font-size: 12px;
+    gap: 4px;
+  }
+
+  .anime-nav-text {
+    display: none;
+    /* icon-only on mobile */
+  }
+
+  .anime-nav-icon {
+    font-size: 18px;
+  }
+
+  /* Bus mascot — smaller on tablet */
+  .bus-mascot-wrap {
+    transform: scale(0.7);
+  }
+}
+
+@media (max-width: 480px) {
+  .anime-pill-nav {
+    width: 98vw;
+    padding: 5px 8px;
+    gap: 2px;
+  }
+
+  .anime-nav-item {
+    padding: 7px 9px;
+  }
+
+  /* Bus mascot — hide on very small screens to save space */
+  .bus-mascot-wrap {
+    display: none;
+  }
+}
+
+/* ── Stats / counter bar — stack on mobile ── */
+@media (max-width: 600px) {
+
+  .stats-bar,
+  .stats-container,
+  .stats-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .stat-item {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ── Routes grid — prevent card overflow ── */
+.routes-grid {
+  width: 100%;
+}
+
+.route-card {
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .routes-grid {
+    grid-template-columns: 1fr;
+    padding: 0 4px;
+  }
+}
+
+/* ── Roadmap / How-it-works steps — stack vertically on mobile ── */
+@media (max-width: 768px) {
+
+  .roadmap,
+  .steps-container,
+  .how-it-works,
+  [class*="roadmap"],
+  [class*="steps"] {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .step,
+  .roadmap-step,
+  [class*="step-item"] {
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+  }
+
+  /* Hide horizontal connector lines between steps */
+  .step-connector,
+  .roadmap-line,
+  [class*="connector"] {
+    display: none;
+  }
+}
+
+/* ── Section padding — reduce on mobile ── */
+@media (max-width: 600px) {
+
+  section,
+  .section,
+  [class*="-section"] {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .section-title {
+    font-size: 24px;
+  }
+}
+
+/* ── Footer — stack columns on mobile ── */
+@media (max-width: 600px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    text-align: center;
+  }
+
+  .footer-column ul {
+    padding: 0;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}
+
+/* ── Train animation — prevent overflow ── */
+.train-animation-container,
+[class*="train-anim"] {
+  overflow: hidden;
+  max-width: 100%;
+}
+
+@media (max-width: 480px) {
+
+  .train-animation-container,
+  [class*="train-anim"] {
+    display: none;
+    /* hides on very small phones to prevent scroll */
+  }
+}
+
+/* ── Hero carousel — height responsive ── */
+@media (max-width: 600px) {
+  .hero-carousel {
+    height: 280px;
+  }
+
+  .carousel-overlay {
+    padding: 0 16px;
+  }
+
+  .carousel-headline {
+    font-size: 22px;
+  }
+
+  .carousel-subheading {
+    font-size: 14px;
+    display: none;
+    /* hide subheading on tiny screens */
+  }
+
+  .carousel-cta {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+}
+
+/* ── FAQ section ── */
+@media (max-width: 480px) {
+  .faq-question {
+    font-size: 15px;
+  }
+
+  .faq-content p {
+    padding: 0 8px 16px 50px;
+    font-size: 14px;
+  }
+}
+
+/* ── Navbar standard (non-pill) — ensure hamburger works ── */
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0 12px;
+  }
+
+  .navbar-logo-img {
+    height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-logo-img {
+    height: 40px;
+  }
+}

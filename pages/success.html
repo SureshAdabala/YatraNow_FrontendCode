@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Booking confirmed">
+  <link rel="icon" type="image/png" href="../images/favicon_rounded.png">
+  <title>Booking Success - YatraNow</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    /* ── Dark + Orange theme overrides ── */
+    body {
+      background: #0d0d0d !important;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.75);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      padding: 30px;
+      border-radius: 14px;
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 8px 36px rgba(0, 0, 0, 0.7);
+      animation: zoomIn 0.3s ease;
+      color: #e0e0e0;
+    }
+
+    .modal-content h2 {
+      color: #FF7A1A !important;
+    }
+
+    .modal-content p {
+      color: #bbb !important;
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.84);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #666;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .close-btn:hover {
+      color: #FF7A1A;
+    }
+
+    /* Success card dark override */
+    .success-card {
+      background: #181818 !important;
+      border: 1px solid #2a2a2a !important;
+      color: #e0e0e0 !important;
+    }
+
+    .success-title {
+      color: #FF7A1A !important;
+    }
+
+    .success-message {
+      color: #aaa !important;
+    }
+
+    .booking-details-card {
+      background: #111 !important;
+      border: 1px solid #2a2a2a !important;
+    }
+
+    .detail-row {
+      border-bottom: 1px solid #2a2a2a !important;
+    }
+
+    .summary-label {
+      color: #aaa !important;
+    }
+
+    .summary-value {
+      color: #e0e0e0 !important;
+    }
+
+    /* Action buttons */
+    .success-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .success-actions a,
+    .success-actions button {
+      border-radius: 8px !important;
+      padding: 11px 22px !important;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      cursor: pointer;
+    }
+
+    /* Responsive */
+    @media (max-width: 500px) {
+      .success-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .success-actions a,
+      .success-actions button {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="../index.html" class="navbar-logo">
+        <img src="../images/Logo.png" alt="YatraNow Logo" class="navbar-logo-img">
+      </a>
+
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+
+      <ul class="navbar-menu" id="navbarMenu">
+        <li><a href="user.html"><i class='bx bxs-dashboard'></i> Dashboard</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Success Container -->
+  <div class="success-container">
+    <div class="success-card">
+      <div class="success-icon">✓</div>
+      <h1 class="success-title">Booking Confirmed!</h1>
+      <p class="success-message">Your booking has been successfully confirmed. Get ready for your journey!</p>
+
+      <div class="booking-details-card" id="bookingDetails">
+        <!-- Will be populated by JavaScript -->
+      </div>
+
+      <div class="success-actions">
+        <a href="user.html" class="btn-back">
+          <i class='bx bx-arrow-back'></i> Dashboard
+        </a>
+        <a href="results.html"
+          style="background:linear-gradient(135deg,#FF7A1A,#e56b0f); color:#fff; padding:11px 22px; border-radius:8px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; font-weight:600; font-size:14px;">
+          Book Another
+        </a>
+        <button onclick="openQrModal()"
+          style="background:#222; color:#e0e0e0; border:1px solid #444; padding:11px 22px; border-radius:8px; font-weight:600; font-size:14px; cursor:pointer;">
+          <i class='bx bx-qr-scan'></i> View QR Code
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Code Modal -->
+  <div id="qrModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeQrModal()">&times;</span>
+      <h2 style="color: #FF7A1A; margin-bottom: 20px;">Your Ticket QR Code</h2>
+      <div id="qrcode"
+        style="display: flex; justify-content: center; margin: 20px 0; background:#fff; padding:12px; border-radius:8px;">
+      </div>
+      <p style="font-weight: 600; font-size: 1rem; color: #bbb; line-height: 1.5;">
+        Take a screenshot and show this QR code when boarding.
+      </p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/toast.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/spotlight.js"></script>
+  <script>
+    // Hamburger menu toggle
+    document.getElementById('hamburger').addEventListener('click', function () {
+      document.getElementById('navbarMenu').classList.toggle('active');
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function () {
+      requireAuth();
+      displayBookingDetails();
+    });
+
+    function displayBookingDetails() {
+      // Get booking details from localStorage
+      const bookingData = localStorage.getItem('lastBooking');
+
+      if (!bookingData) {
+        // No booking data — redirect silently back to home
+        window.location.href = '../index.html';
+        return;
+      }
+
+      const booking = JSON.parse(bookingData);
+      const detailsContainer = document.getElementById('bookingDetails');
+
+      detailsContainer.innerHTML = `
+        <div class="detail-row">
+          <span class="summary-label">Booking ID:</span>
+          <span class="summary-value">#${booking.bookingId}</span>
+        </div>
+        <div class="detail-row">
+          <span class="summary-label">Route:</span>
+          <span class="summary-value">${booking.route.name}</span>
+        </div>
+        <div class="detail-row">
+          <span class="summary-label">From → To:</span>
+          <span class="summary-value">${booking.route.from} → ${booking.route.to}</span>
+        </div>
+        <div class="detail-row">
+          <span class="summary-label">Departure Time:</span>
+          <span class="summary-value">${booking.route.departureTime}</span>
+        </div>
+        <div class="detail-row">
+          <span class="summary-label">Arrival Time:</span>
+          <span class="summary-value">${booking.route.arrivalTime}</span>
+        </div>
+        <div class="detail-row">
+          <span class="summary-label">Seats:</span>
+          <span class="summary-value">${booking.seats.join(', ')}</span>
+        </div>
+        <div class="detail-row">
+          <span class="summary-label">Total Price:</span>
+          <span class="summary-value" style="color: var(--success-green); font-weight: bold; font-size: 20px;">₹${booking.totalPrice}</span>
+        </div>
+      `;
+      // Show QR Code automatically
+      generateQRCode(booking.bookingId);
+    }
+
+    function generateQRCode(bookingId) {
+      // Clear previous if any
+      document.getElementById("qrcode").innerHTML = "";
+
+      // Generate new QR
+      new QRCode(document.getElementById("qrcode"), {
+        text: bookingId ? String(bookingId) : "INVALID_BOOKING",
+        width: 200,
+        height: 200,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+
+      // Open Modal
+      openQrModal();
+    }
+
+    function openQrModal() {
+      document.getElementById("qrModal").style.display = "flex";
+    }
+
+    function closeQrModal() {
+      document.getElementById("qrModal").style.display = "none";
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function (event) {
+      const modal = document.getElementById("qrModal");
+      if (event.target == modal) {
+        closeQrModal();
+      }
+    }
+
+    function downloadTicket() {
+      showToast('Ticket download will be available after backend integration.', 'info', 5000);
+    }
+  </script>
+</body>
+
+</html>

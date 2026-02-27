@@ -1,0 +1,701 @@
+/* ===========================
+   YatraNow - Dashboard Styles
+   Results, Seat Selection, Admin, Owner
+   =========================== */
+
+/* Dashboard Container */
+.dashboard-container {
+    min-height: calc(100vh - 60px);
+    padding: var(--spacing-lg);
+    background-color: #0a0a0a;
+}
+
+/* Dashboard specific navbar override */
+.navbar {
+    background-color: #000000 !important;
+}
+
+.dashboard-header {
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+}
+
+.dashboard-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: var(--spacing-sm);
+}
+
+.dashboard-subtitle {
+    color: var(--text-light);
+    font-size: 16px;
+}
+
+/* Search and Filter Section */
+.search-filter-section {
+    background-color: #1a1a1a;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    box-shadow: var(--shadow-sm);
+}
+
+.search-bar {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+}
+
+.search-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px;
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-md);
+    font-size: 16px;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
+
+.search-btn {
+    padding: 12px 32px;
+    background-color: var(--accent-blue);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.search-btn:hover {
+    background-color: #e86a0a;
+}
+
+/* Filter Options */
+.filter-options {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.filter-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.filter-select {
+    padding: 10px;
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Results Grid */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+/* Result Card (RedBus style) */
+.result-card {
+    background-color: #1a1a1a;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition);
+}
+
+.result-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.result-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.result-vehicle-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
+.result-card-body {
+    margin-bottom: var(--spacing-md);
+}
+
+.result-route {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-dark);
+}
+
+.result-timings {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+.result-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.result-price {
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--success-green);
+}
+
+.result-seats-info {
+    text-align: right;
+}
+
+.view-seats-btn {
+    padding: 10px 24px;
+    background-color: var(--accent-blue);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+    display: block;
+    margin-top: var(--spacing-sm);
+}
+
+.view-seats-btn:hover {
+    background-color: #e86a0a;
+}
+
+/* Seat Selection Styles */
+.seat-selection-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.vehicle-info-card {
+    background-color: #1a1a1a;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    box-shadow: var(--shadow-sm);
+}
+
+.vehicle-info-header {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-dark);
+    margin-bottom: var(--spacing-md);
+}
+
+.vehicle-details {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.vehicle-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.detail-label {
+    font-size: 12px;
+    color: var(--text-light);
+    text-transform: uppercase;
+}
+
+.detail-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* Seat Layout */
+.seat-layout-card {
+    background-color: #1a1a1a;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-sm);
+}
+
+.seat-legend {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.legend-box {
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--border-light);
+}
+
+.legend-box.available {
+    background-color: var(--success-green);
+}
+
+.legend-box.booked {
+    background-color: #dc3545;
+}
+
+.legend-box.selected {
+    background-color: var(--accent-blue);
+}
+
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    max-width: 400px;
+    margin: 0 auto var(--spacing-xl);
+}
+
+.seat {
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    background-color: var(--success-green);
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.seat:hover:not(.booked) {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-md);
+}
+
+.seat.booked {
+    background-color: #dc3545;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.seat.selected {
+    background-color: var(--accent-blue);
+    transform: scale(1.05);
+}
+
+.seat.aisle {
+    background: none;
+    border: none;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Booking Summary */
+.booking-summary {
+    background-color: #111111;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-md);
+}
+
+.summary-label {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.summary-value {
+    color: var(--text-dark);
+}
+
+.summary-total {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--success-green);
+    padding-top: var(--spacing-md);
+    border-top: 2px solid var(--border-light);
+}
+
+.confirm-booking-btn {
+    width: 100%;
+    padding: 16px;
+    background-color: var(--success-green);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+    margin-top: var(--spacing-md);
+}
+
+.confirm-booking-btn:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.confirm-booking-btn:disabled {
+    background-color: var(--text-light);
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Success Page */
+.success-container {
+    min-height: calc(100vh - 60px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-xl);
+}
+
+.success-card {
+    background-color: #1a1a1a;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-lg);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+}
+
+.success-icon {
+    font-size: 80px;
+    margin-bottom: var(--spacing-lg);
+}
+
+.success-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--success-green);
+    margin-bottom: var(--spacing-md);
+}
+
+.success-message {
+    color: var(--text-light);
+    margin-bottom: var(--spacing-xl);
+}
+
+.booking-details-card {
+    background-color: #111111;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    text-align: left;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.success-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Admin Dashboard */
+.admin-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: var(--spacing-lg);
+    min-height: calc(100vh - 60px);
+}
+
+.admin-sidebar {
+    background-color: #1a1a1a;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    height: fit-content;
+}
+
+.sidebar-menu {
+    list-style: none;
+}
+
+.sidebar-item {
+    padding: 12px;
+    margin-bottom: var(--spacing-sm);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition);
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.sidebar-item:hover,
+.sidebar-item.active {
+    background-color: var(--accent-blue);
+    color: #ffffff;
+}
+
+.admin-content {
+    background-color: #1a1a1a;
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Tables */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--spacing-lg);
+}
+
+.data-table th,
+.data-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.data-table th {
+    background-color: #111111;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.data-table tr:hover {
+    background-color: #111111;
+}
+
+.action-btn {
+    padding: 6px 12px;
+    margin: 0 4px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.action-btn-view {
+    background-color: var(--accent-blue);
+    color: var(--white);
+}
+
+.action-btn-block {
+    background-color: #ffc107;
+    color: var(--text-dark);
+}
+
+.action-btn-delete {
+    background-color: var(--danger-red);
+    color: var(--white);
+}
+
+.action-btn:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .admin-layout {
+        grid-template-columns: 1fr;
+        flex-direction: column;
+    }
+
+    .admin-sidebar {
+        position: static;
+        width: 100%;
+        min-width: unset;
+        border-right: none;
+        border-bottom: 1px solid #2a2a2a;
+        padding: 12px;
+    }
+
+    .sidebar-menu {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .sidebar-item {
+        padding: 8px 14px;
+        border-radius: 20px;
+        font-size: 13px;
+    }
+
+    .seat-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+    }
+
+    .seat {
+        width: 50px;
+        height: 50px;
+        font-size: 14px;
+    }
+
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .success-actions {
+        flex-direction: column;
+    }
+
+    .search-bar {
+        flex-direction: column;
+    }
+
+    .filter-options {
+        flex-direction: column;
+    }
+
+    .dashboard-container {
+        padding: 12px;
+    }
+
+    /* Global table scroll wrapper */
+    .data-table-wrapper,
+    .table-scroll-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+    }
+
+    .data-table {
+        min-width: 600px;
+    }
+
+    /* Booking summary / success card */
+    .booking-summary,
+    .success-card {
+        padding: 20px 14px;
+        max-width: 100%;
+    }
+
+    /* Result card grid → single column */
+    .result-card-inner {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .rc-right {
+        text-align: left;
+        min-width: unset;
+    }
+
+    .rc-middle {
+        text-align: left;
+    }
+}
+
+/* ── Small Mobile ── */
+@media (max-width: 600px) {
+    .admin-content {
+        padding: 12px;
+    }
+
+    .content-section h2 {
+        font-size: 1.2rem;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .auth-submit,
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Seat grid — tiny phones */
+    .seat-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+    }
+
+    .seat {
+        width: 44px;
+        height: 44px;
+        font-size: 12px;
+    }
+
+    /* Stats cards */
+    .stats-cards,
+    .dashboard-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+}
+
+/* ── Very small phones ── */
+@media (max-width: 400px) {
+    .seat-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px;
+    }
+
+    .seat {
+        width: 40px;
+        height: 40px;
+        font-size: 11px;
+    }
+
+    .stats-cards,
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-container {
+        padding: 8px;
+    }
+}

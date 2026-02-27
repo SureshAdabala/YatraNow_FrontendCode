@@ -1,0 +1,2476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="YatraNow - Book buses and trains at the best prices">
+  <link rel="icon" type="image/png" href="images/favicon_rounded.png">
+  <title>YatraNow - Your Journey Starts Here</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar" id="mainNavbar">
+    <div class="navbar-container">
+      <!-- Logo -->
+      <a href="index.html" class="navbar-logo">
+        <img src="images/Logo.png" alt="YatraNow Logo" class="navbar-logo-img">
+      </a>
+
+      <!-- Mobile hamburger (pill collapses to icons on mobile; hamburger for very small) -->
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+
+      <!-- ====  ANIME PILL NAVBAR  ==== -->
+      <div class="anime-nav-pill" id="animeNavPill">
+
+        <!-- 3D Bus Mascot — travels above tabs -->
+        <div class="anime-mascot" id="animeMascot">
+          <div class="mascot-bus" id="mascotBus">
+            <svg id="mascotSvg" width="60" height="38" viewBox="0 0 54 34" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="mnbg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#FF9133" />
+                  <stop offset="100%" stop-color="#cc5500" />
+                </linearGradient>
+                <linearGradient id="mnwg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#a8d8f8" stop-opacity="0.95" />
+                  <stop offset="100%" stop-color="#5ab2e0" stop-opacity="0.75" />
+                </linearGradient>
+                <filter id="mnws">
+                  <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="rgba(0,0,0,0.45)" />
+                </filter>
+                <!-- Headlight beam filter (visible when is-stopped) -->
+                <filter id="hlGlow" x="-50%" y="-50%" width="300%" height="200%">
+                  <feGaussianBlur stdDeviation="2.5" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
+              <!-- Ground shadow -->
+              <ellipse cx="27" cy="33.5" rx="22" ry="1.8" fill="#000" opacity="0.25" />
+              <!-- Roof (3D top face) -->
+              <rect x="4" y="2" width="46" height="10" rx="4" fill="#FF9133" />
+              <!-- Roof sheen -->
+              <rect x="6" y="3" width="40" height="3" rx="2" fill="#FFBB66" opacity="0.45" />
+              <!-- Body -->
+              <rect x="1" y="9" width="52" height="20" rx="5" fill="url(#mnbg)" />
+              <!-- Top highlight strip -->
+              <rect x="1" y="9" width="52" height="3" rx="2" fill="#FFAA55" opacity="0.45" />
+              <!-- Windows (bus faces RIGHT — door on left, headlights on right) -->
+              <rect x="10" y="11" width="9" height="8" rx="2" fill="url(#mnwg)" />
+              <rect x="22" y="11" width="9" height="8" rx="2" fill="url(#mnwg)" />
+              <rect x="34" y="11" width="9" height="8" rx="2" fill="url(#mnwg)" />
+              <!-- Speed stripe -->
+              <rect x="1" y="20" width="52" height="2.5" fill="#fff" opacity="0.1" />
+              <!-- Door (rear = left side) -->
+              <rect x="1" y="12" width="9" height="14" rx="2" fill="#0a192f" opacity="0.85" />
+              <line x1="5.5" y1="12" x2="5.5" y2="26" stroke="#FF7A1A" stroke-width="0.9" opacity="0.6" />
+              <rect x="3" y="18" width="3" height="1.5" rx="1" fill="#FF7A1A" opacity="0.7" />
+              <!-- Rear light (left = back) -->
+              <rect x="0" y="13" width="2" height="5" rx="1" fill="#ff3d00" opacity="0.85" />
+              <!-- Front face depth (right = front) -->
+              <rect x="50" y="11" width="3" height="11" rx="1" fill="#0d1f35" opacity="0.7" />
+              <!-- Headlight (right = front) —— id for JS glow toggle -->
+              <rect id="hlRect" x="50.5" y="13" width="3" height="5" rx="1.5" fill="#FFF9C4" opacity="0.9" />
+              <!-- Headlight ambient glow (initially dim) -->
+              <ellipse id="hlGlowEl" cx="53.5" cy="15.5" rx="2.5" ry="2" fill="#fffde7" opacity="0.0" />
+              <!-- YATRANOW name -->
+              <text x="27" y="18" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="3.8"
+                font-weight="800" fill="#fff" opacity="0.92" letter-spacing="0.6">YATRANOW</text>
+              <!-- Wheels -->
+              <circle cx="12" cy="30" r="4.5" fill="#111" filter="url(#mnws)" />
+              <circle cx="12" cy="30" r="2.2" fill="#3a3a3a" />
+              <circle cx="12" cy="30" r="0.8" fill="#999" />
+              <circle cx="42" cy="30" r="4.5" fill="#111" filter="url(#mnws)" />
+              <circle cx="42" cy="30" r="2.2" fill="#3a3a3a" />
+              <circle cx="42" cy="30" r="0.8" fill="#999" />
+            </svg>
+          </div>
+          <!-- NO pointer triangle -->
+        </div>
+
+        <!-- Nav Items -->
+        <a href="#home" class="anime-nav-item active" data-name="Home">
+          <i class='bx bxs-home anime-nav-icon'></i>
+          <span class="anime-nav-text">Home</span>
+        </a>
+
+        <a href="#showcase" class="anime-nav-item" data-name="Experience">
+          <i class='bx bxs-star anime-nav-icon'></i>
+          <span class="anime-nav-text">Experience</span>
+        </a>
+
+        <a href="#how-it-works" class="anime-nav-item" data-name="Book in 4 Steps">
+          <i class='bx bxs-purchase-tag anime-nav-icon'></i>
+          <span class="anime-nav-text">How it Works</span>
+        </a>
+        <a href="pages/login.html" class="anime-nav-item" data-name="Login">
+          <i class='bx bxs-log-in anime-nav-icon'></i>
+          <span class="anime-nav-text">Login</span>
+        </a>
+        <a href="pages/register.html" class="anime-nav-item anime-nav-cta" data-name="Register">
+          <i class='bx bxs-user-plus anime-nav-icon'></i>
+          <span class="anime-nav-text">Register</span>
+        </a>
+      </div>
+      <!-- ==== END ANIME PILL NAVBAR ==== -->
+    </div>
+  </nav>
+
+  <!-- ========================================
+       HOME HERO SECTION
+  ======================================== -->
+  <section class="journey-hero" id="home">
+    <div class="container">
+      <div class="journey-hero-badge">✦ Your Travel Roadmap</div>
+      <h2>Travel <span class="highlight">smarter</span> with a clear journey ahead</h2>
+      <p>Book buses &amp; trains in seconds. Visualize your stops, track your trip, and hit every destination — faster
+        and smarter.</p>
+      <div class="journey-hero-btns">
+        <a href="pages/login.html" class="btn-journey-primary">Start Booking — it's free!</a>
+        <a href="#how-it-works" class="btn-journey-outline">See how it works ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       PARTNER LOGOS MARQUEE
+  ======================================== -->
+  <section class="partners-section">
+    <p class="partners-label">Trusted platforms — all in one place</p>
+    <div class="partners-track-wrap">
+      <!-- Left + right fade masks -->
+      <div class="partners-fade partners-fade-left"></div>
+      <div class="partners-fade partners-fade-right"></div>
+
+      <div class="partners-track" id="partnersTrack">
+        <!-- Original set -->
+        <div class="partner-logo-item">
+          <img src="images/Logos/redbus-logo.png" alt="RedBus" draggable="false">
+        </div>
+        <div class="partner-logo-item">
+          <img src="images/Logos/IRCTC-logo.png" alt="IRCTC" draggable="false">
+        </div>
+        <div class="partner-logo-item">
+          <img src="images/Logos/make my trip-logo.png" alt="MakeMyTrip" draggable="false">
+        </div>
+        <div class="partner-logo-item">
+          <img src="images/Logos/ixigo-logo.png" alt="Ixigo" draggable="false">
+        </div>
+        <div class="partner-logo-item">
+          <img src="images/Logos/confirmtkt-logo.png" alt="ConfirmTkt" draggable="false">
+        </div>
+        <div class="partner-logo-item">
+          <img src="images/Logos/easemytrip-logo.png" alt="EaseMyTrip" draggable="false">
+        </div>
+        <div class="partner-logo-item">
+          <img src="images/Logos/trainman-logo.png" alt="Trainman" draggable="false">
+        </div>
+        <div class="partner-logo-item">
+          <img src="images/Logos/Omio-Logo.png" alt="Omio" draggable="false">
+        </div>
+        <!-- Duplicate set for seamless loop -->
+        <div class="partner-logo-item" aria-hidden="true">
+          <img src="images/Logos/redbus-logo.png" alt="" draggable="false">
+        </div>
+        <div class="partner-logo-item" aria-hidden="true">
+          <img src="images/Logos/IRCTC-logo.png" alt="" draggable="false">
+        </div>
+        <div class="partner-logo-item" aria-hidden="true">
+          <img src="images/Logos/make my trip-logo.png" alt="" draggable="false">
+        </div>
+        <div class="partner-logo-item" aria-hidden="true">
+          <img src="images/Logos/ixigo-logo.png" alt="" draggable="false">
+        </div>
+        <div class="partner-logo-item" aria-hidden="true">
+          <img src="images/Logos/confirmtkt-logo.png" alt="" draggable="false">
+        </div>
+        <div class="partner-logo-item" aria-hidden="true">
+          <img src="images/Logos/easemytrip-logo.png" alt="" draggable="false">
+        </div>
+        <div class="partner-logo-item" aria-hidden="true">
+          <img src="images/Logos/trainman-logo.png" alt="" draggable="false">
+        </div>
+        <div class="partner-logo-item" aria-hidden="true">
+          <img src="images/Logos/Omio-Logo.png" alt="" draggable="false">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <div class="journey-stats-bar">
+    <div class="journey-stats-inner">
+      <div class="journey-stat-item" data-delay="0">
+        <div class="journey-stat-number" data-target="500">0</div>
+        <div class="journey-stat-label">Routes Available</div>
+      </div>
+      <div class="journey-stat-item" data-delay="100">
+        <div class="journey-stat-number" data-target="50000">0</div>
+        <div class="journey-stat-label">Happy Travellers</div>
+      </div>
+      <div class="journey-stat-item" data-delay="200">
+        <div class="journey-stat-number" data-target="98">0</div>
+        <div class="journey-stat-label">% On-Time Rate</div>
+      </div>
+      <div class="journey-stat-item" data-delay="300">
+        <div class="journey-stat-number" data-target="24">0</div>
+        <div class="journey-stat-label">× 7 Support</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================
+       SPATIAL PRODUCT SHOWCASE
+  ======================================== -->
+  <style>
+    .sc-section {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background: #0d0d0d;
+      color: #e4e4e7;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px 120px
+    }
+
+    .sc-bg-gradient {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      transition: background 1.2s cubic-bezier(.16, 1, .3, 1)
+    }
+
+    .sc-section[data-active="bus"] .sc-bg-gradient {
+      background: radial-gradient(circle at 0% 50%, rgba(255, 122, 26, .12), transparent 50%)
+    }
+
+    .sc-section[data-active="train"] .sc-bg-gradient {
+      background: radial-gradient(circle at 100% 50%, rgba(29, 205, 159, .12), transparent 50%)
+    }
+
+    .sc-main {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 120px;
+      transition: all .9s cubic-bezier(.16, 1, .3, 1)
+    }
+
+    .sc-section[data-active="train"] .sc-main {
+      flex-direction: row-reverse
+    }
+
+    .sc-visual {
+      position: relative;
+      flex-shrink: 0
+    }
+
+    .sc-ring {
+      position: absolute;
+      inset: -20%;
+      border-radius: 50%;
+      border: 1px dashed rgba(255, 255, 255, .08);
+      animation: sc-spin 20s linear infinite
+    }
+
+    .sc-section[data-active="bus"] .sc-ring {
+      border-left: 1px dashed rgba(255, 122, 26, .35)
+    }
+
+    .sc-section[data-active="train"] .sc-ring {
+      border-right: 1px dashed rgba(29, 205, 159, .35)
+    }
+
+    @keyframes sc-spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .sc-glow {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: .35;
+      transition: background .8s ease
+    }
+
+    .sc-section[data-active="bus"] .sc-glow {
+      background: linear-gradient(135deg, #FF7A1A, #cc5500)
+    }
+
+    .sc-section[data-active="train"] .sc-glow {
+      background: linear-gradient(135deg, #1DCD9F, #0f8a6d)
+    }
+
+    .sc-img-container {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, .05);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, .5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: rgba(0, 0, 0, .2);
+      backdrop-filter: blur(8px);
+      /* Force clipping for animated children */
+      transform: translateZ(0);
+      -webkit-mask-image: -webkit-radial-gradient(white, black);
+      mask-image: radial-gradient(white, black);
+    }
+
+    .sc-float-wrap {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: sc-float 6s ease-in-out infinite
+    }
+
+    @keyframes sc-float {
+
+      0%,
+      100% {
+        transform: translateY(-8px)
+      }
+
+      50% {
+        transform: translateY(8px)
+      }
+    }
+
+    .sc-product-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 0;
+      filter: drop-shadow(0 20px 50px rgba(0, 0, 0, .5));
+      transition: opacity .4s ease, transform .5s cubic-bezier(.16, 1, .3, 1);
+      user-select: none;
+    }
+
+    .sc-product-img.sc-enter {
+      opacity: 0;
+      transform: scale(1.3) rotate(-15deg)
+    }
+
+    .sc-product-img.sc-enter-active {
+      opacity: 1;
+      transform: scale(1.15) rotate(0deg)
+    }
+
+    .sc-section[data-active="train"] .sc-product-img.sc-enter {
+      transform: scale(1.3) rotate(15deg)
+    }
+
+    .sc-section[data-active="train"] .sc-product-img.sc-enter-active {
+      transform: scale(1.2) rotate(0deg)
+    }
+
+    .sc-status {
+      position: absolute;
+      bottom: -32px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #71717a;
+      background: rgba(9, 9, 11, .8);
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .05);
+      backdrop-filter: blur(8px)
+    }
+
+    .sc-status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      animation: sc-pulse 2s ease-in-out infinite;
+      transition: background .4s ease
+    }
+
+    .sc-section[data-active="bus"] .sc-status-dot {
+      background: #FF7A1A
+    }
+
+    .sc-section[data-active="train"] .sc-status-dot {
+      background: #1DCD9F
+    }
+
+    @keyframes sc-pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .4
+      }
+    }
+
+    .sc-details {
+      width: 100%;
+      max-width: 420px;
+      transition: opacity .35s ease, transform .5s ease
+    }
+
+    .sc-details.sc-fade-out {
+      opacity: 0;
+      transform: translateY(10px)
+    }
+
+    .sc-details.sc-fade-in {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    .sc-section[data-active="bus"] .sc-details {
+      text-align: left
+    }
+
+    .sc-section[data-active="train"] .sc-details {
+      text-align: right
+    }
+
+    .sc-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #71717a;
+      margin-bottom: 8px
+    }
+
+    .sc-title {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 800;
+      letter-spacing: -.5px;
+      margin-bottom: 8px;
+      background: linear-gradient(180deg, #fff, #71717a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.15
+    }
+
+    .sc-desc {
+      font-size: 15px;
+      color: #a1a1aa;
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 380px
+    }
+
+    .sc-section[data-active="bus"] .sc-desc {
+      margin-right: auto
+    }
+
+    .sc-section[data-active="train"] .sc-desc {
+      margin-left: auto
+    }
+
+    .sc-features-card {
+      width: 100%;
+      background: rgba(24, 24, 27, .5);
+      padding: 24px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, .05);
+      backdrop-filter: blur(8px)
+    }
+
+    .sc-feature {
+      margin-bottom: 20px
+    }
+
+    .sc-feature:last-of-type {
+      margin-bottom: 0
+    }
+
+    .sc-feature-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 13px
+    }
+
+    .sc-section[data-active="train"] .sc-feature-header {
+      flex-direction: row-reverse
+    }
+
+    .sc-feature-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #d4d4d8
+    }
+
+    .sc-feature-label svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round
+    }
+
+    .sc-feature-value {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #71717a
+    }
+
+    .sc-bar-track {
+      position: relative;
+      height: 8px;
+      width: 100%;
+      background: #27272a;
+      border-radius: 999px;
+      overflow: hidden
+    }
+
+    .sc-bar-fill {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      border-radius: 999px;
+      width: 0;
+      opacity: .85;
+      transition: width 1s cubic-bezier(.16, 1, .3, 1)
+    }
+
+    .sc-section[data-active="bus"] .sc-bar-fill {
+      left: 0;
+      background: #FF7A1A
+    }
+
+    .sc-section[data-active="train"] .sc-bar-fill {
+      right: 0;
+      left: auto;
+      background: #1DCD9F
+    }
+
+    .sc-satisfaction {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #71717a;
+      font-size: 14px;
+      font-weight: 500
+    }
+
+    .sc-section[data-active="train"] .sc-satisfaction {
+      flex-direction: row-reverse
+    }
+
+    .sc-satisfaction svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2
+    }
+
+    .sc-switcher {
+      position: absolute;
+      bottom: 48px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px;
+      border-radius: 999px;
+      background: rgba(8, 8, 8, 0.82);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 122, 26, 0.25);
+      box-shadow: 0 4px 28px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 122, 26, 0.08);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .4s ease, border-color .4s ease, box-shadow .4s ease
+    }
+
+    .sc-section[data-active="train"] .sc-switcher {
+      border-color: rgba(29, 205, 159, 0.25);
+      box-shadow: 0 4px 28px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(29, 205, 159, 0.08);
+    }
+
+    .sc-switcher::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 100px;
+      background: linear-gradient(90deg, transparent, rgba(255, 122, 26, 0.06), transparent);
+      transition: background .4s ease;
+      pointer-events: none;
+    }
+
+    .sc-section[data-active="train"] .sc-switcher::before {
+      background: linear-gradient(90deg, transparent, rgba(29, 205, 159, 0.06), transparent);
+    }
+
+    .sc-switcher.sc-visible {
+      opacity: 1;
+      pointer-events: auto
+    }
+
+    .sc-switch-btn {
+      position: relative;
+      width: 96px;
+      height: 48px;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: #71717a;
+      transition: color .3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      outline: none;
+      font-family: inherit
+    }
+
+    .sc-switch-btn:hover {
+      color: #d4d4d8
+    }
+
+    .sc-switch-btn.sc-active {
+      color: #fff
+    }
+
+    .sc-pill {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      width: 96px;
+      height: 48px;
+      border-radius: 999px;
+      background: rgba(255, 122, 26, 0.18);
+      box-shadow: 0 0 14px rgba(255, 122, 26, 0.22), inset 0 0 10px rgba(255, 122, 26, 0.06);
+      transform: translateX(0);
+      transition: transform .4s cubic-bezier(.16, 1, .3, 1), background .4s ease, box-shadow .4s ease;
+      pointer-events: none
+    }
+
+    .sc-section[data-active="train"] .sc-pill {
+      background: rgba(29, 205, 159, 0.18);
+      box-shadow: 0 0 14px rgba(29, 205, 159, 0.22), inset 0 0 10px rgba(29, 205, 159, 0.06);
+      transform: translateX(calc(100% + 4px));
+    }
+
+    @media(max-width:900px) {
+      .sc-main {
+        flex-direction: column !important;
+        gap: 60px
+      }
+
+      .sc-details {
+        text-align: center !important
+      }
+
+      .sc-desc {
+        margin: 0 auto 32px !important
+      }
+
+      .sc-feature-header {
+        flex-direction: row !important
+      }
+
+      .sc-section[data-active="train"] .sc-satisfaction {
+        justify-content: center !important;
+        flex-direction: row !important
+      }
+
+      .sc-section[data-active="train"] .sc-bar-fill {
+        left: 0;
+        right: auto
+      }
+    }
+
+    @media(max-width:480px) {
+      .sc-section {
+        padding: 60px 16px 120px
+      }
+
+      .sc-img-container {
+        width: 280px;
+        height: 280px
+      }
+
+      .sc-switch-btn {
+        width: 80px;
+        height: 40px;
+        font-size: 13px
+      }
+
+      .sc-pill {
+        width: 80px;
+        height: 40px
+      }
+
+      .sc-switcher {
+        bottom: 32px
+      }
+    }
+  </style>
+
+  <section class="sc-section" id="showcase" data-active="bus">
+    <div class="sc-bg-gradient"></div>
+    <div class="container" style="position: relative; z-index: 10; text-align: center; margin-bottom: 50px;">
+      <h2 class="section-title animate-on-scroll" style="color: #fff; margin-bottom: 8px;">Experience YatraNow</h2>
+      <p class="section-subtitle animate-on-scroll" style="color: #a1a1aa;">Immerse yourself in our premium travel
+        modes.</p>
+    </div>
+    <div class="sc-main">
+      <div class="sc-visual">
+        <div class="sc-ring"></div>
+        <div class="sc-glow"></div>
+        <div class="sc-img-container">
+          <div class="sc-float-wrap">
+            <img id="scProductImg" class="sc-product-img sc-enter-active" src="images/3d-bus.png" alt="Bus Travel">
+          </div>
+        </div>
+        <div class="sc-status">
+          <span class="sc-status-dot"></span>
+          <span id="scStatusText">500+ Routes</span>
+        </div>
+      </div>
+      <div class="sc-details sc-fade-in" id="scDetails">
+        <div class="sc-label" id="scLabel">Bus Travel</div>
+        <h2 class="sc-title" id="scTitle">Premium Comfort</h2>
+        <p class="sc-desc" id="scDesc">Luxury AC seater, sleeper &amp; semi-sleeper options with live tracking. Enjoy
+          spacious seats, onboard entertainment, and arrive refreshed.</p>
+        <div class="sc-features-card">
+          <div class="sc-feature">
+            <div class="sc-feature-header">
+              <div class="sc-feature-label">
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 18l6-6-6-6" />
+                  <path d="M3 12h13" />
+                  <path d="M21 5v14" />
+                </svg>
+                <span>Routes Available</span>
+              </div>
+              <span class="sc-feature-value" id="scFeat1Val">92%</span>
+            </div>
+            <div class="sc-bar-track">
+              <div class="sc-bar-fill" id="scBar1" style="width:0"></div>
+            </div>
+          </div>
+          <div class="sc-feature">
+            <div class="sc-feature-header">
+              <div class="sc-feature-label">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 6v6l4 2" />
+                </svg>
+                <span>On-Time Rate</span>
+              </div>
+              <span class="sc-feature-value" id="scFeat2Val">88%</span>
+            </div>
+            <div class="sc-bar-track">
+              <div class="sc-bar-fill" id="scBar2" style="width:0"></div>
+            </div>
+          </div>
+
+        </div>
+        <div class="sc-satisfaction">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+          <span id="scSatisfaction">96% Satisfaction</span>
+        </div>
+      </div>
+    </div>
+    <div class="sc-switcher" id="scSwitcher">
+      <div class="sc-pill" id="scPill" style="left:6px;"></div>
+      <button type="button" class="sc-switch-btn sc-active" data-product="bus" onclick="setShowcaseProduct('bus')">🚌
+        Bus</button>
+      <button type="button" class="sc-switch-btn" data-product="train" onclick="setShowcaseProduct('train')">🚄
+        Train</button>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      var P = { bus: { label: 'Bus Travel', title: 'Premium Comfort', desc: 'Luxury AC seater, sleeper & semi-sleeper options with live tracking. Enjoy spacious seats, onboard entertainment, and arrive refreshed.', image: 'images/3d-bus.png', status: '500+ Routes', f1: 92, f2: 88, sat: '96% Satisfaction' }, train: { label: 'Train Travel', title: 'Speed & Reliability', desc: 'Express & Superfast routes with guaranteed seat confirmation. Real-time PNR tracking, instant refunds, and seamless booking in seconds.', image: 'images/3d-train.png', status: '200+ Routes', f1: 94, f2: 90, sat: '98% Satisfaction' } };
+      var FL = { bus: ['Routes Available', 'On-Time Rate'], train: ['Avg Speed', 'Comfort Rating'] };
+      var cur = 'bus';
+      window.setShowcaseProduct = function (id) {
+        if (id === cur) return; cur = id; var d = P[id];
+        var sec = document.querySelector('.sc-section');
+        var det = document.getElementById('scDetails');
+        var img = document.getElementById('scProductImg');
+        det.classList.remove('sc-fade-in'); det.classList.add('sc-fade-out');
+        img.classList.remove('sc-enter-active'); img.classList.add('sc-enter');
+        setTimeout(function () { img.src = d.image; img.alt = d.label; img.classList.remove('sc-enter'); img.classList.add('sc-enter-active'); }, 250);
+        sec.setAttribute('data-active', id);
+        document.querySelectorAll('.sc-switch-btn').forEach(function (b) { b.classList.toggle('sc-active', b.getAttribute('data-product') === id); });
+
+        setTimeout(function () {
+          document.getElementById('scLabel').textContent = d.label;
+          document.getElementById('scTitle').textContent = d.title;
+          document.getElementById('scDesc').textContent = d.desc;
+          document.getElementById('scStatusText').textContent = d.status;
+          document.getElementById('scFeat1Val').textContent = d.f1 + '%';
+          document.getElementById('scFeat2Val').textContent = d.f2 + '%';
+          document.getElementById('scSatisfaction').textContent = d.sat;
+          var ls = FL[id]; var sp = document.querySelectorAll('.sc-feature-label span');
+          if (sp[0]) sp[0].textContent = ls[0]; if (sp[1]) sp[1].textContent = ls[1];
+          document.getElementById('scBar1').style.width = '0';
+          document.getElementById('scBar2').style.width = '0';
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              document.getElementById('scBar1').style.width = d.f1 + '%';
+              document.getElementById('scBar2').style.width = d.f2 + '%';
+            });
+          });
+          det.classList.remove('sc-fade-out'); det.classList.add('sc-fade-in');
+        }, 350);
+      };
+      var obs = new IntersectionObserver(function (e) {
+        e.forEach(function (en) {
+          var sw = document.getElementById('scSwitcher');
+          if (en.isIntersecting) { sw.classList.add('sc-visible'); var d = P[cur]; setTimeout(function () { document.getElementById('scBar1').style.width = d.f1 + '%'; document.getElementById('scBar2').style.width = d.f2 + '%'; }, 400); }
+          else { sw.classList.remove('sc-visible'); }
+        });
+      }, { threshold: 0.15 });
+      obs.observe(document.querySelector('.sc-section'));
+    })();
+  </script>
+
+  <!-- Scripts -->
+  <!-- Scripts -->
+  <script src="js/api-config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/spotlight.js"></script>
+  <script>
+    // Hamburger menu toggle
+    document.getElementById('hamburger').addEventListener('click', function () {
+      document.getElementById('navbarMenu').classList.toggle('active');
+    });
+
+    // Update Navbar based on Auth Status
+    function updateNavbar() {
+      const user = checkAuth(); // From auth.js
+      const navbarMenu = document.getElementById('navbarMenu');
+
+      if (user) {
+        // Remove Login/Register and add User/Logout
+        // Keep Home and Routes links (first 2 children)
+        // This is a simple implementation, replacing innerHTML entirely might be cleaner or targeting specific elements
+
+        let dashboardLink = '#';
+        if (user.role === 'OWNER') dashboardLink = 'pages/owner.html';
+        if (user.role === 'ADMIN') dashboardLink = 'pages/admin.html';
+
+        navbarMenu.innerHTML = `
+          <li><a href="index.html">Home</a></li>
+          <li><a href="${dashboardLink}" class="nav-user">Hi, ${user.name.split(' ')[0]}</a></li>
+          <li><a href="#" onclick="logoutUser()">Logout</a></li>
+        `;
+      }
+    }
+
+    function logoutUser() {
+      logout();
+      window.location.reload();
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function () {
+      updateNavbar();
+    });
+  </script>
+  <!-- Why Choose Us Section -->
+  <section class="features-section">
+    <div class="container">
+      <h2 class="section-title">Why Choose YatraNow</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3>Safe & Secure</h3>
+          <p>Verified bus operators and sanitized vehicles for your safety.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⏰</div>
+          <h3>On-Time Guarantee</h3>
+          <p>We value your time. Punctual departures and arrivals.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💰</div>
+          <h3>Lowest Prices</h3>
+          <p>Get the best deals and discounts on your bookings.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎧</div>
+          <h3>24/7 Support</h3>
+          <p>Our customer support team is always here to help you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- ========================================
+       ANIMATED ROADMAP SECTION
+  ======================================== -->
+  <section class="roadmap-section" id="how-it-works">
+    <div class="container">
+      <h2 class="section-title animate-on-scroll">Your Journey, Mapped</h2>
+      <p class="section-subtitle animate-on-scroll">From search to seat — every step of your booking visualized.</p>
+
+      <!-- Desktop SVG Roadmap -->
+      <div class="roadmap-canvas" id="roadmapCanvas">
+        <svg class="roadmap-svg" viewBox="0 0 900 480" preserveAspectRatio="xMidYMid meet">
+          <!-- Dashed background track -->
+          <path class="road-path" d="M 60 420 C 200 380 300 260 420 220 C 540 180 680 70 840 70" />
+          <!-- Animated progress path -->
+          <path class="road-path-progress" id="roadPathProgress"
+            d="M 60 420 C 200 380 300 260 420 220 C 540 180 680 70 840 70" stroke-dasharray="0 9999" />
+
+          <!-- ====  3D BUS  ==== -->
+          <!-- Bus group: centered at (0,0), pointing RIGHT by default.
+               JS will translate + rotate it along the path. -->
+          <defs>
+            <!-- Body gradient: gives 3D top-lit depth -->
+            <linearGradient id="busBodyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1e3a5f" />
+              <stop offset="40%" stop-color="#152d4d" />
+              <stop offset="100%" stop-color="#0d1f35" />
+            </linearGradient>
+            <!-- Roof gradient -->
+            <linearGradient id="busRoofGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2a4e78" />
+              <stop offset="100%" stop-color="#1e3a5f" />
+            </linearGradient>
+            <!-- Window glass -->
+            <linearGradient id="busWinGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#b8dff5" stop-opacity="0.9" />
+              <stop offset="100%" stop-color="#7ec8f0" stop-opacity="0.7" />
+            </linearGradient>
+            <!-- Teal stripe gradient -->
+            <linearGradient id="busTealGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FF7A1A" />
+              <stop offset="100%" stop-color="#e06010" />
+            </linearGradient>
+            <!-- Wheel gradient -->
+            <radialGradient id="wheelGrad" cx="40%" cy="35%" r="60%">
+              <stop offset="0%" stop-color="#555" />
+              <stop offset="100%" stop-color="#111" />
+            </radialGradient>
+            <!-- Drop shadow filter -->
+            <filter id="busShadow" x="-20%" y="-20%" width="140%" height="160%">
+              <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="rgba(0,0,0,0.35)" />
+            </filter>
+          </defs>
+
+          <g id="busTraveler" opacity="0" filter="url(#busShadow)">
+            <!-- === BODY PERSPECTIVE (slight 3D skew top) === -->
+            <!-- Roof top face (lighter, gives 3D top view feel) -->
+            <polygon points="-36,-22  32,-22  36,-14  -36,-14" fill="url(#busRoofGrad)" rx="3" />
+
+            <!-- Main side body -->
+            <rect x="-36" y="-14" width="72" height="36" rx="3" fill="url(#busBodyGrad)" />
+
+            <!-- Teal accent stripe -->
+            <rect x="-36" y="4" width="72" height="5" rx="0" fill="url(#busTealGrad)" opacity="0.9" />
+
+            <!-- === WINDOWS === -->
+            <!-- Window strip background -->
+            <rect x="-30" y="-12" width="52" height="13" rx="2" fill="url(#busWinGrad)" opacity="0.85" />
+            <!-- Window dividers -->
+            <line x1="-13" y1="-12" x2="-13" y2="1" stroke="#1e3a5f" stroke-width="1.5" />
+            <line x1="3" y1="-12" x2="3" y2="1" stroke="#1e3a5f" stroke-width="1.5" />
+            <line x1="19" y1="-12" x2="19" y2="1" stroke="#1e3a5f" stroke-width="1.5" />
+            <!-- Window reflections -->
+            <line x1="-28" y1="-10" x2="-22" y2="-10" stroke="white" stroke-width="0.8" opacity="0.4" />
+            <line x1="-11" y1="-10" x2="-5" y2="-10" stroke="white" stroke-width="0.8" opacity="0.4" />
+            <line x1="5" y1="-10" x2="11" y2="-10" stroke="white" stroke-width="0.8" opacity="0.4" />
+            <line x1="21" y1="-10" x2="27" y2="-10" stroke="white" stroke-width="0.8" opacity="0.4" />
+
+            <!-- === FRONT (right side) === -->
+            <!-- Front face depth -->
+            <rect x="34" y="-14" width="5" height="36" rx="1" fill="#0a192f" />
+            <!-- Headlights -->
+            <rect x="33" y="-8" width="6" height="5" rx="1" fill="#fffde7" opacity="0.95" />
+            <rect x="33" y="12" width="6" height="4" rx="1" fill="#ffa000" opacity="0.8" />
+            <!-- Headlight glow -->
+            <ellipse cx="39" cy="-6" rx="5" ry="3" fill="#fff" opacity="0.2" />
+
+            <!-- Front bumper -->
+            <rect x="35" y="18" width="4" height="4" rx="1" fill="#FF7A1A" opacity="0.9" />
+
+            <!-- === REAR (left side) === -->
+            <rect x="-41" y="-14" width="5" height="36" rx="1" fill="#0a192f" />
+            <!-- Tail lights -->
+            <rect x="-42" y="-6" width="4" height="5" rx="1" fill="#ff3d00" opacity="0.85" />
+            <rect x="-42" y="12" width="4" height="4" rx="1" fill="#ff1744" opacity="0.7" />
+
+            <!-- === WHEELS === -->
+            <!-- Rear wheel -->
+            <circle cx="-22" cy="22" r="8" fill="url(#wheelGrad)" />
+            <circle cx="-22" cy="22" r="4" fill="none" stroke="#888" stroke-width="1.5" />
+            <circle id="wheelHubR" cx="-22" cy="22" r="2" fill="#aaa" />
+            <!-- Spokes rear -->
+            <line id="spokeR1" x1="-22" y1="16" x2="-22" y2="28" stroke="#777" stroke-width="1" />
+            <line id="spokeR2" x1="-28" y1="22" x2="-16" y2="22" stroke="#777" stroke-width="1" />
+            <!-- Front wheel -->
+            <circle cx="22" cy="22" r="8" fill="url(#wheelGrad)" />
+            <circle cx="22" cy="22" r="4" fill="none" stroke="#888" stroke-width="1.5" />
+            <circle id="wheelHubF" cx="22" cy="22" r="2" fill="#aaa" />
+            <!-- Spokes front -->
+            <line id="spokeF1" x1="22" y1="16" x2="22" y2="28" stroke="#777" stroke-width="1" />
+            <line id="spokeF2" x1="16" y1="22" x2="28" y2="22" stroke="#777" stroke-width="1" />
+
+            <!-- === UNDERCARRIAGE === -->
+            <rect x="-32" y="15" width="64" height="7" rx="1" fill="#0a192f" opacity="0.7" />
+
+            <!-- === DESTINATION SIGN === -->
+            <rect x="-30" y="-22" width="35" height="8" rx="2" fill="#000" opacity="0.85" />
+            <text x="-13" y="-15" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="5"
+              font-weight="700" fill="#FF7A1A" letter-spacing="0.5">YATRANOW</text>
+
+            <!-- === DOOR === -->
+            <rect x="8" y="-2" width="12" height="16" rx="1" fill="#112240" stroke="#FF7A1A" stroke-width="0.8"
+              stroke-opacity="0.5" />
+            <line x1="14" y1="-2" x2="14" y2="14" stroke="#FF7A1A" stroke-width="0.5" opacity="0.6" />
+          </g>
+          <!-- ====  END BUS  ==== -->
+        </svg>
+
+        <!-- Milestone 1: Search -->
+        <!-- SVG(60,420) → left=60/900=6.67%, top=420/480=87.5% -->
+        <div class="milestone-marker complete" style="left: calc(6.67% - 22px); top: calc(87.5% - 54px);"
+          data-milestone-delay="200">
+          <div class="milestone-dot-wrap">
+            <div class="milestone-ripple complete"></div>
+            <div class="milestone-dot complete"></div>
+          </div>
+          <div class="milestone-label">✔ Search Routes</div>
+        </div>
+
+        <!-- Milestone 2: Choose -->
+        <!-- SVG(420,220) → left=420/900=46.67%, top=220/480=45.83% -->
+        <div class="milestone-marker complete" style="left: calc(46.67% - 22px); top: calc(45.83% - 54px);"
+          data-milestone-delay="600">
+          <div class="milestone-dot-wrap">
+            <div class="milestone-ripple complete"></div>
+            <div class="milestone-dot complete"></div>
+          </div>
+          <div class="milestone-label">✔ Choose Bus / Train</div>
+        </div>
+
+        <!-- Milestone 3: Book -->
+        <!-- SVG(615,130) → left=615/900=68.33%, top=130/480=27.08% -->
+        <div class="milestone-marker in-progress" style="left: calc(68.33% - 22px); top: calc(27.08% - 54px);"
+          data-milestone-delay="1000">
+          <div class="milestone-dot-wrap">
+            <div class="milestone-ripple"></div>
+            <div class="milestone-dot in-progress"></div>
+          </div>
+          <div class="milestone-label">⚡ Book &amp; Pay</div>
+        </div>
+
+        <!-- Milestone 4: Travel -->
+        <!-- SVG(840,70) → left=840/900=93.33%, top=70/480=14.58% -->
+        <div class="milestone-marker pending" style="left: calc(93.33% - 44px); top: calc(14.58% - 54px);"
+          data-milestone-delay="1400">
+          <div class="milestone-dot-wrap">
+            <div class="milestone-ripple pending"></div>
+            <div class="milestone-dot pending"></div>
+          </div>
+          <div class="milestone-label">🚌 Travel!</div>
+        </div>
+      </div>
+
+      <!-- Mobile Vertical Fallback -->
+      <div class="roadmap-mobile-steps" id="roadmapMobile">
+        <div class="roadmap-mobile-item" data-mobile-delay="0">
+          <div class="roadmap-mobile-dot complete"></div>
+          <div class="roadmap-mobile-content">
+            <h4>Search Routes</h4>
+            <span class="complete">Completed</span>
+          </div>
+        </div>
+        <div class="roadmap-mobile-item" data-mobile-delay="150">
+          <div class="roadmap-mobile-dot complete"></div>
+          <div class="roadmap-mobile-content">
+            <h4>Choose Bus / Train</h4>
+            <span class="complete">Completed</span>
+          </div>
+        </div>
+        <div class="roadmap-mobile-item" data-mobile-delay="300">
+          <div class="roadmap-mobile-dot in-progress"></div>
+          <div class="roadmap-mobile-content">
+            <h4>Book &amp; Pay</h4>
+            <span class="in-progress">In Progress</span>
+          </div>
+        </div>
+        <div class="roadmap-mobile-item" data-mobile-delay="450">
+          <div class="roadmap-mobile-dot pending"></div>
+          <div class="roadmap-mobile-content">
+            <h4>Travel!</h4>
+            <span>Upcoming</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       HOW TO BOOK — GSAP CARD CAROUSEL
+  ======================================== -->
+  <section class="booking-carousel-wrap" id="how-it-works">
+
+    <style>
+      /* ---------- Section wrapper ---------- */
+      .booking-carousel-wrap {
+        background: #0a0a0a;
+        padding: 80px 0 0;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .booking-carousel-wrap .bc-section-header {
+        text-align: center;
+        margin-bottom: 24px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .booking-carousel-wrap .bc-section-header h2 {
+        font-size: clamp(28px, 5vw, 42px);
+        font-weight: 800;
+        color: #eeeeee;
+        letter-spacing: -0.03em;
+        margin-bottom: 12px;
+      }
+
+      .booking-carousel-wrap .bc-section-header h2 span {
+        background: linear-gradient(90deg, #FF7A1A, #ffb366);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .booking-carousel-wrap .bc-section-header p {
+        font-size: 16px;
+        color: #71717a;
+        max-width: 480px;
+        margin: 0 auto;
+        line-height: 1.7;
+      }
+
+      /* ---------- GSAP Gallery container ---------- */
+      .bc-gallery {
+        position: relative;
+        width: 100%;
+        height: 560px;
+        overflow: hidden;
+      }
+
+      /* ---------- Card list ---------- */
+      .bc-cards {
+        position: absolute;
+        width: 220px;
+        height: 300px;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .bc-cards li {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 220px;
+        height: 300px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 122, 26, 0.12);
+        background: #111;
+      }
+
+      /* --- Card inner layout --- */
+      .bc-card-inner {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 20px 16px 24px;
+        position: relative;
+        background: linear-gradient(160deg, #161616 0%, #0d0d0d 100%);
+        border: 1px solid rgba(255, 122, 26, 0.1);
+        border-radius: 20px;
+        overflow: hidden;
+      }
+
+      .bc-card-inner .bc-card-img-wrap {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 68%;
+        overflow: hidden;
+        border-radius: 18px 18px 0 0;
+      }
+
+      .bc-card-inner .bc-card-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+        display: block;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .bc-card-inner .bc-card-img-wrap img.bc-img-loaded {
+        opacity: 1;
+      }
+
+      /* Gradient overlay on image */
+      .bc-card-inner .bc-card-img-wrap::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50%;
+        background: linear-gradient(to bottom, transparent, #0d0d0d);
+      }
+
+      /* Step number badge */
+      .bc-step-badge {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(255, 122, 26, 0.15);
+        border: 1px solid rgba(255, 122, 26, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 700;
+        color: #FF7A1A;
+        backdrop-filter: blur(8px);
+        z-index: 5;
+      }
+
+      /* Tag badge (top right) */
+      .bc-card-tag {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(13, 13, 13, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        font-size: 11px;
+        font-weight: 600;
+        color: #909090;
+        letter-spacing: 0.05em;
+        backdrop-filter: blur(6px);
+        z-index: 5;
+      }
+
+      /* Text area at bottom */
+      .bc-card-body {
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        padding-top: 8px;
+        margin-top: auto;
+      }
+
+      .bc-card-icon {
+        font-size: 28px;
+        margin-bottom: 8px;
+        display: block;
+      }
+
+      .bc-card-title {
+        font-size: 18px;
+        font-weight: 800;
+        color: #ffffff;
+        margin-bottom: 6px;
+        line-height: 1.2;
+        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+      }
+
+      .bc-card-desc {
+        font-size: 13px;
+        color: #a1a1aa;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      /* Orange accent line at bottom */
+      .bc-card-inner::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #FF7A1A, transparent);
+        opacity: 0.5;
+      }
+
+      /* ---------- Navigation buttons ---------- */
+      .bc-actions {
+        position: absolute;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        z-index: 20;
+      }
+
+      .bc-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 10px 22px;
+        border-radius: 999px;
+        background: rgba(13, 13, 13, 0.85);
+        border: 1px solid rgba(255, 122, 26, 0.3);
+        color: #eeeeee;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        backdrop-filter: blur(10px);
+        outline: none;
+        white-space: nowrap;
+        font-family: inherit;
+      }
+
+      .bc-btn:hover {
+        border-color: #FF7A1A;
+        background: rgba(255, 122, 26, 0.1);
+        color: #FF7A1A;
+        box-shadow: 0 0 16px rgba(255, 122, 26, 0.2);
+        transform: translateY(-1px);
+      }
+
+      .bc-btn svg {
+        width: 14px;
+        height: 14px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex-shrink: 0;
+      }
+
+      /* Step indicator dots */
+      .bc-dots {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0 4px;
+      }
+
+      .bc-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #3f3f46;
+        transition: all 0.3s ease;
+      }
+
+      .bc-dot.active {
+        background: #FF7A1A;
+        width: 20px;
+        border-radius: 3px;
+        box-shadow: 0 0 8px rgba(255, 122, 26, 0.5);
+      }
+
+      /* Ambient glow */
+      .bc-gallery::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 122, 26, 0.06) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      @media (max-width: 480px) {
+        .bc-gallery {
+          height: 530px;
+        }
+
+        .bc-cards {
+          width: 220px;
+          height: 300px;
+          top: 38%;
+        }
+
+        .bc-cards li {
+          width: 220px;
+          height: 300px;
+        }
+
+        .booking-carousel-wrap .bc-section-header {
+          margin-bottom: 8px;
+        }
+      }
+
+      /* Desktop: larger cards */
+      @media (min-width: 769px) {
+        .bc-gallery {
+          height: 620px;
+        }
+
+        .bc-cards {
+          width: 300px;
+          height: 400px;
+        }
+
+        .bc-cards li {
+          width: 300px;
+          height: 400px;
+        }
+      }
+    </style>
+
+    <!-- Section heading -->
+    <div class="container">
+      <div class="bc-section-header">
+        <h2>How to Book in <span>4 Steps</span></h2>
+        <p>From search to seat — booking your journey on YatraNow is effortless and secure.</p>
+      </div>
+    </div>
+
+    <!-- GSAP Gallery -->
+    <div class="bc-gallery" id="bcGallery">
+      <ul class="bc-cards" id="bcCards">
+
+        <!-- Card 1: Search Your Route -->
+        <li>
+          <div class="bc-card-inner">
+            <div class="bc-card-img-wrap">
+              <img src="images/card-step1.png" alt="Search Your Route" onload="this.classList.add('bc-img-loaded')">
+            </div>
+            <div class="bc-step-badge">1</div>
+            <span class="bc-card-tag">Step 1</span>
+            <div class="bc-card-body">
+              <span class="bc-card-icon">🔍</span>
+              <div class="bc-card-title">Search Your Route</div>
+              <p class="bc-card-desc">Enter origin, destination & date. Instantly view all buses & trains.</p>
+            </div>
+          </div>
+        </li>
+
+        <!-- Card 2: Pick Your Ride -->
+        <li>
+          <div class="bc-card-inner">
+            <div class="bc-card-img-wrap">
+              <img src="images/card-step2.png" alt="Pick Your Ride" onload="this.classList.add('bc-img-loaded')">
+            </div>
+            <div class="bc-step-badge">2</div>
+            <span class="bc-card-tag">Step 2</span>
+            <div class="bc-card-body">
+              <span class="bc-card-icon">🚌</span>
+              <div class="bc-card-title">Pick Your Ride</div>
+              <p class="bc-card-desc">Compare prices, timings, seat types. Choose the best option for your journey.</p>
+            </div>
+          </div>
+        </li>
+
+        <!-- Card 3: Book & Pay -->
+        <li>
+          <div class="bc-card-inner">
+            <div class="bc-card-img-wrap">
+              <img src="images/card-step3.png" alt="Book and Pay" onload="this.classList.add('bc-img-loaded')">
+            </div>
+            <div class="bc-step-badge">3</div>
+            <span class="bc-card-tag">Step 3</span>
+            <div class="bc-card-body">
+              <span class="bc-card-icon">💳</span>
+              <div class="bc-card-title">Book &amp; Pay Securely</div>
+              <p class="bc-card-desc">Confirm your seat with a secure payment & get instant booking confirmation.</p>
+            </div>
+          </div>
+        </li>
+
+        <!-- Card 4: Travel Stress-Free -->
+        <li>
+          <div class="bc-card-inner">
+            <div class="bc-card-img-wrap">
+              <img src="images/card-step4.png" alt="Travel Stress-Free" onload="this.classList.add('bc-img-loaded')">
+            </div>
+            <div class="bc-step-badge">4</div>
+            <span class="bc-card-tag">Step 4</span>
+            <div class="bc-card-body">
+              <span class="bc-card-icon">🗺️</span>
+              <div class="bc-card-title">Travel Stress-Free</div>
+              <p class="bc-card-desc">Show your e-ticket, board, and track your journey live all the way.</p>
+            </div>
+          </div>
+        </li>
+
+        <!-- Duplicate set for seamless loop -->
+        <li>
+          <div class="bc-card-inner">
+            <div class="bc-card-img-wrap">
+              <img src="images/card-step1.png" alt="Search Your Route" onload="this.classList.add('bc-img-loaded')">
+            </div>
+            <div class="bc-step-badge">1</div>
+            <span class="bc-card-tag">Step 1</span>
+            <div class="bc-card-body">
+              <span class="bc-card-icon">🔍</span>
+              <div class="bc-card-title">Search Your Route</div>
+              <p class="bc-card-desc">Enter origin, destination & date. Instantly view all buses & trains.</p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="bc-card-inner">
+            <div class="bc-card-img-wrap">
+              <img src="images/card-step2.png" alt="Pick Your Ride" onload="this.classList.add('bc-img-loaded')">
+            </div>
+            <div class="bc-step-badge">2</div>
+            <span class="bc-card-tag">Step 2</span>
+            <div class="bc-card-body">
+              <span class="bc-card-icon">🚌</span>
+              <div class="bc-card-title">Pick Your Ride</div>
+              <p class="bc-card-desc">Compare prices, timings, seat types. Choose the best option for your journey.</p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="bc-card-inner">
+            <div class="bc-card-img-wrap">
+              <img src="images/card-step3.png" alt="Book and Pay" onload="this.classList.add('bc-img-loaded')">
+            </div>
+            <div class="bc-step-badge">3</div>
+            <span class="bc-card-tag">Step 3</span>
+            <div class="bc-card-body">
+              <span class="bc-card-icon">💳</span>
+              <div class="bc-card-title">Book &amp; Pay Securely</div>
+              <p class="bc-card-desc">Confirm your seat with a secure payment & get instant booking confirmation.</p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="bc-card-inner">
+            <div class="bc-card-img-wrap">
+              <img src="images/card-step4.png" alt="Travel Stress-Free" onload="this.classList.add('bc-img-loaded')">
+            </div>
+            <div class="bc-step-badge">4</div>
+            <span class="bc-card-tag">Step 4</span>
+            <div class="bc-card-body">
+              <span class="bc-card-icon">🗺️</span>
+              <div class="bc-card-title">Travel Stress-Free</div>
+              <p class="bc-card-desc">Show your e-ticket, board, and track your journey live all the way.</p>
+            </div>
+          </div>
+        </li>
+
+      </ul>
+
+      <!-- Prev / Next controls -->
+      <div class="bc-actions">
+        <button class="bc-btn bc-prev" id="bcPrev" aria-label="Previous step">
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          Prev
+        </button>
+        <div class="bc-dots" id="bcDots">
+          <div class="bc-dot active"></div>
+          <div class="bc-dot"></div>
+          <div class="bc-dot"></div>
+          <div class="bc-dot"></div>
+        </div>
+        <button class="bc-btn bc-next" id="bcNext" aria-label="Next step">
+          Next
+          <svg viewBox="0 0 24 24">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- GSAP + ScrollTrigger CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+      (function () {
+        // Wait for GSAP to be ready
+        function initBCCarousel() {
+          if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+            setTimeout(initBCCarousel, 100);
+            return;
+          }
+
+          gsap.registerPlugin(ScrollTrigger);
+
+          // Gentle fade-in for card images
+          gsap.to('.bc-cards li img', { opacity: 1, delay: 0.15, duration: 0.6 });
+
+          const spacing = 0.1;
+          const snap = gsap.utils.snap(spacing);
+          const cards = gsap.utils.toArray('.bc-cards li');
+          const dots = document.querySelectorAll('.bc-dot');
+          const totalSteps = 4;
+
+          let iteration = 0;
+
+          const seamlessLoop = buildSeamlessLoop(cards, spacing);
+
+          const scrub = gsap.to(seamlessLoop, {
+            totalTime: 0,
+            duration: 0.5,
+            ease: 'power3',
+            paused: true,
+            onUpdate: updateDots
+          });
+
+          const trigger = ScrollTrigger.create({
+            trigger: '#bcGallery',
+            start: 'top 80%',
+            end: '+=2000',
+            pin: false,
+            scrub: false,
+            onUpdate(self) {
+              // We don't drive via scroll on this version — button-only
+            }
+          });
+
+          // Update step indicator dots
+          function updateDots() {
+            const totalTime = scrub.vars.totalTime;
+            const dur = seamlessLoop.duration();
+            const progress = ((totalTime % dur) + dur) % dur;
+            const idx = Math.round((progress / dur) * totalSteps) % totalSteps;
+            dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+          }
+
+          function scrubTo(totalTime) {
+            const progress = (totalTime - seamlessLoop.duration() * iteration) / seamlessLoop.duration();
+            if (progress > 1) {
+              iteration++;
+              trigger && (trigger.wrapping = true);
+            } else if (progress < 0) {
+              iteration--;
+              if (iteration < 0) {
+                iteration = 9;
+                seamlessLoop.totalTime(seamlessLoop.totalTime() + seamlessLoop.duration() * 10);
+                scrub.pause();
+              }
+            }
+            scrub.vars.totalTime = snap((iteration + Math.max(0, Math.min(1, progress))) * seamlessLoop.duration());
+            scrub.invalidate().restart();
+          }
+
+          document.getElementById('bcNext').addEventListener('click', function () {
+            scrubTo(scrub.vars.totalTime + spacing);
+          });
+
+          document.getElementById('bcPrev').addEventListener('click', function () {
+            scrubTo(scrub.vars.totalTime - spacing);
+          });
+
+          // Auto-advance every 3.5s when visible
+          let autoTimer = null;
+          const sectionEl = document.getElementById('how-it-works');
+
+          const visObs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                if (!autoTimer) {
+                  autoTimer = setInterval(function () {
+                    scrubTo(scrub.vars.totalTime + spacing);
+                  }, 3500);
+                }
+              } else {
+                clearInterval(autoTimer);
+                autoTimer = null;
+              }
+            });
+          }, { threshold: 0.3 });
+
+          if (sectionEl) visObs.observe(sectionEl);
+
+          // ---- buildSeamlessLoop (unchanged from original) ----
+          function buildSeamlessLoop(items, spacing) {
+            var overlap = Math.ceil(1 / spacing);
+            var startTime = items.length * spacing + 0.5;
+            var loopTime = (items.length + overlap) * spacing + 1;
+            var rawSequence = gsap.timeline({ paused: true });
+            var seamlessLoop = gsap.timeline({
+              paused: true,
+              repeat: -1,
+              onRepeat: function () {
+                this._time === this._dur && (this._tTime += this._dur - 0.01);
+              }
+            });
+            var l = items.length + overlap * 2;
+            var time = 0;
+            var i, index, item;
+
+            gsap.set(items, { xPercent: 400, opacity: 0, scale: 0 });
+
+            for (i = 0; i < l; i++) {
+              index = i % items.length;
+              item = items[index];
+              time = i * spacing;
+              rawSequence
+                .fromTo(item,
+                  { scale: 0, opacity: 0 },
+                  { scale: 1, opacity: 1, zIndex: 100, duration: 0.5, yoyo: true, repeat: 1, ease: 'power1.in', immediateRender: false },
+                  time
+                )
+                .fromTo(item,
+                  { xPercent: 400 },
+                  { xPercent: -400, duration: 1, ease: 'none', immediateRender: false },
+                  time
+                );
+              i <= items.length && seamlessLoop.add('label' + i, time);
+            }
+
+            rawSequence.time(startTime);
+            seamlessLoop
+              .to(rawSequence, {
+                time: loopTime,
+                duration: loopTime - startTime,
+                ease: 'none'
+              })
+              .fromTo(rawSequence,
+                { time: overlap * spacing + 1 },
+                {
+                  time: startTime,
+                  duration: startTime - (overlap * spacing + 1),
+                  immediateRender: false,
+                  ease: 'none'
+                }
+              );
+            return seamlessLoop;
+          }
+        }
+
+        // Kick off after DOM
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initBCCarousel);
+        } else {
+          initBCCarousel();
+        }
+      })();
+    </script>
+
+  </section>
+
+  <!-- ========================================
+       FAQ ACCORDION SECTION
+  ======================================== -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="faq-header">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="faq-subtitle">Everything you need to know about booking with YatraNow.</p>
+      </div>
+      <div class="faq-accordion" id="faqAccordion">
+
+        <div class="faq-item">
+          <button class="faq-trigger" aria-expanded="false" data-faq="faq-1">
+            <div class="faq-number-wrap">
+              <div class="faq-number-circle"></div>
+              <span class="faq-number">01</span>
+            </div>
+            <h3 class="faq-question">How do I book a bus or train ticket?</h3>
+            <div class="faq-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 1V15M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </div>
+          </button>
+          <div class="faq-content" id="faq-1">
+            <p>Simply search your route by entering your origin, destination, and travel date. Browse the available
+              options, select your preferred bus or train, choose your seat, and complete the secure payment. You'll
+              receive an instant e-ticket on your registered email.</p>
+          </div>
+          <div class="faq-divider"></div>
+          <div class="faq-active-line"></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-trigger" aria-expanded="false" data-faq="faq-2">
+            <div class="faq-number-wrap">
+              <div class="faq-number-circle"></div>
+              <span class="faq-number">02</span>
+            </div>
+            <h3 class="faq-question">Can I cancel or modify my booking?</h3>
+            <div class="faq-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 1V15M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </div>
+          </button>
+          <div class="faq-content" id="faq-2">
+            <p>Yes! You can cancel or modify your booking up to 2 hours before departure from your dashboard.
+              Cancellation policies vary by operator — most offer a full refund if cancelled 24 hours before departure.
+              Refunds are processed within 3–5 business days.</p>
+          </div>
+          <div class="faq-divider"></div>
+          <div class="faq-active-line"></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-trigger" aria-expanded="false" data-faq="faq-3">
+            <div class="faq-number-wrap">
+              <div class="faq-number-circle"></div>
+              <span class="faq-number">03</span>
+            </div>
+            <h3 class="faq-question">What payment methods are accepted?</h3>
+            <div class="faq-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 1V15M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </div>
+          </button>
+          <div class="faq-content" id="faq-3">
+            <p>We accept all major payment methods including UPI (PhonePe, GPay, Paytm), net banking, credit/debit cards
+              (Visa, Mastercard, RuPay), and popular wallets. All transactions are secured with 256-bit SSL encryption
+              for your safety.</p>
+          </div>
+          <div class="faq-divider"></div>
+          <div class="faq-active-line"></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-trigger" aria-expanded="false" data-faq="faq-4">
+            <div class="faq-number-wrap">
+              <div class="faq-number-circle"></div>
+              <span class="faq-number">04</span>
+            </div>
+            <h3 class="faq-question">How do I track my bus or train in real time?</h3>
+            <div class="faq-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 1V15M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </div>
+          </button>
+          <div class="faq-content" id="faq-4">
+            <p>After booking, you'll find a live tracking link in your dashboard and confirmation email. Once your
+              journey starts, you can track the vehicle's location, estimated arrival time, and any delay updates in
+              real time — all from YatraNow.</p>
+          </div>
+          <div class="faq-divider"></div>
+          <div class="faq-active-line"></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-trigger" aria-expanded="false" data-faq="faq-5">
+            <div class="faq-number-wrap">
+              <div class="faq-number-circle"></div>
+              <span class="faq-number">05</span>
+            </div>
+            <h3 class="faq-question">Is YatraNow available for train bookings too?</h3>
+            <div class="faq-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 1V15M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </div>
+          </button>
+          <div class="faq-content" id="faq-5">
+            <p>Absolutely! YatraNow supports both bus and train bookings across hundreds of routes in India. You can
+              compare timings, prices, and seat availability for both modes of transport side-by-side to pick the best
+              option for your journey.</p>
+          </div>
+          <div class="faq-divider"></div>
+          <div class="faq-active-line"></div>
+        </div>
+
+      </div><!-- /.faq-accordion -->
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      var accordion = document.getElementById('faqAccordion');
+      if (!accordion) return;
+
+      var items = accordion.querySelectorAll('.faq-item');
+
+      function openItem(item) {
+        var contentId = item.querySelector('.faq-trigger').getAttribute('data-faq');
+        var content = document.getElementById(contentId);
+        var trigger = item.querySelector('.faq-trigger');
+        var circle = item.querySelector('.faq-number-circle');
+        var numSpan = item.querySelector('.faq-number');
+        var activeLine = item.querySelector('.faq-active-line');
+
+        trigger.setAttribute('aria-expanded', 'true');
+        item.classList.add('faq-open');
+
+        // Animate height open
+        content.style.maxHeight = content.scrollHeight + 'px';
+        content.style.opacity = '1';
+        content.style.paddingTop = '';
+        content.style.paddingBottom = '';
+
+        // Slide active line
+        activeLine.style.transform = 'scaleX(1)';
+
+        // Number circle fill
+        circle.style.transform = 'scale(1)';
+        circle.style.opacity = '1';
+        numSpan.style.color = 'var(--primary-navy)';
+
+        // Rotate + icon to ×
+        var iconWrap = item.querySelector('.faq-icon');
+        iconWrap.style.transform = 'rotate(45deg)';
+      }
+
+      function closeItem(item) {
+        var contentId = item.querySelector('.faq-trigger').getAttribute('data-faq');
+        var content = document.getElementById(contentId);
+        var trigger = item.querySelector('.faq-trigger');
+        var circle = item.querySelector('.faq-number-circle');
+        var numSpan = item.querySelector('.faq-number');
+        var activeLine = item.querySelector('.faq-active-line');
+
+        trigger.setAttribute('aria-expanded', 'false');
+        item.classList.remove('faq-open');
+
+        content.style.maxHeight = '0';
+        content.style.opacity = '0';
+
+        activeLine.style.transform = 'scaleX(0)';
+        circle.style.transform = 'scale(0)';
+        circle.style.opacity = '0';
+        numSpan.style.color = '';
+
+        var iconWrap = item.querySelector('.faq-icon');
+        iconWrap.style.transform = 'rotate(0deg)';
+      }
+
+      // Init: open the first item
+      items.forEach(function (item, idx) {
+        var contentId = item.querySelector('.faq-trigger').getAttribute('data-faq');
+        var content = document.getElementById(contentId);
+        // Prep all items closed first
+        content.style.maxHeight = '0';
+        content.style.opacity = '0';
+        item.querySelector('.faq-active-line').style.transform = 'scaleX(0)';
+        item.querySelector('.faq-number-circle').style.transform = 'scale(0)';
+        item.querySelector('.faq-number-circle').style.opacity = '0';
+        item.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
+      });
+
+      // Click handler
+      accordion.addEventListener('click', function (e) {
+        var trigger = e.target.closest('.faq-trigger');
+        if (!trigger) return;
+
+        var item = trigger.closest('.faq-item');
+        var isOpen = item.classList.contains('faq-open');
+
+        // Close all
+        items.forEach(function (i) { closeItem(i); });
+
+        // Toggle clicked
+        if (!isOpen) openItem(item);
+      });
+
+      // Hover effects
+      items.forEach(function (item) {
+        var trigger = item.querySelector('.faq-trigger');
+        var question = item.querySelector('.faq-question');
+        var activeLine = item.querySelector('.faq-active-line');
+        var circle = item.querySelector('.faq-number-circle');
+
+        trigger.addEventListener('mouseenter', function () {
+          if (!item.classList.contains('faq-open')) {
+            question.style.transform = 'translateX(4px)';
+            question.style.color = 'var(--text-dark)';
+            activeLine.style.transform = 'scaleX(0.3)';
+            circle.style.transform = 'scale(0.85)';
+            circle.style.opacity = '0.1';
+          }
+        });
+
+        trigger.addEventListener('mouseleave', function () {
+          if (!item.classList.contains('faq-open')) {
+            question.style.transform = '';
+            question.style.color = '';
+            activeLine.style.transform = 'scaleX(0)';
+            circle.style.transform = 'scale(0)';
+            circle.style.opacity = '0';
+          }
+        });
+      });
+    })();
+  </script>
+
+  <!-- Journey + Roadmap Animations Script -->
+  <script>
+    (function () {
+      // ─── Utility: observe once ──────────────────────────────────────────
+      function observeOnce(selector, callback, rootMargin) {
+        var els = document.querySelectorAll(selector);
+        if (!els.length) return;
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              callback(e.target);
+              io.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.15, rootMargin: rootMargin || '0px' });
+        els.forEach(function (el) { io.observe(el); });
+      }
+
+      // ─── 1. Animate-on-scroll generic class ────────────────────────────
+      observeOnce('.animate-on-scroll', function (el) {
+        el.classList.add('visible');
+      });
+
+      // ─── 2. Stats bar — count-up on page load (stats are above the fold) ─
+      document.addEventListener('DOMContentLoaded', function () {
+        var statItems = document.querySelectorAll('.journey-stat-item');
+        statItems.forEach(function (el) {
+          var delay = parseInt(el.getAttribute('data-delay') || 0);
+          setTimeout(function () {
+            var numEl = el.querySelector('.journey-stat-number');
+            var target = parseInt(numEl.getAttribute('data-target'));
+            var duration = 1600;
+            var start = performance.now();
+            function tick(now) {
+              var elapsed = now - start;
+              var progress = Math.min(elapsed / duration, 1);
+              var ease = 1 - Math.pow(1 - progress, 4);
+              numEl.textContent = Math.round(ease * target).toLocaleString();
+              if (progress < 1) requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+          }, delay + 400); // slight delay so user sees 0 → final number
+        });
+      });
+
+      // ─── 3. SVG Roadmap path drawing + milestone reveal ────────────────
+      var roadmapSection = document.getElementById('roadmapCanvas');
+      var roadCanvas = document.getElementById('roadmapCanvas');
+      var roadPath = document.getElementById('roadPathProgress');
+
+      if (roadPath && roadCanvas) {
+        window.addEventListener('load', function () {
+          var totalLength = roadPath.getTotalLength();
+          roadPath.style.strokeDasharray = '0 ' + totalLength;
+
+          var milestones = roadCanvas.querySelectorAll('.milestone-marker');
+          var busTraveler = document.getElementById('busTraveler');
+
+          // ── Wheel spin state ──
+          var wheelAngle = 0;
+
+          // ── Bus animation loop (called after path drawing) ──
+          function startBus() {
+            if (!busTraveler) return;
+            busTraveler.setAttribute('opacity', '1');
+
+            var busDuration = 9000; // 9 seconds to cross the path (slow)
+            var pauseAtEnd = 1800; // pause at destination
+            var busStart = null;
+            var busRunning = true;
+
+            function animateBus(timestamp) {
+              if (!busStart) busStart = timestamp;
+              var elapsed = timestamp - busStart;
+              var t = Math.min(elapsed / busDuration, 1);
+
+              // ease in-out (cubic)
+              var eased = t < 0.5
+                ? 4 * t * t * t
+                : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+              var currentLen = eased * totalLength;
+              var lookAhead = Math.min(currentLen + 3, totalLength);
+
+              var pos = roadPath.getPointAtLength(currentLen);
+              var next = roadPath.getPointAtLength(lookAhead);
+
+              var angle = Math.atan2(next.y - pos.y, next.x - pos.x) * 180 / Math.PI;
+
+              busTraveler.setAttribute('transform',
+                'translate(' + pos.x + ',' + pos.y + ') rotate(' + angle + ')');
+
+              // Spin wheels proportional to travel speed
+              wheelAngle = (wheelAngle + 4) % 360;
+              var spokes = document.querySelectorAll('#spokeR1,#spokeR2,#spokeF1,#spokeF2');
+              spokes.forEach(function (s) {
+                var cx = parseFloat(s.x1.baseVal.value + s.x2.baseVal.value) / 2;
+                var cy = parseFloat(s.y1.baseVal.value + s.y2.baseVal.value) / 2;
+                s.setAttribute('transform',
+                  'rotate(' + wheelAngle + ',' + cx + ',' + cy + ')');
+              });
+
+              if (t < 1) {
+                requestAnimationFrame(animateBus);
+              } else {
+                // Pause at destination, then restart
+                setTimeout(function () {
+                  busStart = null;
+                  requestAnimationFrame(animateBus);
+                }, pauseAtEnd);
+              }
+            }
+
+            requestAnimationFrame(animateBus);
+          }
+
+          var sectionObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (!entry.isIntersecting) return;
+
+              var startTime = null;
+              var animDuration = 2200;
+
+              function animatePath(timestamp) {
+                if (!startTime) startTime = timestamp;
+                var elapsed = timestamp - startTime;
+                var progress = Math.min(elapsed / animDuration, 1);
+                var eased = progress < 0.5
+                  ? 2 * progress * progress
+                  : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+                var drawn = eased * totalLength;
+                roadPath.style.strokeDasharray = drawn + ' ' + (totalLength - drawn);
+
+                milestones.forEach(function (m) {
+                  var d = parseInt(m.getAttribute('data-milestone-delay') || 0);
+                  if (elapsed >= d) m.classList.add('visible');
+                });
+
+                if (progress < 1) {
+                  requestAnimationFrame(animatePath);
+                } else {
+                  // Path drawing done → launch bus with a short pause
+                  setTimeout(startBus, 400);
+                }
+              }
+
+              requestAnimationFrame(animatePath);
+              sectionObserver.unobserve(entry.target);
+            });
+          }, { threshold: 0.2 });
+
+          sectionObserver.observe(roadCanvas);
+        });
+      }
+
+      // ─── 4. Mobile roadmap items ────────────────────────────────────────
+      observeOnce('.roadmap-mobile-item', function (el) {
+        var delay = parseInt(el.getAttribute('data-mobile-delay') || 0);
+        setTimeout(function () { el.classList.add('visible'); }, delay);
+      });
+
+      // ─── 5. Step cards staggered entrance ──────────────────────────────
+      observeOnce('.step-card', function (el) {
+        var delay = parseInt(el.getAttribute('data-step-delay') || 0);
+        setTimeout(function () { el.classList.add('visible'); }, delay);
+      });
+
+    })();
+  </script>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>YatraNow</h3>
+          <p>Your trusted partner for hassle-free bus and train bookings across India.</p>
+        </div>
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#routes">Routes</a></li>
+            <li><a href="pages/login.html">Login</a></li>
+            <li><a href="pages/register.html">Register</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Contact Us</h3>
+          <p>Email: support@yatranow.com</p>
+          <p>Phone: +91 12345 67890</p>
+        </div>
+        <div class="footer-column">
+          <h3>Follow Us</h3>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook"><i class='bx bxl-facebook'></i></a>
+            <a href="#" aria-label="Twitter"><i class='bx bxl-twitter'></i></a>
+            <a href="#" aria-label="Instagram"><i class='bx bxl-instagram'></i></a>
+            <a href="#" aria-label="LinkedIn"><i class='bx bxl-linkedin'></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 YatraNow. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====  ANIME NAVBAR — Mascot JS  ==== -->
+  <script>
+    (function () {
+      var pill = document.getElementById('animeNavPill');
+      var mascot = document.getElementById('animeMascot');
+      var items = document.querySelectorAll('.anime-nav-item');
+      var hlGlowEl = document.getElementById('hlGlowEl');
+      var hlRect = document.getElementById('hlRect');
+      var wiggleTimer = null;
+      var glowRaf = null;
+      var glowTarget = 0;   /* 0 = off, 1 = on */
+      var glowCurrent = 0;
+
+      /* Smooth headlight glow animation via rAF */
+      function animateGlow() {
+        glowRaf = null;
+        var diff = glowTarget - glowCurrent;
+        if (Math.abs(diff) < 0.01) { glowCurrent = glowTarget; }
+        else { glowCurrent += diff * 0.12; glowRaf = requestAnimationFrame(animateGlow); }
+        if (hlGlowEl) hlGlowEl.setAttribute('opacity', (glowCurrent * 0.85).toFixed(3));
+        if (hlRect) hlRect.setAttribute('opacity', (0.9 + glowCurrent * 0.1).toFixed(3));
+      }
+
+      function setHeadlights(on) {
+        glowTarget = on ? 1 : 0;
+        if (!glowRaf) glowRaf = requestAnimationFrame(animateGlow);
+        if (on) { mascot.classList.add('is-stopped'); }
+        else { mascot.classList.remove('is-stopped'); }
+      }
+
+      /* Move mascot to item — headlights off (travelling) */
+      function moveMascotTo(item) {
+        if (!pill || !mascot || !item) return;
+        setHeadlights(false);
+        var pillRect = pill.getBoundingClientRect();
+        var itemRect = item.getBoundingClientRect();
+        var offset = (itemRect.left - pillRect.left)
+          + itemRect.width / 2
+          - mascot.offsetWidth / 2;
+        mascot.style.left = Math.max(0, offset) + 'px';
+      }
+
+      /* Bus arrives — headlights on */
+      mascot.addEventListener('transitionend', function (e) {
+        if (e.propertyName === 'left') { setHeadlights(true); }
+      });
+
+      /* Wiggle on hover */
+      function triggerWiggle() {
+        mascot.classList.add('is-hovered');
+        clearTimeout(wiggleTimer);
+        wiggleTimer = setTimeout(function () {
+          mascot.classList.remove('is-hovered');
+        }, 460);
+      }
+
+      items.forEach(function (item) {
+        item.addEventListener('click', function () {
+          if (!item.classList.contains('anime-nav-cta')) {
+            items.forEach(function (i) { i.classList.remove('active'); });
+            item.classList.add('active');
+          }
+          moveMascotTo(item);
+        });
+
+        item.addEventListener('mouseenter', function () {
+          moveMascotTo(item);
+          triggerWiggle();
+        });
+
+        item.addEventListener('mouseleave', function () {
+          var active = document.querySelector('.anime-nav-item.active');
+          if (active) moveMascotTo(active);
+        });
+      });
+
+      /* Initial position */
+      function init() {
+        var active = document.querySelector('.anime-nav-item.active');
+        if (active) {
+          moveMascotTo(active);
+          /* Headlights on immediately at start — no transition fires */
+          setTimeout(function () { setHeadlights(true); }, 500);
+        }
+      }
+
+      if (document.readyState === 'complete') { init(); }
+      else { window.addEventListener('load', init); }
+
+      window.addEventListener('resize', function () {
+        var active = document.querySelector('.anime-nav-item.active');
+        if (active) moveMascotTo(active);
+      });
+    })();
+  </script>
+
+  <!-- ========================================
+       TRAIN ANIMATION — "Thank you for visiting"
+  ======================================== -->
+  <div class="yn-train-scene" id="ynTrainScene" aria-hidden="true">
+
+    <!-- Overhead electric wire -->
+    <div class="yn-wire"></div>
+
+    <!-- The text revealed behind the train -->
+    <div class="yn-thankyou" id="ynThankyou">
+      <span>Thank you</span><span class="yn-accent">for visiting</span>
+    </div>
+
+    <!-- Train wrapper (animated) -->
+    <div class="yn-train" id="ynTrain">
+
+      <!-- Rear car -->
+      <div class="yn-car yn-car--rear">
+        <div class="yn-car-roof"></div>
+        <div class="yn-windows">
+          <span class="yn-win"></span>
+          <span class="yn-win"></span>
+          <span class="yn-win"></span>
+          <span class="yn-win"></span>
+        </div>
+        <div class="yn-stripe"></div>
+        <div class="yn-door yn-door--left"></div>
+        <div class="yn-door yn-door--right"></div>
+        <div class="yn-wheels">
+          <span class="yn-wheel"></span>
+          <span class="yn-wheel"></span>
+        </div>
+      </div>
+
+      <!-- Middle car -->
+      <div class="yn-car yn-car--mid">
+        <div class="yn-car-roof"></div>
+        <div class="yn-windows">
+          <span class="yn-win"></span>
+          <span class="yn-win"></span>
+          <span class="yn-win"></span>
+          <span class="yn-win"></span>
+        </div>
+        <div class="yn-stripe"></div>
+        <div class="yn-door yn-door--left"></div>
+        <div class="yn-door yn-door--right"></div>
+        <div class="yn-wheels">
+          <span class="yn-wheel"></span>
+          <span class="yn-wheel"></span>
+        </div>
+      </div>
+
+      <!-- Engine (front, leads right) -->
+      <div class="yn-car yn-car--engine">
+        <div class="yn-car-roof yn-engine-roof"></div>
+        <!-- Pantograph / spark arm -->
+        <div class="yn-panto">
+          <span class="yn-panto-arm yn-panto-arm--l"></span>
+          <span class="yn-panto-arm yn-panto-arm--r"></span>
+          <span class="yn-panto-tip"></span>
+        </div>
+        <div class="yn-windows">
+          <span class="yn-win"></span>
+          <span class="yn-win---cab"></span>
+        </div>
+        <div class="yn-stripe"></div>
+        <div class="yn-headlight"></div>
+        <div class="yn-label">YATRANOW</div>
+        <div class="yn-wheels">
+          <span class="yn-wheel"></span>
+          <span class="yn-wheel"></span>
+        </div>
+      </div>
+
+    </div><!-- /.yn-train -->
+
+    <!-- Rail track -->
+    <div class="yn-track">
+      <span class="yn-rail yn-rail--top"></span>
+      <span class="yn-rail yn-rail--bot"></span>
+      <!-- Sleepers generated by JS -->
+    </div>
+
+  </div><!-- /.yn-train-scene -->
+
+  <script>
+    /* Generate track sleepers */
+    (function () {
+      var track = document.querySelector('.yn-track');
+      for (var i = 0; i < 40; i++) {
+        var s = document.createElement('span');
+        s.className = 'yn-sleeper';
+        s.style.left = (i * 2.5) + '%';
+        track.appendChild(s);
+      }
+    })();
+  </script>
+
+</body>
+
+</html>

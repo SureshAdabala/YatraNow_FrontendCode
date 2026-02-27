@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../images/favicon_rounded.png">
+    <title>Login - YatraNow</title>
+    <link rel="stylesheet" href="../css/auth-style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+
+    <!-- Back to Home — Fixed Top-Left -->
+    <a href="../index.html" class="btn-back-home">
+        <i class='bx bx-arrow-back'></i>
+        <span>Back to Home</span>
+    </a>
+
+    <div class="container">
+        <div class="form-box login">
+            <form action="#">
+                <h1>Login</h1>
+                <div class="input-box">
+                    <input type="text" placeholder="Username" required>
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div class="input-box">
+                    <input type="password" placeholder="Password" required>
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+                <div class="forgot-link">
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+        </div>
+
+        <div class="form-box register">
+            <div id="user-form-container" class="form-container">
+                <form action="#">
+                    <h1>User Registration</h1>
+                    <div class="input-box">
+                        <input type="text" placeholder="Full Name" required>
+                        <i class='bx bxs-user'></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="email" placeholder="Email" required>
+                        <i class='bx bxs-envelope'></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="tel" placeholder="Phone Number" required>
+                        <i class='bx bxs-phone'></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="password" placeholder="Password" required>
+                        <i class='bx bxs-lock-alt'></i>
+                    </div>
+                    <button type="submit" class="btn">Register as User</button>
+                </form>
+            </div>
+
+            <div id="owner-form-container" class="form-container" style="display: none;">
+                <form action="#">
+                    <h1>Owner Registration</h1>
+                    <div class="input-box">
+                        <input type="text" placeholder="Owner Name" required>
+                        <i class='bx bxs-user'></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="text" placeholder="Agency Name" required>
+                        <i class='bx bxs-building'></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="email" placeholder="Email" required>
+                        <i class='bx bxs-envelope'></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="tel" placeholder="Phone Number" required>
+                        <i class='bx bxs-phone'></i>
+                    </div>
+                    <div class="input-box" style="text-align: left;">
+                        <label for="agencyLogo">Agency Logo</label>
+                        <input type="file" id="agencyLogo" accept="image/*">
+                    </div>
+                    <div class="input-box">
+                        <input type="password" placeholder="Password" required>
+                        <i class='bx bxs-lock-alt'></i>
+                    </div>
+                    <button type="submit" class="btn">Register as Owner</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="toggle-box">
+            <div class="toggle-panel toggle-left">
+                <h1>Hello, Welcome!</h1>
+                <p>Don't have an account?</p>
+                <div class="toggle-buttons">
+                    <button class="btn toggle-options-btn" id="user-register-btn">User Registration</button>
+                    <button class="btn toggle-options-btn" id="owner-register-btn">Owner Registration</button>
+                </div>
+            </div>
+
+            <div class="toggle-panel toggle-right">
+                <h1>Welcome Back!</h1>
+                <p>Already have an account?</p>
+                <button class="btn login-btn">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/toast.js"></script>
+    <script src="../js/api-config.js"></script>
+    <script src="../js/data.js"></script>
+    <script src="../js/auth-main.js"></script>
+</body>
+
+</html>

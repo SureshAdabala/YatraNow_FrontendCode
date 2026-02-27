@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Owner Dashboard">
+    <link rel="icon" type="image/png" href="../images/favicon_rounded.png">
+    <title>Owner Dashboard - YatraNow</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <style>
+        /* ── Dark + Orange Theme Override for Owner Dashboard ── */
+        body {
+            background: #0d0d0d !important;
+            color: #e0e0e0 !important;
+        }
+
+        /* Sidebar */
+        .admin-sidebar {
+            background: #181818 !important;
+            border-right: 1px solid #2a2a2a !important;
+        }
+
+        .admin-sidebar h3 {
+            color: #FF7A1A !important;
+            font-size: 1rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .sidebar-item {
+            color: #bbb !important;
+            border-radius: 8px;
+            padding: 10px 14px;
+            transition: background 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(255, 122, 26, 0.1) !important;
+            color: #FF7A1A !important;
+        }
+
+        .sidebar-item.active {
+            background: rgba(255, 122, 26, 0.15) !important;
+            color: #FF7A1A !important;
+            font-weight: 700;
+        }
+
+        /* Content area */
+        .admin-content {
+            background: #0d0d0d !important;
+        }
+
+        /* Section headings */
+        .content-section h2 {
+            color: #fff !important;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #FF7A1A;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .content-section h3 {
+            color: #e0e0e0 !important;
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .data-table thead tr {
+            background: #1e1e1e !important;
+        }
+
+        .data-table th {
+            color: #aaa !important;
+            padding: 12px 14px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.06em;
+            border-bottom: 2px solid #2a2a2a;
+        }
+
+        .data-table td {
+            color: #ddd !important;
+            padding: 11px 14px;
+            border-bottom: 1px solid #1e1e1e;
+            vertical-align: middle;
+        }
+
+        .data-table tr:hover td {
+            background: #181818 !important;
+        }
+
+        /* Price column highlight */
+        .price-cell {
+            color: #FF7A1A !important;
+            font-weight: 700 !important;
+            font-size: 15px !important;
+        }
+
+        /* Cards used in add-route form */
+        .card {
+            background: #181818 !important;
+            border: 1px solid #2a2a2a !important;
+            color: #e0e0e0 !important;
+        }
+
+        .card h3 {
+            color: #fff !important;
+        }
+
+        /* Form inputs */
+        .form-label {
+            color: #aaa !important;
+        }
+
+        .form-input {
+            background: #111 !important;
+            color: #e0e0e0 !important;
+            border-color: #333 !important;
+        }
+
+        .form-input:focus {
+            border-color: #FF7A1A !important;
+            outline: none;
+        }
+
+        .form-input option {
+            background: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        select.form-input {
+            color-scheme: dark;
+        }
+
+        input[type="date"].form-input,
+        input[type="time"].form-input {
+            color-scheme: dark;
+        }
+
+        /* Auth form wrapper */
+        .auth-form .form-group label {
+            color: #aaa;
+        }
+
+        .auth-submit {
+            background: linear-gradient(135deg, #FF7A1A, #e56b0f) !important;
+            color: #fff !important;
+            border: none !important;
+        }
+
+        /* Divider */
+        hr {
+            border-color: #2a2a2a !important;
+        }
+
+        /* Container */
+        .container {
+            background: transparent !important;
+        }
+
+        .dashboard-container {
+            background: transparent !important;
+        }
+
+        /* Responsive table: horizontal scroll on small screens */
+        @media (max-width: 768px) {
+            .admin-layout {
+                flex-direction: column !important;
+            }
+
+            .admin-sidebar {
+                width: 100% !important;
+                min-width: unset !important;
+                border-right: none !important;
+                border-bottom: 1px solid #2a2a2a !important;
+            }
+
+            .data-table {
+                min-width: 600px;
+            }
+
+            .data-table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="navbar-logo">
+                <img src="../images/Logo.png" alt="YatraNow Logo" class="navbar-logo-img">
+            </a>
+
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <ul class="navbar-menu" id="navbarMenu">
+                <li><a href="owner.html">Dashboard</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Owner Dashboard -->
+    <div class="dashboard-container">
+        <div class="container">
+            <div class="admin-layout">
+                <!-- Sidebar -->
+                <div class="admin-sidebar">
+                    <h3>Owner Panel</h3>
+                    <ul class="sidebar-menu">
+                        <li class="sidebar-item active" onclick="showSection('vehicles')">Add Vehicle</li>
+                        <li class="sidebar-item" onclick="showSection('routes')">Manage Routes</li>
+                        <li class="sidebar-item" onclick="showSection('bookings')">Bookings</li>
+                        <li class="sidebar-item" onclick="showSection('complaints')">Complaints</li>
+                    </ul>
+                </div>
+
+                <!-- Content Area -->
+                <div class="admin-content">
+                    <!-- Add Vehicle Section -->
+                    <div id="vehicles-section" class="content-section">
+                        <h2>Add New Vehicle &
+                            Schedule</h2>
+
+                        <form class="auth-form" id="addVehicleForm" style="max-width: 600px;">
+                            <div class="form-group">
+                                <label for="vehicleName" class="form-label">Vehicle Name</label>
+                                <input type="text" id="vehicleName" class="form-input"
+                                    placeholder="e.g., Express Deluxe" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="vehicleNumber" class="form-label">Vehicle Number</label>
+                                <input type="text" id="vehicleNumber" class="form-input" placeholder="e.g., MH12AB1234"
+                                    required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="vehicleType" class="form-label">Vehicle Type</label>
+                                <select id="vehicleType" class="form-input" onchange="onVehicleTypeChange()" required>
+                                    <option value="">Select vehicle type</option>
+                                    <option value="BUS">Bus</option>
+                                    <option value="TRAIN">Train</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="busTypeGroup" style="display:none;">
+                                <label for="busType" class="form-label">Bus Type</label>
+                                <select id="busType" class="form-input">
+                                    <option value="SUPER_LUXURY">Super Luxury (40 seats)</option>
+                                    <option value="DELUXE">Deluxe (45 seats)</option>
+                                    <option value="SLEEPER">Sleeper (36 seats)</option>
+                                    <option value="SEATER">Seater (52 seats)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="trainSeatsGroup" style="display:none;">
+                                <label for="totalSeats" class="form-label">Total Seats</label>
+                                <input type="number" id="totalSeats" class="form-input" placeholder="e.g., 100" min="10"
+                                    max="500">
+                            </div>
+
+                            <hr style="margin: 20px 0; border-color: #eee;">
+                            <h3>Schedule Details</h3>
+
+                            <div class="form-group">
+                                <label for="routeSelect" class="form-label">Select Route</label>
+                                <select id="routeSelect" class="form-input" required>
+                                    <option value="">Loading routes...</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="scheduleDate" class="form-label">Travel Date</label>
+                                <input type="date" id="scheduleDate" class="form-input" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="departureTime" class="form-label">Departure Time</label>
+                                <input type="time" id="departureTime" class="form-input" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="arrivalTime" class="form-label">Arrival Time</label>
+                                <input type="time" id="arrivalTime" class="form-input" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ticketPrice" class="form-label">Ticket Price (₹)</label>
+                                <input type="number" id="ticketPrice" class="form-input" placeholder="e.g., 450" min="1"
+                                    required>
+                            </div>
+
+                            <button type="submit" class="auth-submit" id="addVehicleBtn">Add Vehicle & Schedule</button>
+                            <p id="vehicleFormMsg" style="margin-top:10px; font-weight:600;"></p>
+                        </form>
+                    </div>
+
+                    <!-- Manage Routes Section -->
+                    <div id="routes-section" class="content-section" style="display: none;">
+                        <h2>Manage Routes</h2>
+
+                        <button class="btn btn-primary" style="margin-bottom: var(--spacing-lg);"
+                            onclick="showAddRouteForm()">
+                            + Add New Route
+                        </button>
+
+                        <!-- Add/Edit Route Form (hidden by default) -->
+                        <div id="addRouteFormContainer" style="display: none; margin-bottom: var(--spacing-xl);">
+                            <div class="card" style="max-width: 600px;">
+                                <h3 id="routeFormTitle" style="margin-bottom: var(--spacing-md);">Add New Route</h3>
+                                <form class="auth-form" id="routeForm" onsubmit="saveRoute(event)">
+                                    <input type="hidden" id="editRouteId">
+                                    <div class="form-group">
+                                        <label class="form-label">From</label>
+                                        <input type="text" id="routeFrom" class="form-input" placeholder="Starting city"
+                                            required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">To</label>
+                                        <input type="text" id="routeTo" class="form-input"
+                                            placeholder="Destination city" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Distance (km)</label>
+                                        <input type="number" id="routeDistance" class="form-input"
+                                            placeholder="e.g., 150" min="1" required>
+                                    </div>
+                                    <p id="routeFormMsg" style="font-weight:600; margin-bottom:10px;"></p>
+                                    <div style="display: flex; gap: var(--spacing-md);">
+                                        <button type="submit" class="btn btn-success">Save Route</button>
+                                        <button type="button" class="btn btn-danger"
+                                            onclick="hideAddRouteForm()">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="table-scroll-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>From</th>
+                                        <th>To</th>
+                                        <th>Distance (km)</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="routesTableBody">
+                                    <tr>
+                                        <td colspan="5" style="text-align:center;">Loading routes...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Bookings Section -->
+                    <div id="bookings-section" class="content-section" style="display: none;">
+                        <h2>Bookings</h2>
+                        <div class="data-table-wrapper">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Booking ID</th>
+                                        <th>User</th>
+                                        <th>Route</th>
+                                        <th>Seats</th>
+                                        <th>Date</th>
+                                        <th>Price</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bookingsTableBody">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Complaints Section -->
+                    <div id="complaints-section" class="content-section" style="display: none;">
+                        <h2>User Complaints</h2>
+                        <div class="table-scroll-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>User</th>
+                                        <th>Booking ID</th>
+                                        <th>Complaint</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="complaintsTableBody">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/api-config.js?v=5"></script>
+    <script src="../js/data.js?v=5"></script>
+    <script src="../js/auth.js?v=5"></script>
+    <script src="../js/spotlight.js"></script>
+    <script>
+        // ─── INIT ─────────────────────────────────────────────────────────
+        // DOMContentLoaded fires BEFORE inline scripts at bottom of <body> run,
+        // so we use readyState check instead.
+        function init() {
+            // Hamburger menu
+            var hamburger = document.getElementById('hamburger');
+            if (hamburger) {
+                hamburger.addEventListener('click', function () {
+                    document.getElementById('navbarMenu').classList.toggle('active');
+                });
+            }
+
+            // Auth check — redirect to login if not logged in
+            var user = requireAuth();
+            if (!user) return;
+
+            // Set min date to today for schedule
+            var today = new Date().toISOString().split('T')[0];
+            var scheduleDate = document.getElementById('scheduleDate');
+            if (scheduleDate) scheduleDate.min = today;
+
+            // Attach vehicle form submit handler safely
+            var vehicleForm = document.getElementById('addVehicleForm');
+            if (vehicleForm) {
+                vehicleForm.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+                    var btn = document.getElementById('addVehicleBtn');
+                    var msg = document.getElementById('vehicleFormMsg');
+                    btn.disabled = true;
+                    btn.textContent = 'Saving...';
+                    msg.textContent = '';
+                    var vehicleType = document.getElementById('vehicleType').value;
+                    var vehiclePayload = {
+                        name: document.getElementById('vehicleName').value,
+                        vehicleNumber: document.getElementById('vehicleNumber').value,
+                        vehicleType: vehicleType,
+                        busType: vehicleType === 'BUS' ? document.getElementById('busType').value : null,
+                        totalSeats: vehicleType === 'TRAIN' ? parseInt(document.getElementById('totalSeats').value) : null
+                    };
+                    try {
+                        var vehicle = await apiPost(API_ENDPOINTS.OWNER_VEHICLES, vehiclePayload);
+                        var schedulePayload = {
+                            vehicleId: vehicle.id,
+                            routeId: parseInt(document.getElementById('routeSelect').value),
+                            scheduleDate: document.getElementById('scheduleDate').value,
+                            departureTime: document.getElementById('departureTime').value + ':00',
+                            arrivalTime: document.getElementById('arrivalTime').value + ':00',
+                            price: parseFloat(document.getElementById('ticketPrice').value)
+                        };
+                        await apiPost(API_ENDPOINTS.OWNER_SCHEDULES, schedulePayload);
+                        msg.style.color = 'green';
+                        msg.textContent = '\u2705 Vehicle and schedule added successfully!';
+                        vehicleForm.reset();
+                        document.getElementById('busTypeGroup').style.display = 'none';
+                        document.getElementById('trainSeatsGroup').style.display = 'none';
+                    } catch (err) {
+                        msg.style.color = 'red';
+                        msg.textContent = '\u274C Error: ' + (err.message || 'Failed to add vehicle');
+                    } finally {
+                        btn.disabled = false;
+                        btn.textContent = 'Add Vehicle & Schedule';
+                    }
+                });
+            }
+
+            // Load all data
+            loadRouteDropdown();
+            loadRoutesTable();
+            loadBookings();
+            loadComplaints();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+        function showSection(sectionName) {
+            document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+            document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+            document.getElementById(`${sectionName}-section`).style.display = 'block';
+            event.target.classList.add('active');
+        }
+
+        function onVehicleTypeChange() {
+            const type = document.getElementById('vehicleType').value;
+            document.getElementById('busTypeGroup').style.display = type === 'BUS' ? 'block' : 'none';
+            document.getElementById('trainSeatsGroup').style.display = type === 'TRAIN' ? 'block' : 'none';
+        }
+
+        // ─── ROUTE DROPDOWN ───────────────────────────────────────────────
+        async function loadRouteDropdown() {
+            const sel = document.getElementById('routeSelect');
+            try {
+                const routes = await apiGet(API_ENDPOINTS.PUBLIC_ROUTE_LIST);
+                const list = Array.isArray(routes) ? routes : (routes.data || []);
+                sel.innerHTML = '<option value="">Select a route</option>';
+                list.forEach(r => {
+                    const opt = document.createElement('option');
+                    opt.value = r.id;
+                    opt.textContent = `${r.fromLocation} → ${r.toLocation} (${r.distanceKm} km)`;
+                    sel.appendChild(opt);
+                });
+                if (list.length === 0) {
+                    sel.innerHTML = '<option value="">No routes yet — add one in Manage Routes</option>';
+                }
+            } catch (e) {
+                sel.innerHTML = '<option value="">Failed to load routes</option>';
+            }
+        }
+
+
+        // ─── MANAGE ROUTES ────────────────────────────────────────────────
+        async function loadRoutesTable() {
+            const tbody = document.getElementById('routesTableBody');
+            try {
+                const routes = await apiGet(API_ENDPOINTS.PUBLIC_ROUTE_LIST);
+                const list = Array.isArray(routes) ? routes : (routes.data || []);
+                if (list.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No routes yet. Add one above.</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = list.map(r => `
+                    <tr>
+                        <td>${r.id}</td>
+                        <td>${r.fromLocation}</td>
+                        <td>${r.toLocation}</td>
+                        <td>${r.distanceKm}</td>
+                        <td>
+                            <button class="action-btn action-btn-view" onclick="editRoute(${r.id}, '${r.fromLocation}', '${r.toLocation}', ${r.distanceKm})">Edit</button>
+                            <button class="action-btn action-btn-delete" onclick="deleteRoute(${r.id})">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                console.error('loadRoutesTable error:', e);
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;">Error: ${e.message || 'Failed to load routes'}</td></tr>`;
+            }
+        }
+
+        function showAddRouteForm() {
+            document.getElementById('editRouteId').value = '';
+            document.getElementById('routeFormTitle').textContent = 'Add New Route';
+            document.getElementById('routeFrom').value = '';
+            document.getElementById('routeTo').value = '';
+            document.getElementById('routeDistance').value = '';
+            document.getElementById('routeFormMsg').textContent = '';
+            document.getElementById('addRouteFormContainer').style.display = 'block';
+        }
+
+        function hideAddRouteForm() {
+            document.getElementById('addRouteFormContainer').style.display = 'none';
+        }
+
+        function editRoute(id, from, to, distance) {
+            document.getElementById('editRouteId').value = id;
+            document.getElementById('routeFormTitle').textContent = 'Edit Route';
+            document.getElementById('routeFrom').value = from;
+            document.getElementById('routeTo').value = to;
+            document.getElementById('routeDistance').value = distance;
+            document.getElementById('routeFormMsg').textContent = '';
+            document.getElementById('addRouteFormContainer').style.display = 'block';
+            document.getElementById('addRouteFormContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function saveRoute(e) {
+            e.preventDefault();
+            const msg = document.getElementById('routeFormMsg');
+            const editId = document.getElementById('editRouteId').value;
+            const payload = {
+                fromLocation: document.getElementById('routeFrom').value,
+                toLocation: document.getElementById('routeTo').value,
+                distanceKm: parseFloat(document.getElementById('routeDistance').value)
+            };
+
+            try {
+                if (editId) {
+                    await apiPut(`${API_ENDPOINTS.OWNER_ROUTES}/${editId}`, payload);
+                    msg.style.color = 'green';
+                    msg.textContent = '✅ Route updated!';
+                } else {
+                    await apiPost(API_ENDPOINTS.OWNER_ROUTES, payload);
+                    msg.style.color = 'green';
+                    msg.textContent = '✅ Route added!';
+                }
+                await loadRoutesTable();
+                await loadRouteDropdown();
+                setTimeout(hideAddRouteForm, 1500);
+            } catch (err) {
+                msg.style.color = 'red';
+                msg.textContent = '❌ ' + (err.message || 'Failed to save route');
+            }
+        }
+
+        async function deleteRoute(id) {
+            try {
+                // 1. Check for dependent schedules first
+                const schedulesResponse = await apiGet(API_ENDPOINTS.OWNER_SCHEDULES);
+                const schedules = Array.isArray(schedulesResponse) ? schedulesResponse : (schedulesResponse.data || []);
+
+                // Find schedules linked to this route (handle both direct ID and object structure)
+                const dependencies = schedules.filter(s =>
+                    String(s.routeId) === String(id) || (s.route && String(s.route.id) === String(id))
+                );
+
+                if (dependencies.length > 0) {
+                    const confirmMsg = `This route has ${dependencies.length} active schedule(s).\nDeleting this route will PERMANENTLY DELETE all associated schedules and bookings.\n\nAre you sure you want to proceed?`;
+                    showConfirm(
+                        confirmMsg,
+                        async () => {
+                            const btn = document.querySelector(`button[onclick="deleteRoute(${id})"]`);
+                            if (btn) { btn.disabled = true; btn.textContent = 'Deleting...'; }
+                            for (const schedule of dependencies) {
+                                await apiDelete(`${API_ENDPOINTS.OWNER_SCHEDULES}/${schedule.scheduleId || schedule.id}`);
+                            }
+                            await apiDelete(`${API_ENDPOINTS.OWNER_ROUTES}/${id}`);
+                            await loadRoutesTable();
+                            await loadRouteDropdown();
+                            showToast('Route and schedules deleted.', 'success');
+                        },
+                        null,
+                        { yesLabel: 'Yes, delete all', icon: '⚠️' }
+                    );
+                    return; // callback handles the rest
+                } else {
+                    showConfirm(
+                        'Delete this route? This cannot be undone.',
+                        async () => {
+                            await apiDelete(`${API_ENDPOINTS.OWNER_ROUTES}/${id}`);
+                            await loadRoutesTable();
+                            await loadRouteDropdown();
+                            showToast('Route deleted.', 'success');
+                        },
+                        null,
+                        { yesLabel: 'Yes, delete', icon: '🗑️' }
+                    );
+                    return; // callback handles the rest
+                }
+            } catch (err) {
+                console.error('Delete failed:', err);
+                showToast('Failed to delete route: ' + (err.message || 'Data integrity error'), 'error');
+                await loadRoutesTable();
+            }
+        }
+
+        // ─── BOOKINGS ─────────────────────────────────────────────────────
+
+        // Extract price from any possible backend DTO structure
+        function resolvePrice(b) {
+            // Flat fields
+            const flat = b.totalPrice ?? b.price ?? b.ticketPrice
+                ?? b.amount ?? b.fare ?? b.totalFare
+                ?? b.totalAmount ?? b.cost;
+            if (flat != null && flat !== '') return flat;
+
+            // Nested inside schedule
+            const s = b.schedule || b.scheduleDetails || {};
+            const nested = s.price ?? s.ticketPrice ?? s.totalPrice ?? s.amount ?? s.fare;
+            if (nested != null && nested !== '') return nested;
+
+            // Nested inside schedule.route or route
+            const r = s.route || b.route || {};
+            const routePrice = r.price ?? r.ticketPrice ?? r.amount;
+            if (routePrice != null && routePrice !== '') return routePrice;
+
+            return null;
+        }
+
+        async function loadBookings() {
+            const tbody = document.getElementById('bookingsTableBody');
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#aaa;">Loading...</td></tr>';
+            try {
+                const bookings = await apiGet(API_ENDPOINTS.OWNER_BOOKINGS);
+                const list = Array.isArray(bookings) ? bookings : (bookings.data || []);
+
+                // Log raw data so we can inspect field names in the browser console
+                if (list.length > 0) {
+                    console.log('[Owner Dashboard] First booking object:', JSON.parse(JSON.stringify(list[0])));
+                    console.log('[Owner Dashboard] All booking keys:', Object.keys(list[0]));
+                }
+
+                if (list.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#aaa;">No bookings yet.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = list.map(b => {
+                    const price = resolvePrice(b);
+                    const priceDisplay = price != null ? `₹${price}` : '<span style="color:#e74c3c; font-size:12px;">N/A</span>';
+
+                    // Route display: try nested schedule → route
+                    const s = b.schedule || b.scheduleDetails || {};
+                    const r = s.route || b.route || {};
+                    const from = b.fromLocation || r.fromLocation || s.fromLocation || r.from || '-';
+                    const to = b.toLocation || r.toLocation || s.toLocation || r.to || '-';
+
+                    return `
+                    <tr>
+                        <td>#${b.id}</td>
+                        <td>${b.passengerName || b.userId || '-'}</td>
+                        <td>${from} → ${to}</td>
+                        <td>${b.seatNumber || '-'}</td>
+                        <td>${b.bookingDate ? new Date(b.bookingDate).toLocaleDateString('en-IN') : '-'}</td>
+                        <td class="price-cell">${priceDisplay}</td>
+                        <td><span style="color:#1DCD9F; font-weight:700; font-size:13px;">${b.status || 'CONFIRMED'}</span></td>
+                    </tr>`;
+                }).join('');
+            } catch (e) {
+                console.error('[Owner Dashboard] Bookings load error:', e);
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#e74c3c;">Failed to load bookings: ' + (e.message || '') + '</td></tr>';
+            }
+        }
+
+        // ─── COMPLAINTS ───────────────────────────────────────────────────
+        async function loadComplaints() {
+            const tbody = document.getElementById('complaintsTableBody');
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Loading...</td></tr>';
+            try {
+                const complaints = await apiGet(API_ENDPOINTS.OWNER_COMPLAINTS);
+                const list = Array.isArray(complaints) ? complaints : (complaints.data || []);
+                if (list.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No complaints yet.</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = list.map(c => `
+                    <tr>
+                        <td>${c.id}</td>
+                        <td>${c.userId || '-'}</td>
+                        <td>${c.vehicleId || '-'}</td>
+                        <td>${c.complaintText || '-'}</td>
+                        <td>${c.createdAt ? new Date(c.createdAt).toLocaleDateString() : '-'}</td>
+                        <td><span style="color: var(--danger-red);">${c.status || 'PENDING'}</span></td>
+                        <td><button class="action-btn action-btn-view" onclick="showToast('Complaint: ' + '${(c.complaintText || '-').replace(/'/g, '&apos;')}', 'info', 6000)">View</button></td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:red;">Failed to load complaints</td></tr>';
+            }
+        }
+    </script>
+    <script src="../js/toast.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Select your seats">
+    <link rel="icon" type="image/png" href="../images/favicon_rounded.png">
+    <title>Seat Selection - YatraNow</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="navbar-logo">
+                <img src="../images/Logo.png" alt="YatraNow Logo" class="navbar-logo-img">
+            </a>
+
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <ul class="navbar-menu" id="navbarMenu">
+                <li><a href="user.html"><i class='bx bxs-dashboard'></i> Dashboard</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Seat Selection Container -->
+    <div class="dashboard-container">
+        <div class="seat-selection-container">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Select Your Seats</h1>
+                <p class="dashboard-subtitle">Choose your preferred seats for the journey</p>
+            </div>
+
+            <!-- Back Button -->
+            <div class="btn-back-wrap">
+                <button class="btn-back" onclick="history.back()">
+                    <i class='bx bx-arrow-back'></i> Back
+                </button>
+            </div>
+
+            <!-- Vehicle Info Card -->
+            <div class="vehicle-info-card" id="vehicleInfo">
+                <!-- Will be populated by JavaScript -->
+            </div>
+
+            <!-- Seat Layout Card -->
+            <div class="seat-layout-card">
+                <!-- Legend -->
+                <div class="seat-legend">
+                    <div class="legend-item">
+                        <div class="legend-box available"></div>
+                        <span>Available</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box booked"></div>
+                        <span>Booked</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box selected"></div>
+                        <span>Selected</span>
+                    </div>
+                </div>
+
+                <!-- Seat Grid -->
+                <div class="seat-grid" id="seatGrid">
+                    <!-- Seats will be dynamically generated -->
+                </div>
+
+                <!-- Booking Summary -->
+                <div class="booking-summary" id="bookingSummary">
+                    <div class="summary-row">
+                        <span class="summary-label">Selected Seats:</span>
+                        <span class="summary-value" id="selectedSeatsText">None</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Number of Seats:</span>
+                        <span class="summary-value" id="numberOfSeats">0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Price per Seat:</span>
+                        <span class="summary-value" id="pricePerSeat">₹0</span>
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span class="summary-label">Total Price:</span>
+                        <span class="summary-value" id="totalPrice">₹0</span>
+                    </div>
+                    <button class="confirm-booking-btn" id="confirmBtn" disabled onclick="showPassengerForm()">
+                        Confirm Booking
+                    </button>
+                </div>
+            </div>
+
+            <!-- Passenger Details Modal -->
+            <div id="passengerModal"
+                style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.78); z-index:1000; align-items:center; justify-content:center;">
+                <div
+                    style="background:#1a1a1a; border:1px solid #2a2a2a; border-radius:14px; padding:28px; max-width:470px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.7); max-height:90vh; overflow-y:auto;">
+
+                    <!-- Header -->
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <h3 style="color:#fff; font-size:1.2rem; margin:0;">Passenger Details</h3>
+                        <button onclick="closePassengerModal()"
+                            style="background:none; border:none; color:#666; font-size:22px; cursor:pointer; line-height:1; padding:0 4px;"
+                            onmouseover="this.style.color='#FF7A1A'"
+                            onmouseout="this.style.color='#666'">&times;</button>
+                    </div>
+                    <p style="color:#888; margin-bottom:20px; font-size:0.88rem;">Please enter details for the primary
+                        passenger.</p>
+
+                    <div id="passengerFormsContainer"
+                        style="max-height:380px; overflow-y:auto; margin-bottom:18px; padding-right:4px;">
+                        <!-- Dynamic forms will be inserted here -->
+                    </div>
+
+                    <p id="bookingError" style="color:#e74c3c; margin-bottom:12px; display:none; font-size:13px;"></p>
+
+                    <div style="display:flex; gap:10px;">
+                        <button onclick="submitBooking()"
+                            style="flex:1; padding:12px; background:linear-gradient(135deg,#FF7A1A,#e56b0f); color:#fff; border:none; border-radius:8px; font-size:1rem; cursor:pointer; font-weight:700; transition:opacity 0.2s;"
+                            onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
+                            Book Now
+                        </button>
+                        <button onclick="closePassengerModal()"
+                            style="flex:1; padding:12px; background:#222; color:#aaa; border:1px solid #333; border-radius:8px; font-size:1rem; cursor:pointer; font-weight:600; transition:all 0.2s;"
+                            onmouseover="this.style.borderColor='#555';this.style.color='#e0e0e0';"
+                            onmouseout="this.style.borderColor='#333';this.style.color='#aaa';">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/toast.js"></script>
+    <script src="../js/api-config.js"></script>
+    <script src="../js/data.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/seats.js"></script>
+    <script src="../js/spotlight.js"></script>
+    <script>
+        let currentRoute = null;
+        let selectedSeats = [];
+        let bookedSeatsData = [];
+
+        // Hamburger menu toggle
+        document.getElementById('hamburger').addEventListener('click', function () {
+            document.getElementById('navbarMenu').classList.toggle('active');
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async function () {
+            requireAuth();
+            await loadSeatSelection();
+        });
+
+        async function loadSeatSelection() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const routeIdParam = urlParams.get('routeId');
+
+            try {
+                // ── STEP 1: Try sessionStorage first (most reliable – set by results/user page) ──
+                const stored = sessionStorage.getItem('selectedRoute');
+                if (stored) {
+                    try {
+                        const parsed = JSON.parse(stored);
+                        if (parsed && (parsed.scheduleId || parsed.id)) {
+                            currentRoute = parsed;
+                        }
+                    } catch (e) {
+                        console.warn('Could not parse stored route:', e);
+                    }
+                }
+
+                // ── STEP 2: Fallback to API using URL param ──
+                if (!currentRoute) {
+                    // Validate routeId from URL
+                    if (!routeIdParam || routeIdParam === 'null' || routeIdParam === 'undefined') {
+                        showToast('Invalid route. Please go back and select a route.', 'error');
+                        setTimeout(() => { window.location.href = 'results.html'; }, 2500);
+                        return;
+                    }
+                    currentRoute = await getRouteById(routeIdParam);
+                }
+
+                if (!currentRoute) {
+                    throw new Error('Route not found. It may no longer be available.');
+                }
+
+                // Use the stored ID for seat booking, prefer scheduleId
+                const routeId = currentRoute.scheduleId || currentRoute.id || routeIdParam;
+
+                // Load booked seats (errors here are non-fatal)
+                bookedSeatsData = await getBookedSeats(routeId);
+
+                // Render
+                displayVehicleInfo();
+                generateSeatLayout();
+
+            } catch (error) {
+                console.error('Error loading seat selection:', error);
+                showToast('Error loading seats: ' + (error.message || 'Please try again.'), 'error');
+                setTimeout(() => { window.location.href = 'results.html'; }, 2500);
+            }
+        }
+
+
+        function displayVehicleInfo() {
+            const vehicleInfo = document.getElementById('vehicleInfo');
+            vehicleInfo.innerHTML = `
+        <h2 class="vehicle-info-header">${currentRoute.name}</h2>
+        <div class="vehicle-details">
+          <div class="vehicle-detail-item">
+            <span class="detail-label">From</span>
+            <span class="detail-value">${currentRoute.from}</span>
+          </div>
+          <div class="vehicle-detail-item">
+            <span class="detail-label">To</span>
+            <span class="detail-value">${currentRoute.to}</span>
+          </div>
+          <div class="vehicle-detail-item">
+            <span class="detail-label">Departure</span>
+            <span class="detail-value">${currentRoute.departureTime}</span>
+          </div>
+          <div class="vehicle-detail-item">
+            <span class="detail-label">Arrival</span>
+            <span class="detail-value">${currentRoute.arrivalTime}</span>
+          </div>
+          <div class="vehicle-detail-item">
+            <span class="detail-label">Duration</span>
+            <span class="detail-value">${currentRoute.duration}</span>
+          </div>
+          <div class="vehicle-detail-item">
+            <span class="detail-label">Price per Seat</span>
+            <span class="detail-value">₹${currentRoute.price}</span>
+          </div>
+        </div>
+      `;
+
+            document.getElementById('pricePerSeat').textContent = `₹${currentRoute.price}`;
+        }
+
+        function generateSeatLayout() {
+            const seatGrid = document.getElementById('seatGrid');
+            seatGrid.innerHTML = '';
+
+            // Total seats (using simple 4-column layout)
+            const totalSeats = currentRoute.totalSeats;
+            const seatsPerRow = 4;
+            const seatLayout = [1, 0, 2, 1]; // 1 seat, aisle, 2 seats, 1 seat
+
+            let seatNumber = 1;
+
+            for (let row = 0; row < Math.ceil(totalSeats / 4); row++) {
+                seatLayout.forEach((count, colIndex) => {
+                    if (count === 0) {
+                        // Aisle
+                        const aisle = document.createElement('div');
+                        aisle.className = 'seat aisle';
+                        seatGrid.appendChild(aisle);
+                    } else {
+                        for (let i = 0; i < count && seatNumber <= totalSeats; i++) {
+                            const seat = createSeatElement(seatNumber);
+                            seatGrid.appendChild(seat);
+                            seatNumber++;
+                        }
+                    }
+                });
+            }
+        }
+
+        function createSeatElement(seatNumber) {
+            const seat = document.createElement('button');
+            seat.className = 'seat';
+            seat.textContent = seatNumber;
+            seat.dataset.seatNumber = seatNumber;
+
+            // Check if seat is booked
+            if (bookedSeatsData.includes(seatNumber)) {
+                seat.classList.add('booked');
+                seat.disabled = true;
+            } else {
+                seat.addEventListener('click', () => toggleSeat(seatNumber));
+            }
+
+            return seat;
+        }
+
+        const MAX_SEATS = 3;
+
+        function toggleSeat(seatNumber) {
+            const seatElement = document.querySelector(`[data-seat-number="${seatNumber}"]`);
+
+            if (selectedSeats.includes(seatNumber)) {
+                // Deselect — always allowed
+                selectedSeats = selectedSeats.filter(s => s !== seatNumber);
+                seatElement.classList.remove('selected');
+            } else {
+                // Block if already at the limit
+                if (selectedSeats.length >= MAX_SEATS) {
+                    showToast(`Maximum ${MAX_SEATS} seats allowed per booking. Please deselect a seat first.`, 'warning');
+                    return;
+                }
+                // Select
+                selectedSeats.push(seatNumber);
+                seatElement.classList.add('selected');
+            }
+
+            updateBookingSummary();
+        }
+
+        function updateBookingSummary() {
+            const seatsText = selectedSeats.length > 0 ? selectedSeats.sort((a, b) => a - b).join(', ') : 'None';
+            const numberOfSeats = selectedSeats.length;
+            const totalPrice = numberOfSeats * currentRoute.price;
+
+            document.getElementById('selectedSeatsText').textContent = seatsText;
+            document.getElementById('numberOfSeats').textContent = numberOfSeats;
+            document.getElementById('totalPrice').textContent = `₹${totalPrice}`;
+
+            // Enable/disable confirm button
+            const confirmBtn = document.getElementById('confirmBtn');
+            confirmBtn.disabled = numberOfSeats === 0;
+        }
+
+        function showPassengerForm() {
+            if (selectedSeats.length === 0) {
+                showToast('Please select at least one seat', 'warning');
+                return;
+            }
+
+            const container = document.getElementById('passengerFormsContainer');
+            container.innerHTML = ''; // Clear previous forms
+
+            const inputStyle = 'width:100%; padding:9px 12px; background:#111; border:1px solid #333; border-radius:6px; color:#e0e0e0; font-size:14px; outline:none; box-sizing:border-box;';
+            const labelStyle = 'display:block; margin-bottom:5px; font-size:13px; font-weight:600; color:#aaa; text-transform:uppercase; letter-spacing:0.04em;';
+
+            selectedSeats.sort((a, b) => a - b).forEach((seatNum, index) => {
+                const formHtml = `
+                    <div style="padding:16px; border:1px solid #2a2a2a; border-radius:10px; margin-bottom:14px; background:#141414;">
+                        <h4 style="margin-bottom:14px; color:#FF7A1A; font-size:14px; font-weight:700;">Seat ${seatNum}</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="${labelStyle}">Full Name</label>
+                            <input type="text" id="passengerName_${seatNum}" placeholder="Enter passenger name"
+                                style="${inputStyle}" required
+                                onfocus="this.style.borderColor='#FF7A1A'" onblur="this.style.borderColor='#333'">
+                        </div>
+                        <div style="display:flex; gap:10px;">
+                            <div style="flex:1;">
+                                <label style="${labelStyle}">Age</label>
+                                <input type="number" id="passengerAge_${seatNum}" placeholder="Age" min="1" max="120"
+                                    style="${inputStyle}" required
+                                    onfocus="this.style.borderColor='#FF7A1A'" onblur="this.style.borderColor='#333'">
+                            </div>
+                            <div style="flex:1;">
+                                <label style="${labelStyle}">Gender</label>
+                                <select id="passengerGender_${seatNum}"
+                                    style="${inputStyle} cursor:pointer;">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', formHtml);
+            });
+
+            document.getElementById('passengerModal').style.display = 'flex';
+            document.getElementById('bookingError').style.display = 'none';
+        }
+
+        function closePassengerModal() {
+            document.getElementById('passengerModal').style.display = 'none';
+        }
+
+        async function submitBooking() {
+            const errEl = document.getElementById('bookingError');
+            const bookingsToMake = [];
+
+            // Validate all forms first
+            for (const seatNum of selectedSeats) {
+                const nameInput = document.getElementById(`passengerName_${seatNum}`);
+                const ageInput = document.getElementById(`passengerAge_${seatNum}`);
+                const genderInput = document.getElementById(`passengerGender_${seatNum}`);
+
+                const name = nameInput.value.trim();
+                const age = parseInt(ageInput.value);
+                const gender = genderInput.value;
+
+                if (!name || name.length < 2) {
+                    errEl.textContent = `Please enter a valid name for Seat ${seatNum}`;
+                    errEl.style.display = 'block';
+                    nameInput.focus();
+                    return;
+                }
+                if (!age || age < 1 || age > 120) {
+                    errEl.textContent = `Please enter a valid age for Seat ${seatNum}`;
+                    errEl.style.display = 'block';
+                    ageInput.focus();
+                    return;
+                }
+
+                bookingsToMake.push({
+                    seatNum,
+                    name,
+                    age,
+                    gender
+                });
+            }
+
+            const bookBtn = document.querySelector('#passengerModal button');
+            bookBtn.disabled = true;
+            bookBtn.textContent = 'Processing...';
+            errEl.style.display = 'none';
+
+            try {
+                // Book each selected seat sequentially
+                const bookingResults = [];
+                for (const booking of bookingsToMake) {
+                    const result = await apiPost(API_ENDPOINTS.BOOKINGS, {
+                        scheduleId: currentRoute.scheduleId || currentRoute.id,
+                        seatNumber: String(booking.seatNum),
+                        passengerName: booking.name,
+                        passengerAge: booking.age,
+                        passengerGender: booking.gender
+                    });
+                    bookingResults.push(result);
+                }
+
+                // Store booking details for success page (using first passenger name + count)
+                const passengerSummary = bookingsToMake.map(b => `${b.name} (${b.seatNum})`).join(', ');
+                const bookingDetails = {
+                    bookingId: bookingResults[0].id,
+                    route: currentRoute,
+                    seats: selectedSeats,
+                    seatNumbers: selectedSeats, // Ensure compatibility
+                    totalPrice: selectedSeats.length * currentRoute.price,
+                    passengerName: bookingsToMake[0].name, // Primary name
+                    allPassengers: bookingsToMake,
+                    bookingTime: new Date().toISOString()
+                };
+                localStorage.setItem('lastBooking', JSON.stringify(bookingDetails));
+
+                // Redirect to success page
+                window.location.href = 'success.html';
+            } catch (error) {
+                console.error('Error confirming booking:', error);
+                errEl.textContent = 'Booking failed: ' + (error.message || 'Please try again.');
+                errEl.style.display = 'block';
+                bookBtn.disabled = false;
+                bookBtn.textContent = 'Book Now';
+            }
+        }
+
+        // Keep for backward compat
+        async function confirmBooking() {
+            showPassengerForm();
+        }
+    </script>
+</body>
+
+</html>
