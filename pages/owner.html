@@ -295,10 +295,10 @@
 
             <!-- Pill Nav -->
             <nav class="ud-pill-nav" id="udPillNav">
-                <a href="owner.html" id="nav-dashboard" class="ud-pill-item active" title="Dashboard"
-                    ><i class='bx bxs-home'></i><span class="ud-nav-label">Dashboard</span></a>
-                <a href="#" class="ud-pill-item ud-logout" onclick="logout(); return false;" title="Logout"
-                    ><i class='bx bx-log-out'></i><span class="ud-nav-label">Logout</span></a>
+                <a href="owner.html" id="nav-dashboard" class="ud-pill-item active" title="Dashboard"><i
+                        class='bx bxs-home'></i><span class="ud-nav-label">Dashboard</span></a>
+                <a href="#" class="ud-pill-item ud-logout" onclick="logout(); return false;" title="Logout"><i
+                        class='bx bx-log-out'></i><span class="ud-nav-label">Logout</span></a>
             </nav>
         </div>
     </nav>
@@ -314,7 +314,6 @@
                         <li class="sidebar-item active" onclick="showSection('vehicles')">Add Vehicle</li>
                         <li class="sidebar-item" onclick="showSection('routes')">Manage Routes</li>
                         <li class="sidebar-item" onclick="showSection('bookings')">Bookings</li>
-                        <li class="sidebar-item" onclick="showSection('complaints')">Complaints</li>
                     </ul>
                 </div>
 
@@ -482,28 +481,7 @@
                         </div>
                     </div>
 
-                    <!-- Complaints Section -->
-                    <div id="complaints-section" class="content-section" style="display: none;">
-                        <h2>User Complaints</h2>
-                        <div class="table-scroll-wrap">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>User</th>
-                                        <th>Booking ID</th>
-                                        <th>Complaint</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="complaintsTableBody">
-                                    <!-- Will be populated by JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -577,7 +555,6 @@
             loadRouteDropdown();
             loadRoutesTable();
             loadBookings();
-            loadComplaints();
         }
 
         if (document.readyState === 'loading') {
@@ -822,32 +799,7 @@
             }
         }
 
-        // ─── COMPLAINTS ───────────────────────────────────────────────────
-        async function loadComplaints() {
-            const tbody = document.getElementById('complaintsTableBody');
-            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Loading...</td></tr>';
-            try {
-                const complaints = await apiGet(API_ENDPOINTS.OWNER_COMPLAINTS);
-                const list = Array.isArray(complaints) ? complaints : (complaints.data || []);
-                if (list.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No complaints yet.</td></tr>';
-                    return;
-                }
-                tbody.innerHTML = list.map(c => `
-                    <tr>
-                        <td>${c.id}</td>
-                        <td>${c.userId || '-'}</td>
-                        <td>${c.vehicleId || '-'}</td>
-                        <td>${c.complaintText || '-'}</td>
-                        <td>${c.createdAt ? new Date(c.createdAt).toLocaleDateString() : '-'}</td>
-                        <td><span style="color: var(--danger-red);">${c.status || 'PENDING'}</span></td>
-                        <td><button class="action-btn action-btn-view" onclick="showToast('Complaint: ' + '${(c.complaintText || '-').replace(/'/g, '&apos;')}', 'info', 6000)">View</button></td>
-                    </tr>
-                `).join('');
-            } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:red;">Failed to load complaints</td></tr>';
-            }
-        }
+
     </script>
     <script src="../js/toast.js"></script>
 </body>
