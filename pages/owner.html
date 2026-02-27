@@ -195,7 +195,94 @@
                 -webkit-overflow-scrolling: touch;
             }
         }
+
+        /* ── Pill Navbar (matches User Dashboard) ─────────────────────── */
+        .ud-pill-nav {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px;
+            background: rgba(18, 18, 18, 0.90);
+            border: 1px solid rgba(255, 122, 26, 0.22);
+            border-radius: 999px;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 122, 26, 0.06);
+        }
+
+        .ud-pill-item {
+            position: relative;
+            height: 38px;
+            padding: 0 16px 0 12px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #888;
+            text-decoration: none;
+            font-size: 15px;
+            white-space: nowrap;
+            transition: color 0.25s ease, background 0.25s ease;
+            cursor: pointer;
+        }
+
+        .ud-pill-item i {
+            font-size: 18px;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .ud-nav-label {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .ud-pill-item:hover {
+            color: #FF7A1A;
+            background: rgba(255, 122, 26, 0.10);
+        }
+
+        .ud-pill-item.active {
+            color: #fff;
+            background: linear-gradient(135deg, #FF7A1A, #e56b0f);
+            box-shadow: 0 0 14px rgba(255, 122, 26, 0.40);
+        }
+
+        .ud-pill-item.active:hover {
+            background: linear-gradient(135deg, #ff9040, #FF7A1A);
+            color: #fff;
+        }
+
+        .ud-pill-item.ud-logout:hover {
+            color: #ff6b6b;
+            background: rgba(255, 80, 80, 0.10);
+        }
+
+        /* Hide old hamburger */
+        .hamburger {
+            display: none !important;
+        }
+
+        /* Mobile (≤600px): icon-only */
+        @media (max-width: 600px) {
+            .ud-pill-item {
+                width: 38px;
+                height: 38px;
+                padding: 0;
+                justify-content: center;
+            }
+
+            .ud-nav-label {
+                display: none;
+            }
+
+            .ud-pill-item i {
+                font-size: 19px;
+            }
+        }
     </style>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
 <body>
@@ -206,16 +293,13 @@
                 <img src="../images/Logo.png" alt="YatraNow Logo" class="navbar-logo-img">
             </a>
 
-            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-
-            <ul class="navbar-menu" id="navbarMenu">
-                <li><a href="owner.html">Dashboard</a></li>
-                <li><a href="#" onclick="logout()">Logout</a></li>
-            </ul>
+            <!-- Pill Nav -->
+            <nav class="ud-pill-nav" id="udPillNav">
+                <a href="owner.html" id="nav-dashboard" class="ud-pill-item active" title="Dashboard"
+                    ><i class='bx bxs-home'></i><span class="ud-nav-label">Dashboard</span></a>
+                <a href="#" class="ud-pill-item ud-logout" onclick="logout(); return false;" title="Logout"
+                    ><i class='bx bx-log-out'></i><span class="ud-nav-label">Logout</span></a>
+            </nav>
         </div>
     </nav>
 
@@ -435,13 +519,6 @@
         // DOMContentLoaded fires BEFORE inline scripts at bottom of <body> run,
         // so we use readyState check instead.
         function init() {
-            // Hamburger menu
-            var hamburger = document.getElementById('hamburger');
-            if (hamburger) {
-                hamburger.addEventListener('click', function () {
-                    document.getElementById('navbarMenu').classList.toggle('active');
-                });
-            }
 
             // Auth check — redirect to login if not logged in
             var user = requireAuth();
