@@ -976,14 +976,12 @@
 
                 grid.innerHTML = '';
                 list.forEach(b => {
-                    const price = resolvePrice(b);
+                    // BookingResponse is a flat DTO — read fields directly
+                    const bookingId = b.bookingId || b.id || '?';
+                    const from = b.fromLocation || '-';
+                    const to = b.toLocation || '-';
+                    const price = b.price ?? resolvePrice(b);
                     const priceDisplay = price != null ? `₹${price}` : 'N/A';
-
-                    // Route display: try nested schedule → route
-                    const s = b.schedule || b.scheduleDetails || {};
-                    const r = s.route || b.route || {};
-                    const from = b.fromLocation || r.fromLocation || s.fromLocation || r.from || '-';
-                    const to = b.toLocation || r.toLocation || s.toLocation || r.to || '-';
 
                     const statusRaw = (b.status || 'CONFIRMED').toUpperCase();
                     const statusClass = statusRaw === 'CONFIRMED' ? 'confirmed'
@@ -1002,7 +1000,7 @@
                                 <span class="route-arrow">→</span>
                                 <span>${to}</span>
                             </div>
-                            <span class="owner-id-badge">#${b.id}</span>
+                            <span class="owner-id-badge">#${bookingId}</span>
                         </div>
                         <div class="owner-card-divider"></div>
                         <div class="owner-card-meta">
