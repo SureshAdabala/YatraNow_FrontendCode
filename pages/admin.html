@@ -574,6 +574,193 @@
             }
         }
 
+        /* ══ CARD GRID LAYOUT ══ */
+        .acc-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+            padding: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 14px 14px;
+        }
+
+        .acc-card-loading {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 48px 20px;
+            color: var(--text-3);
+            font-size: 0.88rem;
+        }
+
+        /* ── Individual Item Card ── */
+        .acc-item-card {
+            background: var(--bg-card2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+        }
+
+        .acc-item-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 122, 26, 0.035) 0%, transparent 55%);
+            pointer-events: none;
+        }
+
+        .acc-item-card:hover {
+            border-color: var(--border-glow);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+        }
+
+        /* ── Card Header (Avatar + Name + Badge) ── */
+        .acc-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .acc-card-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            color: #fff;
+            text-transform: uppercase;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .acc-card-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .acc-card-name {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-1);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .acc-card-email {
+            font-size: 0.76rem;
+            color: var(--text-2);
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ── Card Divider ── */
+        .acc-card-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 0;
+        }
+
+        /* ── Card Meta Row (Agency, Vehicles, etc.) ── */
+        .acc-card-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .acc-card-meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .acc-card-meta-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-3);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .acc-card-meta-value {
+            font-size: 0.83rem;
+            font-weight: 600;
+            color: var(--text-1);
+            text-align: right;
+        }
+
+        .acc-card-meta-value.muted {
+            color: var(--text-2);
+            font-weight: 500;
+        }
+
+        /* ── Card Footer (Status + Actions) ── */
+        .acc-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .acc-card-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .acc-card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* Booking card specific */
+        .acc-booking-card {
+            align-items: stretch;
+        }
+
+        .booking-id-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            background: rgba(139, 92, 246, 0.15);
+            color: #a78bfa;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            letter-spacing: 0.04em;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+            .acc-card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .acc-card-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                padding: 14px;
+            }
+        }
+
         /* ── Pill Navbar ── */
         .ud-pill-nav {
             display: flex;
@@ -748,53 +935,22 @@
 
         <!-- ══ USERS PANEL ══ -->
         <div id="panel-users" class="section-panel active">
-            <div class="acc-table-wrap">
-                <table class="acc-table">
-                    <thead>
-                        <tr>
-                            <th>User Details</th>
-                            <th>Role</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="usersTableBody">
-                        <tr class="acc-empty-row">
-                            <td colspan="4">Loading users…</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="acc-card-grid" id="usersCardGrid">
+                <div class="acc-card-loading">Loading users…</div>
             </div>
         </div>
 
         <!-- ══ OWNERS PANEL ══ -->
         <div id="panel-owners" class="section-panel">
-            <div class="acc-table-wrap">
-                <table class="acc-table">
-                    <thead>
-                        <tr>
-                            <th>Owner Details</th>
-                            <th>Agency</th>
-                            <th>Vehicles</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ownersTableBody">
-                        <tr class="acc-empty-row">
-                            <td colspan="5">Loading owners…</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="acc-card-grid" id="ownersCardGrid">
+                <div class="acc-card-loading">Loading owners…</div>
             </div>
         </div>
 
         <!-- ══ BOOKINGS PANEL ══ -->
         <div id="panel-bookings" class="section-panel">
-            <div class="acc-table-wrap">
-                <div id="bookingsPanelContent" style="padding:40px;text-align:center;color:var(--text-3);">
-                    Click on <strong style="color:var(--text-2);">Bookings</strong> tab to load data.
-                </div>
+            <div class="acc-card-grid" id="bookingsPanelContent">
+                <div class="acc-card-loading">Click on <strong style="color:var(--text-2);">Bookings</strong> tab to load data.</div>
             </div>
         </div>
 
@@ -870,15 +1026,15 @@
         //  USERS
         // ─────────────────────────────────────
         async function loadUsers() {
-            const tbody = document.getElementById('usersTableBody');
-            tbody.innerHTML = '<tr class="acc-empty-row"><td colspan="4">Loading users…</td></tr>';
+            const grid = document.getElementById('usersCardGrid');
+            grid.innerHTML = '<div class="acc-card-loading">Loading users…</div>';
 
             try {
                 const response = await apiGet(API_ENDPOINTS.ADMIN_USERS);
                 _allUsers = Array.isArray(response) ? response : (response.content || response.data || []);
 
                 if (_allUsers.length === 0) {
-                    tbody.innerHTML = '<tr class="acc-empty-row"><td colspan="4">No users found.</td></tr>';
+                    grid.innerHTML = '<div class="acc-card-loading">No users found.</div>';
                     return;
                 }
 
@@ -888,50 +1044,48 @@
                 renderUsers(_allUsers);
             } catch (error) {
                 console.error('Failed to load users:', error);
-                tbody.innerHTML = `<tr class="acc-empty-row"><td colspan="4" style="color:var(--danger);">Error loading users: ${error.message}</td></tr>`;
+                grid.innerHTML = `<div class="acc-card-loading" style="color:var(--danger);">Error loading users: ${error.message}</div>`;
             }
         }
 
         function renderUsers(users) {
-            const tbody = document.getElementById('usersTableBody');
+            const grid = document.getElementById('usersCardGrid');
             if (users.length === 0) {
-                tbody.innerHTML = '<tr class="acc-empty-row"><td colspan="4">No users match the filter.</td></tr>';
+                grid.innerHTML = '<div class="acc-card-loading">No users match the filter.</div>';
                 return;
             }
-            tbody.innerHTML = '';
-            users.forEach(user => tbody.appendChild(createUserRow(user)));
+            grid.innerHTML = '';
+            users.forEach(user => grid.appendChild(createUserCard(user)));
         }
 
-        function createUserRow(user) {
+        function createUserCard(user) {
             const isBlocked = user.isBlocked || false;
             const role = (user.role || 'USER').toLowerCase();
             const initials = (user.name || 'U').slice(0, 1).toUpperCase();
             const avatarColor = getAvatarColor(user.name || 'User');
 
-            const tr = document.createElement('tr');
-            tr.dataset.name = (user.name || '').toLowerCase();
-            tr.dataset.email = (user.email || '').toLowerCase();
-            tr.dataset.role = role;
+            const card = document.createElement('div');
+            card.className = 'acc-item-card';
+            card.dataset.name = (user.name || '').toLowerCase();
+            card.dataset.email = (user.email || '').toLowerCase();
+            card.dataset.role = role;
 
-            tr.innerHTML = `
-                <td>
-                    <div class="user-detail-cell">
-                        <div class="user-avatar" style="background:${avatarColor};">${initials}</div>
-                        <div>
-                            <div class="user-name">${escHtml(user.name || '—')}</div>
-                            <div class="user-email">${escHtml(user.email || '—')}</div>
-                        </div>
+            card.innerHTML = `
+                <div class="acc-card-header">
+                    <div class="acc-card-avatar" style="background:${avatarColor};">${initials}</div>
+                    <div class="acc-card-info">
+                        <div class="acc-card-name">${escHtml(user.name || '—')}</div>
+                        <div class="acc-card-email">${escHtml(user.email || '—')}</div>
                     </div>
-                </td>
-                <td><span class="role-badge ${roleBadgeClass(role)}">${role}</span></td>
-                <td>
-                    <div class="status-cell">
+                    <span class="role-badge ${roleBadgeClass(role)}">${role}</span>
+                </div>
+                <div class="acc-card-divider"></div>
+                <div class="acc-card-footer">
+                    <div class="acc-card-status">
                         <div class="status-dot ${isBlocked ? 'blocked' : 'active'}"></div>
                         <span class="${isBlocked ? 'status-blocked' : 'status-active'}">${isBlocked ? 'Blocked' : 'Active'}</span>
                     </div>
-                </td>
-                <td>
-                    <div class="action-icons">
+                    <div class="acc-card-actions">
                         <button class="icon-btn ${isBlocked ? 'success' : ''}" title="${isBlocked ? 'Unblock' : 'Block'} user" onclick="toggleUserStatus(${user.id})">
                             ${isBlocked ? svgUnlock() : svgLock()}
                         </button>
@@ -939,24 +1093,24 @@
                             ${svgTrash()}
                         </button>
                     </div>
-                </td>
+                </div>
             `;
-            return tr;
+            return card;
         }
 
         // ─────────────────────────────────────
         //  OWNERS
         // ─────────────────────────────────────
         async function loadOwners() {
-            const tbody = document.getElementById('ownersTableBody');
-            tbody.innerHTML = '<tr class="acc-empty-row"><td colspan="5">Loading owners…</td></tr>';
+            const grid = document.getElementById('ownersCardGrid');
+            grid.innerHTML = '<div class="acc-card-loading">Loading owners…</div>';
 
             try {
                 const response = await apiGet(API_ENDPOINTS.ADMIN_OWNERS);
                 _allOwners = Array.isArray(response) ? response : (response.content || response.data || []);
 
                 if (_allOwners.length === 0) {
-                    tbody.innerHTML = '<tr class="acc-empty-row"><td colspan="5">No owners found.</td></tr>';
+                    grid.innerHTML = '<div class="acc-card-loading">No owners found.</div>';
                     return;
                 }
 
@@ -964,42 +1118,51 @@
                 renderOwners(_allOwners);
             } catch (error) {
                 console.error('Failed to load owners:', error);
-                tbody.innerHTML = `<tr class="acc-empty-row"><td colspan="5" style="color:var(--danger);">Error loading owners: ${error.message}</td></tr>`;
+                grid.innerHTML = `<div class="acc-card-loading" style="color:var(--danger);">Error loading owners: ${error.message}</div>`;
             }
         }
 
         function renderOwners(owners) {
-            const tbody = document.getElementById('ownersTableBody');
-            tbody.innerHTML = '';
-            owners.forEach(owner => tbody.appendChild(createOwnerRow(owner)));
+            const grid = document.getElementById('ownersCardGrid');
+            grid.innerHTML = '';
+            owners.forEach(owner => grid.appendChild(createOwnerCard(owner)));
         }
 
-        function createOwnerRow(owner) {
+        function createOwnerCard(owner) {
             const isBlocked = owner.isBlocked || false;
             const initials = (owner.ownerName || owner.name || 'O').slice(0, 1).toUpperCase();
             const avatarColor = getAvatarColor(owner.ownerName || 'Owner');
 
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>
-                    <div class="user-detail-cell">
-                        <div class="user-avatar" style="background:${avatarColor};">${initials}</div>
-                        <div>
-                            <div class="user-name">${escHtml(owner.ownerName || owner.name || '—')}</div>
-                            <div class="user-email">${escHtml(owner.email || '—')}</div>
-                        </div>
+            const card = document.createElement('div');
+            card.className = 'acc-item-card';
+
+            card.innerHTML = `
+                <div class="acc-card-header">
+                    <div class="acc-card-avatar" style="background:${avatarColor};">${initials}</div>
+                    <div class="acc-card-info">
+                        <div class="acc-card-name">${escHtml(owner.ownerName || owner.name || '—')}</div>
+                        <div class="acc-card-email">${escHtml(owner.email || '—')}</div>
                     </div>
-                </td>
-                <td><span style="font-size:0.83rem;color:var(--text-2);">${escHtml(owner.agencyName || '—')}</span></td>
-                <td><span style="font-size:0.85rem;font-weight:600;">${owner.totalVehicles || 0}</span></td>
-                <td>
-                    <div class="status-cell">
+                    <span class="role-badge owner">Owner</span>
+                </div>
+                <div class="acc-card-divider"></div>
+                <div class="acc-card-meta">
+                    <div class="acc-card-meta-row">
+                        <span class="acc-card-meta-label">Agency</span>
+                        <span class="acc-card-meta-value muted">${escHtml(owner.agencyName || '—')}</span>
+                    </div>
+                    <div class="acc-card-meta-row">
+                        <span class="acc-card-meta-label">Vehicles</span>
+                        <span class="acc-card-meta-value">${owner.totalVehicles || 0}</span>
+                    </div>
+                </div>
+                <div class="acc-card-divider"></div>
+                <div class="acc-card-footer">
+                    <div class="acc-card-status">
                         <div class="status-dot ${isBlocked ? 'blocked' : 'active'}"></div>
                         <span class="${isBlocked ? 'status-blocked' : 'status-active'}">${isBlocked ? 'Blocked' : 'Active'}</span>
                     </div>
-                </td>
-                <td>
-                    <div class="action-icons">
+                    <div class="acc-card-actions">
                         <button class="icon-btn ${isBlocked ? 'success' : ''}" title="${isBlocked ? 'Unblock' : 'Block'} owner" onclick="toggleOwnerStatus(${owner.id})">
                             ${isBlocked ? svgUnlock() : svgLock()}
                         </button>
@@ -1007,9 +1170,9 @@
                             ${svgTrash()}
                         </button>
                     </div>
-                </td>
+                </div>
             `;
-            return tr;
+            return card;
         }
 
         // ─────────────────────────────────────
@@ -1033,55 +1196,60 @@
         //  BOOKINGS INLINE PANEL
         // ─────────────────────────────────────
         async function loadBookingsPanel() {
-            const container = document.getElementById('bookingsPanelContent');
-            container.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-3);">Loading bookings…</div>';
+            const grid = document.getElementById('bookingsPanelContent');
+            grid.innerHTML = '<div class="acc-card-loading">Loading bookings…</div>';
             try {
                 const data = await apiGet(API_ENDPOINTS.ADMIN_BOOKINGS);
                 const bookings = data.content !== undefined ? data.content : (Array.isArray(data) ? data : []);
 
                 if (bookings.length === 0) {
-                    container.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-3);">No bookings found.</div>';
+                    grid.innerHTML = '<div class="acc-card-loading">No bookings found.</div>';
                     return;
                 }
 
-                const rows = bookings.map(b => {
-                    const statusColor = b.status === 'CONFIRMED' ? 'var(--teal)' : 'var(--danger)';
-                    return `
-                    <tr>
-                        <td style="padding:12px 18px;color:var(--text-2);font-size:.82rem;">${b.id}</td>
-                        <td style="padding:12px 18px;font-size:.85rem;">${escHtml(b.passengerName || '—')}</td>
-                        <td style="padding:12px 18px;font-size:.82rem;color:var(--text-2);">${b.seatNumber || '—'}</td>
-                        <td style="padding:12px 18px;">
-                            <span style="padding:3px 10px;border-radius:6px;font-size:.7rem;font-weight:700;background:${b.status === 'CONFIRMED' ? 'rgba(29,205,159,0.15)' : 'rgba(224,82,96,0.15)'};color:${statusColor};border:1px solid ${statusColor};">${b.status || '—'}</span>
-                        </td>
-                        <td style="padding:12px 18px;font-size:.82rem;color:var(--text-2);white-space:nowrap;">${b.bookingDate ? new Date(b.bookingDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}</td>
-                    </tr>`;
-                }).join('');
+                grid.innerHTML = '';
 
-                container.innerHTML = `
-                    <div style="padding:14px 18px;font-size:.82rem;color:var(--text-2);border-bottom:1px solid var(--border);">
-                        Total: <strong style="color:var(--accent);">${bookings.length}</strong> booking(s)
-                    </div>
-                    <div style="overflow-x:auto;">
-                    <table style="width:100%;border-collapse:collapse;min-width:560px;">
-                        <thead><tr style="border-bottom:1px solid var(--border);">
-                            <th style="padding:12px 18px;text-align:left;font-size:.72rem;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.07em;">ID</th>
-                            <th style="padding:12px 18px;text-align:left;font-size:.72rem;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.07em;">Passenger</th>
-                            <th style="padding:12px 18px;text-align:left;font-size:.72rem;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.07em;">Seat</th>
-                            <th style="padding:12px 18px;text-align:left;font-size:.72rem;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.07em;">Status</th>
-                            <th style="padding:12px 18px;text-align:left;font-size:.72rem;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.07em;">Date</th>
-                        </tr></thead>
-                        <tbody>${rows}</tbody>
-                    </table>
-                    </div>`;
+                // Count header spanning full grid width
+                const countEl = document.createElement('div');
+                countEl.style.cssText = 'grid-column:1/-1;padding:4px 2px 8px;font-size:.82rem;color:var(--text-2);';
+                countEl.innerHTML = `Total: <strong style="color:var(--accent);">${bookings.length}</strong> booking(s)`;
+                grid.appendChild(countEl);
 
-                // zebra
-                container.querySelectorAll('tbody tr').forEach((tr, i) => {
-                    tr.style.background = i % 2 === 0 ? 'var(--bg-card)' : 'var(--bg-hover)';
-                    tr.style.borderBottom = '1px solid var(--border)';
+                bookings.forEach(b => {
+                    const isConfirmed = b.status === 'CONFIRMED';
+                    const statusColor = isConfirmed ? 'var(--teal)' : 'var(--danger)';
+                    const statusBg = isConfirmed ? 'rgba(29,205,159,0.15)' : 'rgba(224,82,96,0.15)';
+                    const statusBorder = isConfirmed ? 'rgba(29,205,159,0.4)' : 'rgba(224,82,96,0.4)';
+                    const dateStr = b.bookingDate ? new Date(b.bookingDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
+
+                    const card = document.createElement('div');
+                    card.className = 'acc-item-card acc-booking-card';
+                    card.innerHTML = `
+                        <div class="acc-card-header" style="justify-content:space-between;">
+                            <span class="booking-id-badge">#${b.id}</span>
+                            <span style="padding:3px 10px;border-radius:6px;font-size:.7rem;font-weight:700;background:${statusBg};color:${statusColor};border:1px solid ${statusBorder};">${b.status || '—'}</span>
+                        </div>
+                        <div class="acc-card-divider"></div>
+                        <div class="acc-card-meta">
+                            <div class="acc-card-meta-row">
+                                <span class="acc-card-meta-label">Passenger</span>
+                                <span class="acc-card-meta-value">${escHtml(b.passengerName || '—')}</span>
+                            </div>
+                            <div class="acc-card-meta-row">
+                                <span class="acc-card-meta-label">Seat</span>
+                                <span class="acc-card-meta-value">${b.seatNumber || '—'}</span>
+                            </div>
+                            <div class="acc-card-meta-row">
+                                <span class="acc-card-meta-label">Date</span>
+                                <span class="acc-card-meta-value muted">${dateStr}</span>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
                 });
+
             } catch (error) {
-                container.innerHTML = `<div style="padding:40px;text-align:center;color:var(--danger);">Failed to load bookings: ${error.message}</div>`;
+                grid.innerHTML = `<div class="acc-card-loading" style="color:var(--danger);">Failed to load bookings: ${error.message}</div>`;
             }
         }
 

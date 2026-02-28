@@ -196,6 +196,221 @@
             }
         }
 
+        /* ══ OWNER CARD GRID ══ */
+        .owner-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .owner-card-loading {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+            color: #555;
+            font-size: 0.88rem;
+        }
+
+        /* ── Individual card ── */
+        .owner-item-card {
+            background: #181818;
+            border: 1px solid #2a2a2a;
+            border-radius: 14px;
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+        }
+
+        .owner-item-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 122, 26, 0.04) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .owner-item-card:hover {
+            border-color: rgba(255, 122, 26, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ── Card Header ── */
+        .owner-card-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .owner-card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .owner-card-title .route-arrow {
+            color: #FF7A1A;
+            font-weight: 800;
+        }
+
+        .owner-id-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            background: rgba(255, 122, 26, 0.12);
+            color: #FF7A1A;
+            border: 1px solid rgba(255, 122, 26, 0.3);
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+        }
+
+        /* ── Card Divider ── */
+        .owner-card-divider {
+            height: 1px;
+            background: #2a2a2a;
+            margin: 0;
+        }
+
+        /* ── Meta rows ── */
+        .owner-card-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .owner-card-meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .owner-card-meta-label {
+            font-size: 0.71rem;
+            font-weight: 600;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+        }
+
+        .owner-card-meta-value {
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: #e0e0e0;
+            text-align: right;
+        }
+
+        .owner-card-meta-value.accent {
+            color: #FF7A1A;
+            font-size: 0.95rem;
+        }
+
+        .owner-card-meta-value.teal {
+            color: #1DCD9F;
+        }
+
+        /* ── Card Footer / Actions ── */
+        .owner-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .owner-card-footer.space-between {
+            justify-content: space-between;
+        }
+
+        /* Reusable small action buttons */
+        .oc-btn {
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.18s;
+            font-family: inherit;
+        }
+
+        .oc-btn-edit {
+            background: rgba(255, 122, 26, 0.12);
+            color: #FF7A1A;
+            border-color: rgba(255, 122, 26, 0.3);
+        }
+
+        .oc-btn-edit:hover {
+            background: rgba(255, 122, 26, 0.22);
+            border-color: #FF7A1A;
+        }
+
+        .oc-btn-delete {
+            background: rgba(224, 82, 96, 0.12);
+            color: #e05260;
+            border-color: rgba(224, 82, 96, 0.3);
+        }
+
+        .oc-btn-delete:hover {
+            background: rgba(224, 82, 96, 0.22);
+            border-color: #e05260;
+        }
+
+        /* Status pill */
+        .oc-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .oc-status.confirmed {
+            background: rgba(29, 205, 159, 0.15);
+            color: #1DCD9F;
+            border: 1px solid rgba(29, 205, 159, 0.35);
+        }
+
+        .oc-status.cancelled {
+            background: rgba(224, 82, 96, 0.15);
+            color: #e05260;
+            border: 1px solid rgba(224, 82, 96, 0.35);
+        }
+
+        .oc-status.pending {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .owner-card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .owner-card-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+
         /* ── Pill Navbar (matches User Dashboard) ─────────────────────── */
         .ud-pill-nav {
             display: flex;
@@ -438,46 +653,16 @@
                             </div>
                         </div>
 
-                        <div class="table-scroll-wrap">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>From</th>
-                                        <th>To</th>
-                                        <th>Distance (km)</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="routesTableBody">
-                                    <tr>
-                                        <td colspan="5" style="text-align:center;">Loading routes...</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="owner-card-grid" id="routesCardGrid">
+                            <div class="owner-card-loading">Loading routes…</div>
                         </div>
                     </div>
 
                     <!-- Bookings Section -->
                     <div id="bookings-section" class="content-section" style="display: none;">
                         <h2>Bookings</h2>
-                        <div class="data-table-wrapper">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Booking ID</th>
-                                        <th>User</th>
-                                        <th>Route</th>
-                                        <th>Seats</th>
-                                        <th>Date</th>
-                                        <th>Price</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="bookingsTableBody">
-                                    <!-- Will be populated by JavaScript -->
-                                </tbody>
-                            </table>
+                        <div class="owner-card-grid" id="bookingsCardGrid">
+                            <div class="owner-card-loading">Loading bookings…</div>
                         </div>
                     </div>
 
@@ -600,29 +785,46 @@
 
         // ─── MANAGE ROUTES ────────────────────────────────────────────────
         async function loadRoutesTable() {
-            const tbody = document.getElementById('routesTableBody');
+            const grid = document.getElementById('routesCardGrid');
+            grid.innerHTML = '<div class="owner-card-loading">Loading routes…</div>';
             try {
                 const routes = await apiGet(API_ENDPOINTS.PUBLIC_ROUTE_LIST);
                 const list = Array.isArray(routes) ? routes : (routes.data || []);
                 if (list.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No routes yet. Add one above.</td></tr>';
+                    grid.innerHTML = '<div class="owner-card-loading">No routes yet. Add one above.</div>';
                     return;
                 }
-                tbody.innerHTML = list.map(r => `
-                    <tr>
-                        <td>${r.id}</td>
-                        <td>${r.fromLocation}</td>
-                        <td>${r.toLocation}</td>
-                        <td>${r.distanceKm}</td>
-                        <td>
-                            <button class="action-btn action-btn-view" onclick="editRoute(${r.id}, '${r.fromLocation}', '${r.toLocation}', ${r.distanceKm})">Edit</button>
-                            <button class="action-btn action-btn-delete" onclick="deleteRoute(${r.id})">Delete</button>
-                        </td>
-                    </tr>
-                `).join('');
+                grid.innerHTML = '';
+                list.forEach(r => {
+                    const card = document.createElement('div');
+                    card.className = 'owner-item-card';
+                    card.innerHTML = `
+                        <div class="owner-card-head">
+                            <div class="owner-card-title">
+                                <span>${r.fromLocation}</span>
+                                <span class="route-arrow">→</span>
+                                <span>${r.toLocation}</span>
+                            </div>
+                            <span class="owner-id-badge">#${r.id}</span>
+                        </div>
+                        <div class="owner-card-divider"></div>
+                        <div class="owner-card-meta">
+                            <div class="owner-card-meta-row">
+                                <span class="owner-card-meta-label">Distance</span>
+                                <span class="owner-card-meta-value">${r.distanceKm} km</span>
+                            </div>
+                        </div>
+                        <div class="owner-card-divider"></div>
+                        <div class="owner-card-footer">
+                            <button class="oc-btn oc-btn-edit" onclick="editRoute(${r.id}, '${r.fromLocation}', '${r.toLocation}', ${r.distanceKm})">✏️ Edit</button>
+                            <button class="oc-btn oc-btn-delete" onclick="deleteRoute(${r.id})">🗑️ Delete</button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
             } catch (e) {
                 console.error('loadRoutesTable error:', e);
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;">Error: ${e.message || 'Failed to load routes'}</td></tr>`;
+                grid.innerHTML = `<div class="owner-card-loading" style="color:#e05260;">Error: ${e.message || 'Failed to load routes'}</div>`;
             }
         }
 
@@ -755,8 +957,8 @@
         }
 
         async function loadBookings() {
-            const tbody = document.getElementById('bookingsTableBody');
-            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#aaa;">Loading...</td></tr>';
+            const grid = document.getElementById('bookingsCardGrid');
+            grid.innerHTML = '<div class="owner-card-loading">Loading bookings…</div>';
             try {
                 const bookings = await apiGet(API_ENDPOINTS.OWNER_BOOKINGS);
                 const list = Array.isArray(bookings) ? bookings : (bookings.data || []);
@@ -768,13 +970,14 @@
                 }
 
                 if (list.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#aaa;">No bookings yet.</td></tr>';
+                    grid.innerHTML = '<div class="owner-card-loading">No bookings yet.</div>';
                     return;
                 }
 
-                tbody.innerHTML = list.map(b => {
+                grid.innerHTML = '';
+                list.forEach(b => {
                     const price = resolvePrice(b);
-                    const priceDisplay = price != null ? `₹${price}` : '<span style="color:#e74c3c; font-size:12px;">N/A</span>';
+                    const priceDisplay = price != null ? `₹${price}` : 'N/A';
 
                     // Route display: try nested schedule → route
                     const s = b.schedule || b.scheduleDetails || {};
@@ -782,20 +985,54 @@
                     const from = b.fromLocation || r.fromLocation || s.fromLocation || r.from || '-';
                     const to = b.toLocation || r.toLocation || s.toLocation || r.to || '-';
 
-                    return `
-                    <tr>
-                        <td>#${b.id}</td>
-                        <td>${b.passengerName || b.userId || '-'}</td>
-                        <td>${from} → ${to}</td>
-                        <td>${b.seatNumber || '-'}</td>
-                        <td>${b.bookingDate ? new Date(b.bookingDate).toLocaleDateString('en-IN') : '-'}</td>
-                        <td class="price-cell">${priceDisplay}</td>
-                        <td><span style="color:#1DCD9F; font-weight:700; font-size:13px;">${b.status || 'CONFIRMED'}</span></td>
-                    </tr>`;
-                }).join('');
+                    const statusRaw = (b.status || 'CONFIRMED').toUpperCase();
+                    const statusClass = statusRaw === 'CONFIRMED' ? 'confirmed'
+                        : statusRaw === 'CANCELLED' ? 'cancelled' : 'pending';
+
+                    const dateStr = b.bookingDate
+                        ? new Date(b.bookingDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
+                        : '-';
+
+                    const card = document.createElement('div');
+                    card.className = 'owner-item-card';
+                    card.innerHTML = `
+                        <div class="owner-card-head">
+                            <div class="owner-card-title">
+                                <span>${from}</span>
+                                <span class="route-arrow">→</span>
+                                <span>${to}</span>
+                            </div>
+                            <span class="owner-id-badge">#${b.id}</span>
+                        </div>
+                        <div class="owner-card-divider"></div>
+                        <div class="owner-card-meta">
+                            <div class="owner-card-meta-row">
+                                <span class="owner-card-meta-label">Passenger</span>
+                                <span class="owner-card-meta-value">${b.passengerName || b.userId || '-'}</span>
+                            </div>
+                            <div class="owner-card-meta-row">
+                                <span class="owner-card-meta-label">Seat</span>
+                                <span class="owner-card-meta-value">${b.seatNumber || '-'}</span>
+                            </div>
+                            <div class="owner-card-meta-row">
+                                <span class="owner-card-meta-label">Date</span>
+                                <span class="owner-card-meta-value">${dateStr}</span>
+                            </div>
+                            <div class="owner-card-meta-row">
+                                <span class="owner-card-meta-label">Price</span>
+                                <span class="owner-card-meta-value accent">${priceDisplay}</span>
+                            </div>
+                        </div>
+                        <div class="owner-card-divider"></div>
+                        <div class="owner-card-footer space-between">
+                            <span class="oc-status ${statusClass}">${statusRaw}</span>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
             } catch (e) {
                 console.error('[Owner Dashboard] Bookings load error:', e);
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#e74c3c;">Failed to load bookings: ' + (e.message || '') + '</td></tr>';
+                grid.innerHTML = `<div class="owner-card-loading" style="color:#e05260;">Failed to load bookings: ${e.message || ''}</div>`;
             }
         }
 
