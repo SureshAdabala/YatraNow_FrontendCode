@@ -925,6 +925,7 @@
             const from = document.getElementById('searchFrom').value.trim();
             const to = document.getElementById('searchTo').value.trim();
             const date = document.getElementById('searchDate').value;
+            const selectedType = document.getElementById('searchType').value; // 'bus' or 'train'
 
             if (!from || !to || !date) return;
 
@@ -945,18 +946,28 @@
             resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
             try {
-                const results = await searchRoutes(from, to, date);
+                // Pass the selected transport type so only matching results are fetched/filtered
+                const results = await searchRoutes(from, to, date, selectedType);
 
                 const dateObj = new Date(date + 'T00:00:00');
                 const formattedDate = dateObj.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
                 resultsTitle.textContent = `${from} → ${to} · ${formattedDate}`;
 
                 if (!results || results.length === 0) {
+                    // Show a type-specific no-results message
+                    let noResultsMsg;
+                    if (selectedType === 'train') {
+                        noResultsMsg = `No train service available for this route`;
+                    } else if (selectedType === 'bus') {
+                        noResultsMsg = `No bus service available for this route`;
+                    } else {
+                        noResultsMsg = `No services available for <strong>${from} → ${to}</strong> on ${formattedDate}`;
+                    }
                     resultsGrid.innerHTML = `
                         <div class="empty-state">
                             <i class='bx bx-search-alt'></i>
-                            <strong>No routes found</strong>
-                            <p>No services available for <strong>${from} → ${to}</strong> on ${formattedDate}.<br>Try a different date or check the city names.</p>
+                            <strong>${noResultsMsg}</strong>
+                            <p>Try a different date or check the city names.</p>
                         </div>`;
                     return;
                 }

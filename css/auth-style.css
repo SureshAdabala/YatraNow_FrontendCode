@@ -36,6 +36,15 @@
     font-family: "Poppins", sans-serif;
     text-decoration: none;
     list-style: none;
+    /* Remove mobile touch/tap highlight glow */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+*:focus,
+*:focus-visible {
+    outline: none !important;
+    box-shadow: none;
 }
 
 /* ── Page Background ── */
@@ -163,7 +172,7 @@ form {
 
 .input-box input:focus {
     border-color: var(--orange);
-    box-shadow: 0 0 0 3px var(--orange-muted);
+    box-shadow: none;
 }
 
 /* ── Kill browser autofill white background ── */

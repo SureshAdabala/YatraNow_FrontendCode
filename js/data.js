@@ -234,9 +234,14 @@ async function getRouteById(id) {
  * Search routes (with filters)
  * Backend returns a Spring Page object: { content: [...], totalElements, totalPages, ... }
  */
-async function searchRoutes(from, to, date) {
+async function searchRoutes(from, to, date, vehicleType) {
     if (!USE_BACKEND_API) {
-        return filterRoutesLocally(dummyData.routes, from, to);
+        let results = filterRoutesLocally(dummyData.routes, from, to);
+        // Filter by type if specified
+        if (vehicleType && vehicleType !== 'all') {
+            results = results.filter(r => (r.type || '').toLowerCase() === vehicleType.toLowerCase());
+        }
+        return results;
     }
 
     try {
@@ -244,6 +249,7 @@ async function searchRoutes(from, to, date) {
         if (from) params.append('from', from.trim());
         if (to) params.append('to', to.trim());
         if (date) params.append('date', date);
+        if (vehicleType && vehicleType !== 'all') params.append('type', vehicleType.toLowerCase());
 
         const endpoint = `${API_ENDPOINTS.ROUTES_SEARCH}?${params.toString()}`;
         const response = await apiGet(endpoint);
@@ -259,7 +265,15 @@ async function searchRoutes(from, to, date) {
         }
 
         // Map backend data to frontend model
-        return data.map(mapBackendRouteToFrontend).filter(r => r !== null);
+        let results = data.map(mapBackendRouteToFrontend).filter(r => r !== null);
+
+        // Client-side safety filter: ensure only the selected vehicle type is returned
+        // (in case the backend does not support the 'type' query parameter yet)
+        if (vehicleType && vehicleType !== 'all') {
+            results = results.filter(r => (r.type || '').toLowerCase() === vehicleType.toLowerCase());
+        }
+
+        return results;
     } catch (error) {
         console.error('Failed to search routes API:', error);
         throw error;

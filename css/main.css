@@ -58,7 +58,38 @@ html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+  /* ── Remove mobile tap-highlight glow (iOS / Android) ── */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
 }
+
+/* Remove focus outlines and active/click background flashes globally */
+*:focus,
+*:focus-visible {
+  outline: none !important;
+  box-shadow: none;
+}
+
+a:active,
+button:active,
+[role="button"]:active,
+[onclick]:active,
+input:active,
+select:active,
+label:active,
+.btn:active,
+.type-card:active,
+.route-card:active,
+.ud-pill-item:active,
+.booking-option-card:active,
+.search-btn-large:active,
+.book-seat-btn:active,
+.seat:active {
+  background-color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
 
 /* ── Cursor control ───────────────────────────────────────────────
    Prevent the browser text-cursor (I-beam) from appearing on
