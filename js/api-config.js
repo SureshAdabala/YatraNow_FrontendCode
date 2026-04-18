@@ -39,7 +39,11 @@ const API_ENDPOINTS = {
     OWNER_ROUTES: '/owner/routes',
     OWNER_SCHEDULES: '/owner/schedules',
     OWNER_BOOKINGS: '/owner/bookings',
-    OWNER_COMPLAINTS: '/owner/complaints'
+    OWNER_COMPLAINTS: '/owner/complaints',
+
+    // Payment (Razorpay)
+    PAYMENT_CREATE_ORDER: '/payment/create-order',
+    PAYMENT_VERIFY: '/payment/verify'
 };
 
 /**

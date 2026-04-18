@@ -141,6 +141,9 @@
         </div>
     </div>
 
+    <!-- Razorpay Checkout SDK (TEST MODE) -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
     <!-- Scripts -->
     <script src="../js/toast.js"></script>
     <script src="../js/api-config.js"></script>
@@ -389,14 +392,14 @@
             const errEl = document.getElementById('bookingError');
             const bookingsToMake = [];
 
-            // Validate all forms first
+            // ── Validate all passenger forms first ──
             for (const seatNum of selectedSeats) {
                 const nameInput = document.getElementById(`passengerName_${seatNum}`);
-                const ageInput = document.getElementById(`passengerAge_${seatNum}`);
+                const ageInput  = document.getElementById(`passengerAge_${seatNum}`);
                 const genderInput = document.getElementById(`passengerGender_${seatNum}`);
 
-                const name = nameInput.value.trim();
-                const age = parseInt(ageInput.value);
+                const name   = nameInput.value.trim();
+                const age    = parseInt(ageInput.value);
                 const gender = genderInput.value;
 
                 if (!name || name.length < 2) {
@@ -412,54 +415,125 @@
                     return;
                 }
 
-                bookingsToMake.push({
-                    seatNum,
-                    name,
-                    age,
-                    gender
-                });
+                bookingsToMake.push({ seatNum, name, age, gender });
             }
 
             const bookBtn = document.querySelector('#passengerModal button');
             bookBtn.disabled = true;
-            bookBtn.textContent = 'Processing...';
+            bookBtn.textContent = 'Preparing Payment...';
             errEl.style.display = 'none';
 
             try {
-                // Book each selected seat sequentially
-                const bookingResults = [];
-                for (const booking of bookingsToMake) {
-                    const result = await apiPost(API_ENDPOINTS.BOOKINGS, {
-                        scheduleId: currentRoute.scheduleId || currentRoute.id,
-                        seatNumber: String(booking.seatNum),
-                        passengerName: booking.name,
-                        passengerAge: booking.age,
-                        passengerGender: booking.gender
-                    });
-                    bookingResults.push(result);
-                }
+                // ── STEP 1: Create Razorpay order on backend ──
+                const scheduleId  = currentRoute.scheduleId || currentRoute.id;
+                const totalPrice  = selectedSeats.length * currentRoute.price;
+                const amountPaise = totalPrice * 100; // Convert INR → paise
 
-                // Store booking details for success page (using first passenger name + count)
-                const passengerSummary = bookingsToMake.map(b => `${b.name} (${b.seatNum})`).join(', ');
-                const bookingDetails = {
-                    bookingId: bookingResults[0].id,
-                    route: currentRoute,
-                    seats: selectedSeats,
-                    seatNumbers: selectedSeats, // Ensure compatibility
-                    totalPrice: selectedSeats.length * currentRoute.price,
-                    passengerName: bookingsToMake[0].name, // Primary name
-                    allPassengers: bookingsToMake,
-                    bookingTime: new Date().toISOString()
+                const orderData = await apiPost(API_ENDPOINTS.PAYMENT_CREATE_ORDER, {
+                    scheduleId: scheduleId,
+                    seatNumbers: selectedSeats.map(String),
+                    amountInPaise: amountPaise
+                });
+
+                // ── STEP 2: Open Razorpay Checkout ──
+                const options = {
+                    key: orderData.keyId,               // Razorpay Key ID (test)
+                    amount: orderData.amount,           // in paise
+                    currency: orderData.currency || 'INR',
+                    name: 'YatraNow',
+                    description: `Ticket: ${currentRoute.from} → ${currentRoute.to}`,
+                    order_id: orderData.orderId,
+                    prefill: {
+                        name: bookingsToMake[0].name,
+                        contact: ''
+                    },
+                    theme: {
+                        color: '#FF7A1A'
+                    },
+
+                    // ── Payment SUCCESS handler ──
+                    handler: async function (response) {
+                        bookBtn.textContent = 'Verifying Payment...';
+
+                        try {
+                            // Build passenger list for backend
+                            const passengers = bookingsToMake.map(b => ({
+                                seatNumber:      String(b.seatNum),
+                                passengerName:   b.name,
+                                passengerAge:    b.age,
+                                passengerGender: b.gender
+                            }));
+
+                            // ── STEP 3: Verify signature & create booking ──
+                            const verifyResult = await apiPost(API_ENDPOINTS.PAYMENT_VERIFY, {
+                                razorpayOrderId:   response.razorpay_order_id,
+                                razorpayPaymentId: response.razorpay_payment_id,
+                                razorpaySignature: response.razorpay_signature,
+                                scheduleId:        scheduleId,
+                                passengers:        passengers
+                            });
+
+                            if (verifyResult.success) {
+                                // ── STEP 4: Store booking details → redirect to success ──
+                                const bookingDetails = {
+                                    bookingId:    verifyResult.primaryBookingId,
+                                    allBookingIds: verifyResult.allBookingIds,
+                                    route:        currentRoute,
+                                    seats:        selectedSeats,
+                                    seatNumbers:  selectedSeats,
+                                    totalPrice:   totalPrice,
+                                    passengerName: bookingsToMake[0].name,
+                                    allPassengers: bookingsToMake,
+                                    bookingTime:  new Date().toISOString(),
+                                    // Payment info
+                                    paymentId:    response.razorpay_payment_id,
+                                    orderId:      response.razorpay_order_id
+                                };
+                                localStorage.setItem('lastBooking', JSON.stringify(bookingDetails));
+                                showToast('Payment successful! Redirecting...', 'success');
+                                setTimeout(() => { window.location.href = 'success.html'; }, 800);
+                            } else {
+                                throw new Error(verifyResult.message || 'Payment verification failed.');
+                            }
+
+                        } catch (verifyErr) {
+                            console.error('Verify error:', verifyErr);
+                            errEl.textContent = 'Payment verification failed: ' + (verifyErr.message || 'Please contact support.');
+                            errEl.style.display = 'block';
+                            bookBtn.disabled  = false;
+                            bookBtn.textContent = 'Book Now';
+                        }
+                    },
+
+                    // ── Payment FAILURE handler ──
+                    modal: {
+                        ondismiss: function () {
+                            showToast('Payment cancelled. Your seats are still available.', 'warning');
+                            bookBtn.disabled  = false;
+                            bookBtn.textContent = 'Book Now';
+                        }
+                    }
                 };
-                localStorage.setItem('lastBooking', JSON.stringify(bookingDetails));
 
-                // Redirect to success page
-                window.location.href = 'success.html';
+                const rzp = new Razorpay(options);
+
+                rzp.on('payment.failed', function (response) {
+                    console.error('Payment failed:', response.error);
+                    const reason = response.error.description || response.error.reason || 'Unknown error';
+                    showToast('Payment failed: ' + reason, 'error');
+                    errEl.textContent = 'Payment failed: ' + reason + '. Please try again.';
+                    errEl.style.display = 'block';
+                    bookBtn.disabled  = false;
+                    bookBtn.textContent = 'Book Now';
+                });
+
+                rzp.open();
+
             } catch (error) {
-                console.error('Error confirming booking:', error);
-                errEl.textContent = 'Booking failed: ' + (error.message || 'Please try again.');
+                console.error('Error initiating payment:', error);
+                errEl.textContent = 'Could not initiate payment: ' + (error.message || 'Please try again.');
                 errEl.style.display = 'block';
-                bookBtn.disabled = false;
+                bookBtn.disabled  = false;
                 bookBtn.textContent = 'Book Now';
             }
         }
