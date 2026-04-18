@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../images/favicon_rounded.png">
+    <title>Signing In... - YatraNow</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --bg-page: #0d0d0d;
+            --orange: #FF7A1A;
+            --text: #ffffff;
+            --text-muted: #aaaaaa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            background-image:
+                radial-gradient(ellipse 60% 50% at 20% 30%, rgba(255,122,26,0.13) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 80% 70%, rgba(255,122,26,0.08) 0%, transparent 70%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .auth-card {
+            background: #141414;
+            border: 1px solid rgba(255,122,26,0.22);
+            border-radius: 24px;
+            padding: 48px 40px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.55), 0 0 80px rgba(255,122,26,0.08);
+            animation: cardIn 0.5s ease forwards;
+        }
+
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .spinner-ring {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 28px;
+        }
+
+        .spinner-ring svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            animation: rotate 1.2s linear infinite;
+        }
+
+        .spinner-ring svg circle {
+            fill: none;
+            stroke: var(--orange);
+            stroke-width: 3;
+            stroke-dasharray: 160;
+            stroke-dashoffset: 100;
+            stroke-linecap: round;
+        }
+
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+
+        .spinner-icon {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: var(--orange);
+        }
+
+        .auth-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .auth-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 28px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255,122,26,0.3);
+            border-radius: 50%;
+            animation: dotPulse 1.4s ease-in-out infinite;
+        }
+
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes dotPulse {
+            0%, 80%, 100% { background: rgba(255,122,26,0.3); transform: scale(1); }
+            40%            { background: var(--orange); transform: scale(1.3); }
+        }
+
+        .error-card { display: none; }
+        .error-icon { font-size: 48px; color: #e05260; margin-bottom: 16px; }
+        .error-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+        .error-msg { font-size: 13.5px; color: var(--text-muted); margin-bottom: 24px; }
+
+        .btn-retry {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            background: var(--orange);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 4px 18px rgba(255,122,26,0.32);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn-retry:hover {
+            background: #e06010;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Loading State -->
+    <div class="auth-card" id="loadingCard">
+        <div class="spinner-ring">
+            <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="36"/></svg>
+            <div class="spinner-icon"><i class='bx bx-map-pin'></i></div>
+        </div>
+        <h1 class="auth-title">Signing you in…</h1>
+        <p class="auth-subtitle">Verifying your credentials and<br>setting up your session.</p>
+        <div class="dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+    <!-- Error State -->
+    <div class="auth-card error-card" id="errorCard">
+        <div class="error-icon"><i class='bx bx-error-circle'></i></div>
+        <h1 class="error-title">Authentication Failed</h1>
+        <p class="error-msg" id="errorMessage">Something went wrong during sign-in. Please try again.</p>
+        <a href="login.html" class="btn-retry">
+            <i class='bx bx-arrow-back'></i> Back to Login
+        </a>
+    </div>
+
+    <script>
+        (function () {
+            var params  = new URLSearchParams(window.location.search);
+
+            // ── Handle backend error redirect ──
+            var error = params.get('error');
+            if (error) {
+                document.getElementById('loadingCard').style.display = 'none';
+                var errCard = document.getElementById('errorCard');
+                errCard.style.display = 'block';
+                document.getElementById('errorMessage').textContent = decodeURIComponent(error);
+                return;
+            }
+
+            var token   = params.get('token');
+            var role    = params.get('role');
+            var name    = params.get('name');
+            var email   = params.get('email');
+            var id      = params.get('id');
+
+            function showError(msg) {
+                document.getElementById('loadingCard').style.display = 'none';
+                var errCard = document.getElementById('errorCard');
+                errCard.style.display = 'block';
+                if (msg) document.getElementById('errorMessage').textContent = msg;
+            }
+
+            if (!token) {
+                showError('No authentication token received. Please try logging in again.');
+                return;
+            }
+
+            // Build user object matching the structure used by the rest of the app
+            var userObj = {
+                id:    id    ? parseInt(id, 10) : null,
+                name:  name  || 'User',
+                email: email || '',
+                role:  role  || 'USER',
+                token: token
+            };
+
+            try {
+                localStorage.setItem('yatraNowUser',  JSON.stringify(userObj));
+                localStorage.setItem('yatraNowToken', token);
+            } catch (e) {
+                showError('Could not save session. Please allow localStorage in your browser.');
+                return;
+            }
+
+            // Redirect based on role
+            var r = (role || 'USER').toUpperCase();
+            var destination = 'user.html';
+            if (r === 'OWNER' || r === 'ROLE_OWNER') {
+                destination = 'owner.html';
+            } else if (r === 'ADMIN' || r === 'ROLE_ADMIN') {
+                destination = 'admin.html';
+            }
+
+            setTimeout(function () {
+                window.location.href = destination;
+            }, 1200);
+        })();
+    </script>
+
+</body>
+</html>
