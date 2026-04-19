@@ -160,12 +160,22 @@ function parseTime(timeStr) {
 }
 
 
+// Simple in-memory cache for all routes to prevent slow network repeat fetches
+let _cachedRoutes = null;
+let _routesLastFetch = 0;
+const CACHE_TTL_MS = 60000; // 60 seconds
+
 /**
  * Get all routes/schedules from backend
  */
-async function getRoutes() {
+async function getRoutes(forceRefresh = false) {
     if (!USE_BACKEND_API) {
         return dummyData.routes;
+    }
+
+    const now = Date.now();
+    if (!forceRefresh && _cachedRoutes && (now - _routesLastFetch < CACHE_TTL_MS)) {
+        return _cachedRoutes; // return cached instantly
     }
 
     try {
@@ -173,7 +183,9 @@ async function getRoutes() {
         const data = response.data || response;
 
         if (Array.isArray(data)) {
-            return data.map(mapBackendRouteToFrontend);
+            _cachedRoutes = data.map(mapBackendRouteToFrontend);
+            _routesLastFetch = Date.now();
+            return _cachedRoutes;
         }
         return [];
     } catch (error) {

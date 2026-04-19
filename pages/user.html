@@ -753,6 +753,26 @@
             font-size: 14px;
         }
 
+        @media (max-width: 650px) {
+            .train-modal-box {
+                padding: 24px 20px;
+                width: 96%;
+                border-radius: 14px;
+            }
+            .train-modal-header h3 { font-size: 1.15rem; }
+            .compartment-grid {
+                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+                gap: 10px;
+            }
+            .bogie-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 10px;
+            }
+            .compartment-card { padding: 18px 12px; }
+            .bogie-card { padding: 14px 8px; }
+            .bogie-card .bogie-num { font-size: 1.25rem; }
+        }
+
         /* ── Live Search Bar ───────────────────────────────────────────────── */
         .live-search-wrap {
             position: relative;
@@ -1515,10 +1535,14 @@
             badge.style.display = 'inline-flex';
 
             grid.innerHTML = '';
+            
+            // Use DocumentFragment to batch DOM insertions and minimize reflows
+            const fragment = document.createDocumentFragment();
             routes.forEach(route => {
                 const card = createSearchResultCard(route);
-                grid.appendChild(card);
+                fragment.appendChild(card);
             });
+            grid.appendChild(fragment);
         }
 
         /**
