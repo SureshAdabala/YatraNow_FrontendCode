@@ -537,6 +537,318 @@
                 font-size: 19px;
             }
         }
+
+        /* ── Train Booking Flow Modals ───────────────────────────────────── */
+        .train-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.82);
+            z-index: 1100;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .train-modal-overlay.active {
+            display: flex;
+        }
+
+        .train-modal-box {
+            background: #181818;
+            border: 1px solid #2a2a2a;
+            border-radius: 18px;
+            padding: 32px 28px;
+            width: 90%;
+            max-width: 560px;
+            max-height: 88vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            animation: trainModalIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes trainModalIn {
+            from { transform: scale(0.88) translateY(20px); opacity: 0; }
+            to   { transform: scale(1)    translateY(0);    opacity: 1; }
+        }
+
+        .train-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+
+        .train-modal-header h3 {
+            color: #fff;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+
+        .train-modal-close {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 26px;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0 4px;
+            transition: color 0.2s;
+        }
+
+        .train-modal-close:hover { color: #FF7A1A; }
+
+        .train-modal-subtitle {
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 24px;
+        }
+
+        /* Step indicator */
+        .train-steps {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .train-step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #333;
+            transition: background 0.3s;
+        }
+
+        .train-step-dot.active {
+            background: #FF7A1A;
+            box-shadow: 0 0 8px rgba(255, 122, 26, 0.5);
+        }
+
+        .train-step-dot.done {
+            background: #1DCD9F;
+        }
+
+        .train-step-line {
+            flex: 1;
+            height: 2px;
+            background: #333;
+            border-radius: 1px;
+            transition: background 0.3s;
+        }
+
+        .train-step-line.done {
+            background: #1DCD9F;
+        }
+
+        /* Compartment cards */
+        .compartment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 14px;
+            margin-top: 6px;
+        }
+
+        .compartment-card {
+            background: #111;
+            border: 2px solid #2a2a2a;
+            border-radius: 14px;
+            padding: 22px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.22s, box-shadow 0.22s, transform 0.2s;
+        }
+
+        .compartment-card:hover {
+            border-color: #FF7A1A;
+            box-shadow: 0 6px 20px rgba(255, 122, 26, 0.18);
+            transform: translateY(-4px);
+        }
+
+        .compartment-card .comp-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            margin-bottom: 10px;
+        }
+
+        .comp-badge.badge-2s     { background: rgba(255,122,26,0.15); color: #FF7A1A; }
+        .comp-badge.badge-sl     { background: rgba(29,205,159,0.15); color: #1DCD9F; }
+        .comp-badge.badge-ac     { background: rgba(96,165,250,0.15); color: #60a5fa; }
+
+        .compartment-card h4 {
+            color: #fff;
+            font-size: 15px;
+            margin: 0 0 6px;
+        }
+
+        .compartment-card p {
+            color: #666;
+            font-size: 12px;
+            margin: 0;
+        }
+
+        /* Bogie grid */
+        .bogie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+            gap: 12px;
+            margin-top: 6px;
+        }
+
+        .bogie-card {
+            background: #111;
+            border: 2px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 18px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+        }
+
+        .bogie-card:hover {
+            border-color: #FF7A1A;
+            box-shadow: 0 6px 18px rgba(255, 122, 26, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .bogie-card .bogie-num {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #fff;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .bogie-card .bogie-seats {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .bogie-back-btn {
+            background: none;
+            border: none;
+            color: #FF7A1A;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: underline;
+            margin-bottom: 18px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .bogie-saving-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            color: #888;
+            padding: 30px;
+            font-size: 14px;
+        }
+
+        /* ── Live Search Bar ───────────────────────────────────────────────── */
+        .live-search-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: #1e1e1e;
+            border: 1.5px solid #333;
+            border-radius: 12px;
+            padding: 0 16px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            margin-bottom: 16px;
+        }
+        .live-search-wrap:focus-within {
+            border-color: #FF7A1A;
+            box-shadow: 0 0 0 3px rgba(255,122,26,0.12);
+        }
+        .live-search-icon {
+            font-size: 20px;
+            color: #555;
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+        .live-search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 14px 0;
+            font-size: 15px;
+            color: #e0e0e0;
+        }
+        .live-search-input::placeholder { color: #555; }
+        .live-search-clear {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 50%;
+            transition: color 0.2s, background 0.2s;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+        .live-search-clear:hover { color: #FF7A1A; background: rgba(255,122,26,0.10); }
+
+        /* Results count badge */
+        .results-count-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,122,26,0.12);
+            border: 1px solid rgba(255,122,26,0.25);
+            color: #FF7A1A;
+            border-radius: 20px;
+            padding: 3px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+        }
+
+        /* Advanced search toggle */
+        .adv-toggle-btn {
+            background: none;
+            border: 1px solid #2a2a2a;
+            color: #777;
+            padding: 7px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .adv-toggle-btn:hover, .adv-toggle-btn.open {
+            border-color: #FF7A1A;
+            color: #FF7A1A;
+        }
+        .adv-panel {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #2a2a2a;
+            display: none;
+        }
+
+        /* Inline results grid header row */
+        .results-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
@@ -583,34 +895,66 @@
                 </div>
             </div>
 
+            <!-- Search Container -->
             <div class="search-container" id="searchContainer"
-                style="display: none; opacity: 0; transition: opacity 0.5s;">
+                style="display: none; opacity: 0; transition: opacity 0.4s;">
+
+                <!-- Header row -->
                 <div class="search-header">
                     <h2 id="searchTitle">Search Routes</h2>
-                    <button onclick="resetSelection()" class="back-link">Change Type</button>
+                    <button onclick="resetSelection()" class="back-link">← Change Type</button>
                 </div>
-                <form class="search-form" onsubmit="handleSearch(event)">
-                    <input type="hidden" id="searchType" value="all">
-                    <div class="form-group">
-                        <label>From</label>
-                        <input type="text" id="searchFrom" placeholder="City or Station" required autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label>To</label>
-                        <input type="text" id="searchTo" placeholder="City or Station" required autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label>Date</label>
-                        <input type="date" id="searchDate" required>
-                    </div>
-                    <button type="submit" class="search-btn-large" id="searchSubmitBtn">Search Routes</button>
-                </form>
+
+                <!-- Live filter bar -->
+                <div class="live-search-wrap">
+                    <i class='bx bx-search live-search-icon'></i>
+                    <input
+                        type="text"
+                        id="liveFilterInput"
+                        class="live-search-input"
+                        placeholder="Filter by city, service name, vehicle number…"
+                        oninput="applyLiveFilter()"
+                        autocomplete="off"
+                        aria-label="Live filter routes">
+                    <button class="live-search-clear" id="liveFilterClear"
+                        onclick="clearLiveFilter()" style="display:none;" aria-label="Clear filter">&times;</button>
+                </div>
+
+                <!-- Advanced search toggle -->
+                <div style="text-align:center;">
+                    <button class="adv-toggle-btn" id="advToggleBtn" onclick="toggleAdvancedSearch()">
+                        <i class='bx bx-slider-alt'></i> Advanced Search (From / To / Date)
+                    </button>
+                </div>
+
+                <!-- Advanced search panel (hidden by default) -->
+                <div class="adv-panel" id="advPanel">
+                    <form class="search-form" onsubmit="handleSearch(event)">
+                        <input type="hidden" id="searchType" value="all">
+                        <div class="form-group">
+                            <label>From</label>
+                            <input type="text" id="searchFrom" placeholder="City or Station" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label>To</label>
+                            <input type="text" id="searchTo" placeholder="City or Station" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" id="searchDate">
+                        </div>
+                        <button type="submit" class="search-btn-large" id="searchSubmitBtn">Search Routes</button>
+                    </form>
+                </div>
             </div>
 
-            <!-- Search Results (inline) -->
-            <div id="searchResultsSection" style="display:none; margin-top: 30px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-                    <h2 class="section-title" style="margin:0;" id="searchResultsTitle">Search Results</h2>
+            <!-- Search Results -->
+            <div id="searchResultsSection" style="display:none; margin-top: 28px;">
+                <div class="results-header-row">
+                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                        <h2 class="section-title" style="margin:0;" id="searchResultsTitle">Available Services</h2>
+                        <span class="results-count-badge" id="resultsCountBadge" style="display:none;"></span>
+                    </div>
                     <button onclick="clearSearchResults()" class="clear-results-btn">Clear Results</button>
                 </div>
                 <div id="searchResultsGrid"></div>
@@ -638,6 +982,72 @@
             <p style="font-weight: 500; font-size: 1em; color: #ccc; line-height: 1.6; margin-top: 8px;">
                 Show this QR code when boarding the bus.
             </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- Train Booking Flow — Step 1: Compartment Selection Modal          -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div id="compartmentModal" class="train-modal-overlay" role="dialog" aria-modal="true" aria-label="Select Compartment">
+        <div class="train-modal-box">
+            <div class="train-modal-header">
+                <h3>🚆 Select Compartment</h3>
+                <button class="train-modal-close" onclick="closeTrainModal()" aria-label="Close">&times;</button>
+            </div>
+            <p class="train-modal-subtitle" id="compartmentModalSubtitle">Choose a compartment type for your journey.</p>
+
+            <!-- Step indicator: ● — ○ -->
+            <div class="train-steps">
+                <div class="train-step-dot active" id="cStep1"></div>
+                <div class="train-step-line" id="cStepLine"></div>
+                <div class="train-step-dot" id="cStep2"></div>
+            </div>
+
+            <div class="compartment-grid">
+                <div class="compartment-card" id="comp-2s" onclick="selectCompartment('SECOND_SITTING')">
+                    <span class="comp-badge badge-2s">2S</span>
+                    <h4>Second Sitting</h4>
+                    <p>Economy class<br>Bench seating</p>
+                </div>
+                <div class="compartment-card" id="comp-sl" onclick="selectCompartment('SLEEPER')">
+                    <span class="comp-badge badge-sl">SL</span>
+                    <h4>Sleeper</h4>
+                    <p>Berth seating<br>Comfortable overnight</p>
+                </div>
+                <div class="compartment-card" id="comp-ac" onclick="selectCompartment('AC')">
+                    <span class="comp-badge badge-ac">AC</span>
+                    <h4>Air-Conditioned</h4>
+                    <p>Climate controlled<br>Premium comfort</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- Train Booking Flow — Step 2: Bogie Selection Modal               -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div id="bogieModal" class="train-modal-overlay" role="dialog" aria-modal="true" aria-label="Select Bogie">
+        <div class="train-modal-box">
+            <div class="train-modal-header">
+                <h3>🚃 Select Bogie</h3>
+                <button class="train-modal-close" onclick="closeTrainModal()" aria-label="Close">&times;</button>
+            </div>
+            <p class="train-modal-subtitle" id="bogieModalSubtitle">Choose your coach for this journey.</p>
+
+            <!-- Step indicator: ✓ — ● -->
+            <div class="train-steps">
+                <div class="train-step-dot done" id="bStep1"></div>
+                <div class="train-step-line done" id="bStepLine"></div>
+                <div class="train-step-dot active" id="bStep2"></div>
+            </div>
+
+            <button class="bogie-back-btn" onclick="goBackToCompartment()">
+                ← Change Compartment
+            </button>
+
+            <div class="bogie-grid" id="bogieGrid">
+                <!-- Populated dynamically -->
+            </div>
         </div>
     </div>
 
@@ -863,51 +1273,76 @@
             }
         });
 
+        // ─────────────────────────────────────────────────────────────────────
+        // State: all loaded routes for the currently selected type + current type
+        // ─────────────────────────────────────────────────────────────────────
+        let _allLoadedRoutes = [];
+        let _currentType = 'all';
+
         // Booking Type Selection
-        function selectBookingType(type) {
+        async function selectBookingType(type) {
             const searchContainer = document.getElementById('searchContainer');
-            const searchTitle = document.getElementById('searchTitle');
-            const searchType = document.getElementById('searchType');
+            const searchTitle    = document.getElementById('searchTitle');
+            const searchTypeEl   = document.getElementById('searchType');
 
-            // Highlight selected card
+            // Highlight clicked card
             document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
-            const clickedCard = event && event.currentTarget ? event.currentTarget : null;
-            if (clickedCard) clickedCard.classList.add('selected');
-            else {
-                document.querySelectorAll('.type-card').forEach(c => {
-                    if ((type === 'bus' && c.querySelector('.bx-bus, .bxs-bus')) ||
-                        (type === 'train' && c.querySelector('.bx-train, .bxs-train'))) {
-                        c.classList.add('selected');
-                    }
-                });
-            }
+            document.querySelectorAll('.type-card').forEach(c => {
+                if ((type === 'bus'   && c.querySelector('.bx-bus,   .bxs-bus'))   ||
+                    (type === 'train' && c.querySelector('.bx-train, .bxs-train'))) {
+                    c.classList.add('selected');
+                }
+            });
 
-            // Set type
-            searchType.value = type;
+            _currentType = type;
+            searchTypeEl.value = type;
 
-            // Update UI
-            searchTitle.textContent = type === 'bus' ? 'Search Bus Routes' : 'Search Train Routes';
+            const icon  = type === 'bus' ? '🚌' : '🚆';
+            const label = type === 'bus' ? 'Bus Services' : 'Train Services';
+            searchTitle.textContent = `${icon}  Available ${label}`;
 
-            // Show search container with fade-in (no aggressive scrolling or negative margins)
+            // Reset live filter
+            const lfi = document.getElementById('liveFilterInput');
+            lfi.value = '';
+            document.getElementById('liveFilterClear').style.display = 'none';
+
+            // Collapse advanced search panel
+            document.getElementById('advPanel').style.display = 'none';
+            document.getElementById('advToggleBtn').classList.remove('open');
+
+            // Show container
             searchContainer.style.display = 'block';
             searchContainer.style.marginTop = '20px';
-            setTimeout(() => {
-                searchContainer.style.opacity = '1';
-            }, 10);
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => { searchContainer.style.opacity = '1'; });
+            });
 
-            // Clear any old search results when switching type
-            clearSearchResults();
+            // Load all routes of this type immediately
+            await loadAllRoutesOfType(type);
+
+            // Smooth scroll to results
+            setTimeout(() => {
+                const rs = document.getElementById('searchResultsSection');
+                if (rs && rs.style.display !== 'none') {
+                    rs.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 200);
         }
 
         function resetSelection() {
             const searchContainer = document.getElementById('searchContainer');
 
-            // Hide search container
             searchContainer.style.opacity = '0';
             searchContainer.style.marginTop = '0';
-
-            // Remove selected state from cards
             document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+
+            // Reset internal state
+            _allLoadedRoutes = [];
+            _currentType = 'all';
+            document.getElementById('liveFilterInput').value = '';
+            document.getElementById('liveFilterClear').style.display = 'none';
+            document.getElementById('advPanel').style.display = 'none';
+            document.getElementById('advToggleBtn').classList.remove('open');
 
             setTimeout(() => {
                 searchContainer.style.display = 'none';
@@ -919,74 +1354,55 @@
 
 
 
-        // Handle Search - show results inline in dashboard
+        // Handle Advanced Search (from/to/date) — still works as before
         async function handleSearch(e) {
             e.preventDefault();
             const from = document.getElementById('searchFrom').value.trim();
-            const to = document.getElementById('searchTo').value.trim();
+            const to   = document.getElementById('searchTo').value.trim();
             const date = document.getElementById('searchDate').value;
-            const selectedType = document.getElementById('searchType').value; // 'bus' or 'train'
+            const selectedType = document.getElementById('searchType').value;
 
-            if (!from || !to || !date) return;
+            if (!from || !to || !date) {
+                showToast('Please fill in From, To, and Date fields.', 'warning');
+                return;
+            }
 
-            const btn = document.getElementById('searchSubmitBtn');
+            const btn          = document.getElementById('searchSubmitBtn');
             const resultsSection = document.getElementById('searchResultsSection');
-            const resultsGrid = document.getElementById('searchResultsGrid');
+            const resultsGrid  = document.getElementById('searchResultsGrid');
             const resultsTitle = document.getElementById('searchResultsTitle');
 
-            // Show loading state
             btn.disabled = true;
-            btn.textContent = 'Searching...';
+            btn.textContent = 'Searching…';
             resultsSection.style.display = 'block';
-            resultsGrid.innerHTML = `<p style="text-align:center; color:#888; padding:30px;">
-                <span class="spinner"></span> Searching for routes...
+            resultsGrid.style.display = 'grid';
+            resultsGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(300px, 1fr))';
+            resultsGrid.style.gap = '16px';
+            resultsGrid.innerHTML = `<p style="text-align:center; color:#888; padding:30px; grid-column:1/-1;">
+                <span class="spinner"></span> Searching for routes…
             </p>`;
-
-            // Scroll to results
             resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
             try {
-                // Pass the selected transport type so only matching results are fetched/filtered
                 const results = await searchRoutes(from, to, date, selectedType);
+
+                // Update the cached list so live filter works on search results too
+                _allLoadedRoutes = filterValidRoutes(results || [], date);
 
                 const dateObj = new Date(date + 'T00:00:00');
                 const formattedDate = dateObj.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
                 resultsTitle.textContent = `${from} → ${to} · ${formattedDate}`;
 
-                if (!results || results.length === 0) {
-                    // Show a type-specific no-results message
-                    let noResultsMsg;
-                    if (selectedType === 'train') {
-                        noResultsMsg = `No train service available for this route`;
-                    } else if (selectedType === 'bus') {
-                        noResultsMsg = `No bus service available for this route`;
-                    } else {
-                        noResultsMsg = `No services available for <strong>${from} → ${to}</strong> on ${formattedDate}`;
-                    }
-                    resultsGrid.innerHTML = `
-                        <div class="empty-state">
-                            <i class='bx bx-search-alt'></i>
-                            <strong>${noResultsMsg}</strong>
-                            <p>Try a different date or check the city names.</p>
-                        </div>`;
-                    return;
-                }
-
-                resultsGrid.innerHTML = '';
-                resultsGrid.style.display = 'grid';
-                resultsGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(300px, 1fr))';
-                resultsGrid.style.gap = '16px';
-
-                results.forEach(route => {
-                    const card = createSearchResultCard(route);
-                    resultsGrid.appendChild(card);
-                });
+                // Reset live filter to show all results
+                document.getElementById('liveFilterInput').value = '';
+                document.getElementById('liveFilterClear').style.display = 'none';
+                renderFilteredRoutes(_allLoadedRoutes);
 
             } catch (error) {
                 const msg = error.message === 'Failed to fetch'
                     ? 'Cannot connect to server. Is the backend running?'
                     : error.message || 'Search failed.';
-                resultsGrid.innerHTML = `<div class="empty-state"><i class='bx bx-error-circle' style='color:#e74c3c'></i><strong style='color:#e74c3c'>Error</strong><p>${msg}</p></div>`;
+                resultsGrid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><i class='bx bx-error-circle' style='color:#e74c3c'></i><strong style='color:#e74c3c'>Error</strong><p>${msg}</p></div>`;
             } finally {
                 btn.disabled = false;
                 btn.textContent = 'Search Routes';
@@ -996,7 +1412,159 @@
         function clearSearchResults() {
             document.getElementById('searchResultsSection').style.display = 'none';
             document.getElementById('searchResultsGrid').innerHTML = '';
-            document.getElementById('searchResultsTitle').textContent = 'Search Results';
+            document.getElementById('searchResultsTitle').textContent = 'Available Services';
+            const badge = document.getElementById('resultsCountBadge');
+            if (badge) badge.style.display = 'none';
+            // Also reset live filter state
+            document.getElementById('liveFilterInput').value = '';
+            document.getElementById('liveFilterClear').style.display = 'none';
+        }
+
+        // ─── Live Filter Functions ────────────────────────────────────────────
+
+        /**
+         * Filters out routes whose departure time has already passed for the given date.
+         */
+        function filterValidRoutes(routes, searchDateContext = null) {
+            const now = new Date();
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const dd = String(now.getDate()).padStart(2, '0');
+            const todayStr = `${yyyy}-${mm}-${dd}`;
+            
+            const currentTotalMinutes = now.getHours() * 60 + now.getMinutes();
+
+            return routes.filter(route => {
+                const routeDate = route.scheduleDate || searchDateContext || todayStr;
+                
+                if (routeDate < todayStr) return false;
+                
+                if (routeDate === todayStr && route.departureTime) {
+                    const [h, m] = route.departureTime.split(':');
+                    const routeTotalMinutes = parseInt(h, 10) * 60 + parseInt(m, 10);
+                    
+                    if (routeTotalMinutes <= currentTotalMinutes) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            });
+        }
+
+        /**
+         * Fetches ALL routes of the given type from the backend and displays them.
+         * Called automatically when the user picks a booking type card.
+         */
+        async function loadAllRoutesOfType(type) {
+            const resultsSection = document.getElementById('searchResultsSection');
+            const resultsGrid   = document.getElementById('searchResultsGrid');
+            const resultsTitle  = document.getElementById('searchResultsTitle');
+            const badge         = document.getElementById('resultsCountBadge');
+
+            resultsSection.style.display = 'block';
+            resultsGrid.style.display = 'grid';
+            resultsGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(300px, 1fr))';
+            resultsGrid.style.gap = '16px';
+            resultsGrid.innerHTML = `<p style="text-align:center; color:#888; padding:40px; grid-column:1/-1;">
+                <span class="spinner"></span> Loading ${type === 'train' ? 'trains' : 'buses'}…
+            </p>`;
+            badge.style.display = 'none';
+            resultsTitle.textContent = type === 'bus' ? 'Available Buses' : 'Available Trains';
+
+            try {
+                const allRoutes = await getRoutes();
+                const filteredByType = (allRoutes || []).filter(r =>
+                    (r.type || '').toLowerCase() === type.toLowerCase()
+                );
+                _allLoadedRoutes = filterValidRoutes(filteredByType);
+                renderFilteredRoutes(_allLoadedRoutes);
+            } catch (err) {
+                const msg = err.message === 'Failed to fetch'
+                    ? 'Cannot connect to server. Is the backend running?'
+                    : err.message || 'Failed to load.';
+                resultsGrid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><i class='bx bx-error-circle' style='color:#e74c3c'></i><strong style='color:#e74c3c'>Error</strong><p>${msg}</p></div>`;
+            }
+        }
+
+        /**
+         * Renders a (filtered) list of routes into the results grid.
+         * Updates the count badge.
+         */
+        function renderFilteredRoutes(routes) {
+            const grid  = document.getElementById('searchResultsGrid');
+            const badge = document.getElementById('resultsCountBadge');
+
+            grid.style.display = 'grid';
+            grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(300px, 1fr))';
+            grid.style.gap = '16px';
+
+            if (!routes || routes.length === 0) {
+                const typeName = _currentType === 'train' ? 'Trains' : _currentType === 'bus' ? 'Buses' : 'Trains/Buses';
+                const icon     = _currentType === 'train' ? "bx-train" : "bxs-bus";
+                grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">
+                    <i class='bx ${icon}'></i>
+                    <strong>No Available ${typeName}</strong>
+                    <p>There are no active options for this time and date.</p>
+                </div>`;
+                badge.style.display = 'none';
+                return;
+            }
+
+            badge.textContent = `${routes.length} result${routes.length !== 1 ? 's' : ''}`;
+            badge.style.display = 'inline-flex';
+
+            grid.innerHTML = '';
+            routes.forEach(route => {
+                const card = createSearchResultCard(route);
+                grid.appendChild(card);
+            });
+        }
+
+        /**
+         * Live-filters _allLoadedRoutes as the user types in the filter input.
+         */
+        function applyLiveFilter() {
+            const input   = document.getElementById('liveFilterInput');
+            const clearBtn = document.getElementById('liveFilterClear');
+            const query   = input.value.trim().toLowerCase();
+
+            clearBtn.style.display = query ? 'block' : 'none';
+
+            if (!query) {
+                renderFilteredRoutes(_allLoadedRoutes);
+                return;
+            }
+
+            const filtered = _allLoadedRoutes.filter(route =>
+                (route.from        || '').toLowerCase().includes(query) ||
+                (route.to          || '').toLowerCase().includes(query) ||
+                (route.name        || '').toLowerCase().includes(query) ||
+                (route.vehicleNumber || '').toLowerCase().includes(query) ||
+                (route.agencyName  || '').toLowerCase().includes(query) ||
+                (route.busType     || '').toLowerCase().includes(query)
+            );
+
+            renderFilteredRoutes(filtered);
+        }
+
+        /** Clears the live filter and shows all loaded routes. */
+        function clearLiveFilter() {
+            document.getElementById('liveFilterInput').value = '';
+            document.getElementById('liveFilterClear').style.display = 'none';
+            renderFilteredRoutes(_allLoadedRoutes);
+        }
+
+        /** Toggles the advanced from/to/date search panel. */
+        function toggleAdvancedSearch() {
+            const panel  = document.getElementById('advPanel');
+            const btn    = document.getElementById('advToggleBtn');
+            const isOpen = panel.style.display !== 'none';
+            panel.style.display = isOpen ? 'none' : 'block';
+            btn.classList.toggle('open', !isOpen);
+            if (!isOpen) {
+                setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+            }
         }
 
         // Navigate to seats.html, storing the route object first
@@ -1047,22 +1615,219 @@
                 </div>`;
 
             // Attach click handler after setting innerHTML
+            // For trains: open compartment/bogie selection modal first
+            // For buses: go directly to seat selection (existing behaviour)
             if (seatsLeft > 0) {
                 const btn = card.querySelector(`#book-btn-${route.scheduleId || route.id}`);
-                if (btn) btn.addEventListener('click', () => goToSeats(route));
+                if (btn) {
+                    if ((route.type || '').toLowerCase() === 'train') {
+                        btn.addEventListener('click', () => openTrainBookingFlow(route));
+                    } else {
+                        btn.addEventListener('click', () => goToSeats(route));
+                    }
+                }
             }
 
             return card;
         }
 
-        // Set min date to today on load
+        // Set min date to today - applies to the advanced search date input
         document.addEventListener('DOMContentLoaded', function () {
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('searchDate').min = today;
-            document.getElementById('searchDate').value = today;
+            const dateEl = document.getElementById('searchDate');
+            if (dateEl) {
+                dateEl.min   = today;
+                dateEl.value = today;
+            }
         });
 
         // Hamburger removed — pill nav replaces mobile menu
+
+        // ══════════════════════════════════════════════════════════════════
+        // TRAIN BOOKING FLOW — Compartment & Bogie Selection
+        // ══════════════════════════════════════════════════════════════════
+
+        // Holds the route object that triggered the train flow
+        let _trainRoute = null;
+        // Holds the compartment type the user chose in Step 1
+        let _selectedCompartment = null;
+
+        /**
+         * Entry-point called when the user clicks "View & Book Seats" on a TRAIN result.
+         * Opens the compartment selection modal (Step 1).
+         */
+        function openTrainBookingFlow(route) {
+            _trainRoute = route;
+            _selectedCompartment = null;
+
+            // Update subtitle with train name and route
+            document.getElementById('compartmentModalSubtitle').textContent =
+                `${route.name || 'Train'} · ${route.from} → ${route.to}`;
+
+            // Reset step indicators
+            document.getElementById('cStep1').classList.add('active');
+            document.getElementById('cStep1').classList.remove('done');
+            document.getElementById('cStep2').classList.remove('active', 'done');
+            document.getElementById('cStepLine').classList.remove('done');
+
+            // Show modal
+            document.getElementById('compartmentModal').classList.add('active');
+            document.getElementById('bogieModal').classList.remove('active');
+        }
+
+        /**
+         * Called when the user picks a compartment type (2S / Sleeper / AC).
+         * Transitions to Step 2: bogie loading and display.
+         */
+        async function selectCompartment(compartmentType) {
+            _selectedCompartment = compartmentType;
+
+            // Friendly label map
+            const labels = {
+                'SECOND_SITTING': '2S (Second Sitting)',
+                'SLEEPER': 'Sleeper',
+                'AC': 'AC'
+            };
+
+            // Transition step indicators
+            document.getElementById('cStep1').classList.remove('active');
+            document.getElementById('cStep1').classList.add('done');
+            document.getElementById('cStepLine').classList.add('done');
+            document.getElementById('cStep2').classList.add('active');
+
+            // Switch to bogie modal
+            const bogieGrid = document.getElementById('bogieGrid');
+            document.getElementById('bogieModalSubtitle').textContent =
+                `Compartment: ${labels[compartmentType] || compartmentType} · ${_trainRoute.name || 'Train'}  ${_trainRoute.from} → ${_trainRoute.to}`;
+
+            // Show bogie modal with loading state
+            bogieGrid.innerHTML = `<div class="bogie-saving-indicator"><span class="spinner"></span> Loading coaches...</div>`;
+            document.getElementById('compartmentModal').classList.remove('active');
+            document.getElementById('bogieModal').classList.add('active');
+
+            // Fetch bogies from backend
+            try {
+                const vehicleId = _trainRoute.vehicleId;
+                const bogies = await apiGet(API_ENDPOINTS.TRAIN_BOGIES(vehicleId, compartmentType));
+
+                if (!bogies || bogies.length === 0) {
+                    bogieGrid.innerHTML = `
+                        <div style="grid-column:1/-1; text-align:center; padding:30px; color:#666;">
+                            <i class='bx bx-train' style="font-size:40px; color:#333; display:block; margin-bottom:12px;"></i>
+                            <strong style="color:#888;">No bogies available</strong>
+                            <p style="font-size:13px; margin-top:8px;">No ${labels[compartmentType] || compartmentType} coaches found for this train.<br>Please try a different compartment type.</p>
+                        </div>`;
+                    return;
+                }
+
+                // Render bogie cards
+                bogieGrid.innerHTML = '';
+                bogies.forEach(bogie => {
+                    const card = document.createElement('div');
+                    card.className = 'bogie-card';
+                    card.id = `bogie-card-${bogie.bogieId}`;
+                    card.innerHTML = `
+                        <span class="bogie-num">${bogie.bogieNumber}</span>
+                        <span class="bogie-seats">${bogie.totalSeats} seats</span>`;
+                    card.addEventListener('click', () => selectBogie(bogie));
+                    bogieGrid.appendChild(card);
+                });
+
+            } catch (err) {
+                console.error('Failed to load bogies:', err);
+                bogieGrid.innerHTML = `
+                    <div style="grid-column:1/-1; text-align:center; padding:30px;">
+                        <i class='bx bx-error-circle' style="font-size:36px; color:#e74c3c; display:block; margin-bottom:10px;"></i>
+                        <strong style="color:#e74c3c;">Failed to load coaches</strong>
+                        <p style="color:#666; font-size:13px; margin-top:8px;">${err.message || 'Please check your connection and try again.'}</p>
+                    </div>`;
+            }
+        }
+
+        /**
+         * Go back from bogie modal to compartment modal (Step 1).
+         */
+        function goBackToCompartment() {
+            _selectedCompartment = null;
+            document.getElementById('bogieModal').classList.remove('active');
+            document.getElementById('compartmentModal').classList.add('active');
+
+            // Reset step indicators
+            document.getElementById('cStep1').classList.add('active');
+            document.getElementById('cStep1').classList.remove('done');
+            document.getElementById('cStep2').classList.remove('active', 'done');
+            document.getElementById('cStepLine').classList.remove('done');
+        }
+
+        /**
+         * Called when the user clicks a bogie card (Step 2).
+         * Saves the selection to the backend, then navigates to seats.html.
+         */
+        async function selectBogie(bogie) {
+            if (!_trainRoute || !_selectedCompartment) return;
+
+            const bogieGrid = document.getElementById('bogieGrid');
+            bogieGrid.innerHTML = `<div class="bogie-saving-indicator"><span class="spinner"></span> Saving selection...</div>`;
+
+            try {
+                const scheduleId = _trainRoute.scheduleId || _trainRoute.id;
+
+                // POST selection to backend
+                const selectionResult = await apiPost(API_ENDPOINTS.TRAIN_SELECTION, {
+                    scheduleId: scheduleId,
+                    bogieId: bogie.bogieId,
+                    compartmentType: _selectedCompartment,
+                    bogieNumber: bogie.bogieNumber
+                });
+
+                // Persist selection in sessionStorage for seats.html to display
+                sessionStorage.setItem('trainSelection', JSON.stringify({
+                    selectionId: selectionResult.selectionId,
+                    bogieId: bogie.bogieId,
+                    bogieNumber: bogie.bogieNumber,
+                    compartmentType: _selectedCompartment,
+                    scheduleId: scheduleId
+                }));
+
+                // Store route and navigate to seat selection
+                sessionStorage.setItem('selectedRoute', JSON.stringify(_trainRoute));
+                showToast(`Coach ${bogie.bogieNumber} selected! Choose your seat.`, 'success');
+
+                setTimeout(() => {
+                    window.location.href = `seats.html?routeId=${scheduleId}`;
+                }, 600);
+
+            } catch (err) {
+                console.error('Failed to save bogie selection:', err);
+                bogieGrid.innerHTML = `
+                    <div style="grid-column:1/-1; text-align:center; padding:30px;">
+                        <i class='bx bx-error-circle' style="font-size:36px; color:#e74c3c; display:block; margin-bottom:10px;"></i>
+                        <strong style="color:#e74c3c;">Could not save selection</strong>
+                        <p style="color:#666; font-size:13px; margin-top:8px;">${err.message || 'Please try again.'}</p>
+                        <button onclick="goBackToCompartment()" style="margin-top:14px; padding:8px 18px; background:#FF7A1A; color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:700;">Try Again</button>
+                    </div>`;
+            }
+        }
+
+        /**
+         * Closes both train modals and clears state.
+         * Safe to call from the X button on either modal.
+         */
+        function closeTrainModal() {
+            document.getElementById('compartmentModal').classList.remove('active');
+            document.getElementById('bogieModal').classList.remove('active');
+            _trainRoute = null;
+            _selectedCompartment = null;
+        }
+
+        // Close train modals when clicking outside the box
+        document.getElementById('compartmentModal').addEventListener('click', function (e) {
+            if (e.target === this) closeTrainModal();
+        });
+        document.getElementById('bogieModal').addEventListener('click', function (e) {
+            if (e.target === this) closeTrainModal();
+        });
+
     </script>
 </body>
 

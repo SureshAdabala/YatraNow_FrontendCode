@@ -43,7 +43,12 @@ const API_ENDPOINTS = {
 
     // Payment (Razorpay)
     PAYMENT_CREATE_ORDER: '/payment/create-order',
-    PAYMENT_VERIFY: '/payment/verify'
+    PAYMENT_VERIFY: '/payment/verify',
+
+    // Train Booking Flow
+    TRAIN_BOGIES: (vehicleId, compartmentType) =>
+        `/user/train/bogies?vehicleId=${vehicleId}&compartmentType=${compartmentType}`,
+    TRAIN_SELECTION: '/user/train/selection'
 };
 
 /**

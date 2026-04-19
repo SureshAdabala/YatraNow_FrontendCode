@@ -47,6 +47,20 @@
                 </button>
             </div>
 
+            <!-- Train Selection Banner (shown only for train bookings) -->
+            <div id="trainSelectionBanner" style="display:none; margin-bottom:16px; background:linear-gradient(135deg,rgba(29,205,159,0.10),rgba(29,205,159,0.04)); border:1px solid rgba(29,205,159,0.28); border-radius:12px; padding:14px 18px; display:none;">
+                <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                    <span style="font-size:22px;">🚃</span>
+                    <div>
+                        <div style="font-size:12px; color:#888; text-transform:uppercase; letter-spacing:0.06em; font-weight:600; margin-bottom:3px;">Selected Coach</div>
+                        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                            <span id="trainBannerBogie" style="font-size:1.2rem; font-weight:800; color:#fff;"></span>
+                            <span id="trainBannerCompartment" style="display:inline-block; padding:3px 10px; border-radius:16px; font-size:12px; font-weight:700;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Vehicle Info Card -->
             <div class="vehicle-info-card" id="vehicleInfo">
                 <!-- Will be populated by JavaScript -->
@@ -209,6 +223,37 @@
                 // Render
                 displayVehicleInfo();
                 generateSeatLayout();
+
+                // ── Train Selection Banner ──────────────────────────────────
+                // If the user came via the train booking flow, show their
+                // selected bogie + compartment type above the seat layout.
+                const trainSelectionRaw = sessionStorage.getItem('trainSelection');
+                if (trainSelectionRaw) {
+                    try {
+                        const ts = JSON.parse(trainSelectionRaw);
+                        const banner = document.getElementById('trainSelectionBanner');
+                        const compartmentLabels = {
+                            'SECOND_SITTING': { label: '2S · Second Sitting', bg: 'rgba(255,122,26,0.15)', color: '#FF7A1A' },
+                            'SLEEPER':        { label: 'SL · Sleeper',         bg: 'rgba(29,205,159,0.15)',  color: '#1DCD9F' },
+                            'AC':             { label: 'AC · Air-Conditioned', bg: 'rgba(96,165,250,0.15)', color: '#60a5fa' }
+                        };
+                        const comp = compartmentLabels[ts.compartmentType] || { label: ts.compartmentType, bg: 'rgba(255,255,255,0.1)', color: '#ccc' };
+
+                        document.getElementById('trainBannerBogie').textContent = `Coach ${ts.bogieNumber}`;
+                        const compSpan = document.getElementById('trainBannerCompartment');
+                        compSpan.textContent = comp.label;
+                        compSpan.style.background = comp.bg;
+                        compSpan.style.color = comp.color;
+
+                        banner.style.display = 'block';
+                    } catch (e) {
+                        // If parsing fails, simply don't show the banner
+                        console.warn('Could not parse trainSelection from sessionStorage', e);
+                    }
+                    // Clear so it doesn't linger for subsequent plain-bus bookings
+                    sessionStorage.removeItem('trainSelection');
+                }
+                // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
             } catch (error) {
                 console.error('Error loading seat selection:', error);
